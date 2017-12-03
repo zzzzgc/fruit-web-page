@@ -1,134 +1,87 @@
 <template>
   <div class="home">
     <!--顶部搜索-->
-    <div class="header top-fixed-header">
-      <van-search placeholder="请输入商品名称" @search="goSearch" type="showcase"></van-search>
-      <div class="left-button"><span>搜索</span><span>登录</span></div>
-    </div>
+    <top-search></top-search>
     <div class="content">
       <!--轮播图-->
-      <!--<van-swipe auto-play class="banners line-block">-->
-        <!--<van-swipe-item v-for="(banner, index) in banners" :key="index">-->
-          <!--<a :href="banner.url" target="_blank">-->
-            <!--<img :src="banner.img" alt="">-->
-          <!--</a>-->
-        <!--</van-swipe-item>-->
-      <!--</van-swipe>-->
-      <div class="line-block">
+      <div class="banner line-block">
         <swiper :options="bannerSwiper.swiperOption" :not-next-tick="bannerSwiper.notNextTick">
           <swiper-slide v-for="(banner, index) in banners" :key="index">
-            <a :href="banner.url" target="_blank">
-              <img :src="banner.img" alt="">
+            <a :href="banner.click_url" target="_blank">
+              <img :src="banner.img_url" alt="">
             </a>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
       </div>
-      <!--活动-->
-      <div class="activity line-block">
-        <table cellspacing="0" cellpadding="20px">
-          <tr><td class="first">送66元</td><td>签到免现</td></tr>
-        </table>
+      <!-- 支付提醒 -->
+      <div v-if="nonPayNum > 0" class="pay-notify line-block">
+        您有待支付订单{{order.num}}个，共计:￥{{order.price}}元
+        <router-link to="/goods" class="pay">确认付款</router-link>
       </div>
+      <!--活动-->
+      <!--<div class="activity line-block">-->
+        <!--<table cellspacing="0" cellpadding="20px">-->
+          <!--<tr><td class="first">送66元</td><td>签到免现</td></tr>-->
+        <!--</table>-->
+      <!--</div>-->
       <!--商品分类-->
       <div class="product-type line-block">
         <table cellspacing="0">
-          <tr><td rowspan="2" class="first">低价热销</td><td class="second">进口好货</td></tr>
-          <tr><td>国产精品</td></tr>
+          <tr>
+            <td rowspan="2" class="first"><router-link to="/product/list/0-0-1">低价热销</router-link></td>
+            <td class="second"><router-link to="/product/list/0-0-3">进口好货</router-link></td>
+          </tr>
+          <tr><td><router-link to="/product/list/0-0-5">国产精品</router-link></td></tr>
         </table>
       </div>
-      <!--<div class="products line-block">-->
-        <!--<van-tabs @click="changeProductTab">-->
-          <!--<van-tab title="最常购">-->
-            <!--<product-item v-for="(p, index) in products" :productId="p.id" :url="p.url"-->
-              <!--:pic="p.pic" :title="p.title" :desc="p.desc"-->
-              <!--:buyInfo="p.buyInfo" :price="p.price" :oriPrice="p.oriPrice" :key="p.id"></product-item>-->
-          <!--</van-tab>-->
-          <!--<van-tab title="今日上新（12小时前）">-->
-            <!--<product-item v-for="(p, index) in products" :productId="p.id" :url="p.url"-->
-              <!--:pic="p.pic" :title="p.title" :desc="p.desc"-->
-              <!--:buyInfo="p.buyInfo" :price="p.price" :oriPrice="p.oriPrice" :key="p.id"></product-item>-->
-          <!--</van-tab>-->
-        <!--</van-tabs>-->
-      <!--</div>-->
       <!--商品-->
       <div class="products line-block">
         <div class="tab-title">
           <div :class="isSelectTab(0)" @click="selectTab(0)">最常购</div>
-          <div :class="isSelectTab(1)" @click="selectTab(1)">今日上新（12小时前）</div>
+          <div :class="isSelectTab(1)" @click="selectTab(1)">今日上新（{{latestPublish}}）</div>
         </div>
         <swiper :options="productSwiper.swiperOption" :not-next-tick="productSwiper.notNextTick" ref="productSwiper">
           <swiper-slide>
-            <product-item v-for="(p, index) in products" :productId="p.id" :url="p.url"
-                          :pic="p.pic" :title="p.title" :desc="p.desc"
-                          :buyInfo="p.buyInfo" :price="p.price" :oriPrice="p.oriPrice" :key="p.id"></product-item>
+            <product-item v-for="(p, index) in productsBuy" :product="p" :key="p.id"></product-item>
           </swiper-slide>
           <swiper-slide>
-            <product-item v-for="(p, index) in products" v-if="p.id != 1" :productId="p.id" :url="p.url"
-                          :pic="p.pic" :title="p.title" :desc="p.desc"
-                          :buyInfo="p.buyInfo" :price="p.price" :oriPrice="p.oriPrice" :key="p.id"></product-item>
+            <product-item v-for="(p, index) in productsNew" :product="p" :key="p.id"></product-item>
           </swiper-slide>
         </swiper>
       </div>
     </div>
-    <div class="bottom-fixed-footer">
-      <table>
-        <tr>
-          <!--<td><van-icon name="wap-home" /><div>首页</div></td>-->
-          <!--<td><van-icon name="wap-nav" /><div>分类</div></td>-->
-          <!--<td><van-icon name="like" /><div>赚钱</div></td>-->
-          <!--<td><van-icon name="cart" /><div>购物车</div></td>-->
-          <!--<td><van-icon name="contact" /><div>我的</div></td>-->
-
-          <td><icon scale="1.2" name="home"></icon><div>首页</div></td>
-          <td><icon scale="1.2" name="th"></icon><div>分类</div></td>
-          <td><icon scale="1.2" name="heart"></icon><div>赚钱</div></td>
-          <td><icon scale="1.2" name="shopping-cart"></icon><div>购物车</div></td>
-          <td><icon scale="1.2" name="user"></icon><div>我的</div></td>
-        </tr>
-      </table>
-    </div>
+    <bottom-menu></bottom-menu>
   </div>
 </template>
 
 <script>
-//  import Vue from 'vue'
-//, Tab, Tabs
-  import { Search } from 'vant'
-  import 'vue-awesome/icons/home'
-  import 'vue-awesome/icons/th'
-  import 'vue-awesome/icons/heart'
-  import 'vue-awesome/icons/shopping-cart'
-  import 'vue-awesome/icons/user'
-  import Icon from 'vue-awesome/components/Icon'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
   import 'swiper/dist/css/swiper.css'
   import ProductItem from './ProductItem'
-//  Vue.use(Button)
-//  Vue.component(Button.name, Button)
-//  Vue.use(Lazyload)
+  import * as moment from 'moment'
+  import TopSearch from './common/TopSearch'
+  import BottomMenu from './common/BottomMenu'
 
   export default {
     name: 'Home',
     components: {
       ProductItem,
-//      [Swipe.name]: Swipe,
-//      [SwipeItem.name]: SwipeItem,
-      [Search.name]: Search,
-//      [Tab.name]: Tab,
-//      [Tabs.name]: Tabs,
-      Icon,
       swiper,
-      swiperSlide
+      swiperSlide,
+      TopSearch,
+      BottomMenu
     },
     created: function () {
-      console.info('home created')
     },
-//    directives: {
-//      lazy: Lazyload
-//    },
+    mounted: function () {
+      this.getBanner()
+      this.getBuyProduct()
+      this.getNewProduct()
+    },
     data () {
       return {
+        nonPayNum: 1,
         productSwiper: {
           notNextTick: true,
           swiperOption: {
@@ -177,50 +130,63 @@
             }
           }
         },
-        imageURL: '//img.yzcdn.cn/upload_files/2017/07/02/af5b9f44deaeb68000d7e4a711160c53.jpg',
         banners: [
-          {url: 'https://youzan.com', img: 'https://img.yzcdn.cn/upload_files/2017/03/15/FvexrWlG_WxtCE9Omo5l27n_mAG_.jpeg'},
-          {url: 'https://youzan.com', img: 'https://img.yzcdn.cn/upload_files/2017/03/14/FmTPs0SeyQaAOSK1rRe1sL8RcwSY.jpeg'}
+          {click_url: 'https://youzan.com', img_url: 'https://img.yzcdn.cn/upload_files/2017/03/15/FvexrWlG_WxtCE9Omo5l27n_mAG_.jpeg'},
+          {click_url: 'https://youzan.com', img_url: 'https://img.yzcdn.cn/upload_files/2017/03/14/FmTPs0SeyQaAOSK1rRe1sL8RcwSY.jpeg'}
         ],
-        products: [
+        productsBuy: [
           {
             id: 1,
-            url: 'https://cn.vuejs.org/v2/guide',
-            pic: 'https://m.360buyimg.com/n12/jfs/t7534/129/384294096/341045/82f5c2bc/5992767dN7f1b68cd.jpg!q70.jpg',
-            title: '前岩山 福建土楼特产水果美人蕉 红香蕉 红皮香蕉5斤',
-            desc: '30头|硬度可以|甜度适中',
-            buyInfo: '本周110家购买',
-            price: '￥168.3/箱',
-            oriPrice: '￥170.3/箱'
+            standard_id: 1,
+            img: 'https://m.360buyimg.com/n12/jfs/t7534/129/384294096/341045/82f5c2bc/5992767dN7f1b68cd.jpg!q70.jpg',
+            name: '前岩山 福建土楼特产水果美人蕉 红香蕉 红皮香蕉5斤',
+            standard_name: '30头',
+            sub_title: '硬度可以|甜度适中',
+            week_sell_num: 10,
+            sell_price: 168.3,
+            original_price: 170.3,
+            measure_unit: '箱'
           }, {
             id: 2,
-            url: 'https://cn.vuejs.org/v2/guide',
-            pic: 'https://m.360buyimg.com/mobilecms/s357x357_jfs/t3274/255/5964761354/180636/ae32c44/5899a140N189f9e9a.jpg!q50.jpg',
-            title: '前岩山 福建土楼特产水果美人蕉 红香蕉 红皮香蕉5斤 孕妇水果2500g 红香蕉 红皮香蕉5斤 孕妇水果2500g',
-            desc: '30头|硬度可以|甜度适中',
-            buyInfo: '本周110家购买',
-            price: '￥168.3/箱',
-            oriPrice: '￥170.3/箱'
+            standard_id: 5,
+            img: 'https://m.360buyimg.com/mobilecms/s357x357_jfs/t3274/255/5964761354/180636/ae32c44/5899a140N189f9e9a.jpg!q50.jpg',
+            name: '前岩山 福建土楼特产水果美人蕉 红香蕉 红皮香蕉5斤 孕妇水果2500g 红香蕉 红皮香蕉5斤 孕妇水果2500g',
+            standard_name: '30头',
+            sub_title: '硬度可以|甜度适中',
+            week_sell_num: 10,
+            sell_price: 168.3,
+            original_price: 170.3,
+            measure_unit: '箱'
           }, {
             id: 3,
-            url: 'https://cn.vuejs.org/v2/guide',
-            pic: 'https://m.360buyimg.com/n12/jfs/t5701/13/2547305966/121523/2c59804c/5931774aN090bef86.jpg!q70.jpg',
-            title: '前岩山 福建土楼特产水果美人蕉 红香蕉 红皮香蕉5斤',
-            desc: '30头|硬度可以|甜度适中',
-            buyInfo: '本周110家购买',
-            price: '￥168.3/箱',
-            oriPrice: '￥170.3/箱'
+            standard_id: 8,
+            img: 'https://m.360buyimg.com/n12/jfs/t5701/13/2547305966/121523/2c59804c/5931774aN090bef86.jpg!q70.jpg',
+            name: '前岩山 福建土楼特产水果美人蕉 红香蕉 红皮香蕉5斤',
+            standard_name: '30头',
+            sub_title: '硬度可以|甜度适中',
+            week_sell_num: 10,
+            sell_price: 168.3,
+            original_price: 170.3,
+            measure_unit: '箱'
           }, {
             id: 4,
-            url: 'https://cn.vuejs.org/v2/guide',
-            pic: 'https://m.360buyimg.com/mobilecms/s357x357_jfs/t8011/225/1657108972/589852/c39de36b/59bcd4adN217d06f0.jpg!q50.jpg',
-            title: '前岩山 福建土楼特产水果美人蕉 红香蕉 红皮香蕉5斤前岩山 福建土楼特产水果美人蕉',
-            desc: '30头|硬度可以|甜度适中',
-            buyInfo: '本周110家购买',
-            price: '￥168.3/箱',
-            oriPrice: '￥170.3/箱'
+            standard_id: 11,
+            img: 'https://m.360buyimg.com/mobilecms/s357x357_jfs/t8011/225/1657108972/589852/c39de36b/59bcd4adN217d06f0.jpg!q50.jpg',
+            name: '前岩山 福建土楼特产水果美人蕉 红香蕉 红皮香蕉5斤前岩山 福建土楼特产水果美人蕉',
+            standard_name: '30头',
+            sub_title: '硬度可以|甜度适中',
+            week_sell_num: 10,
+            sell_price: 168.3,
+            original_price: 170.3,
+            measure_unit: '箱'
           }
-        ]
+        ],
+        productsNew: [],
+        latestPublish: '12小时前',
+        order: {
+          num: 1,
+          price: 8790.00
+        }
       }
     },
     computed: {
@@ -229,8 +195,32 @@
       }
     },
     methods: {
-      goSearch: function (val) {
-        console.info('搜索商品关键字为：%s', val)
+      getBanner: function () {
+        this.$http.post('/banner/groupItem', {groupKey: 'GROUP_HOME'}).then((response) => {
+          this.banners = response.data
+        })
+      },
+      getBuyProduct: function () {
+        this.$http.post('/product/listBuy').then((response) => {
+          this.productsBuy = response.data
+        })
+      },
+      getNewProduct: function () {
+        this.$http.post('/product/listNew').then((response) => {
+          this.productsNew = response.data
+          if (this.productsNew.length > 0) {
+            let latestUpdateTime = moment(this.productsNew[0].update_time)
+            let nowTime = moment()
+            if (latestUpdateTime.isAfter(nowTime.format('YYYY-MM-DD'))) { // 今天发布显示，发布的小时:分钟
+              this.latestPublish = latestUpdateTime.format('HH:mm')
+            } else { // 今天之前发布的
+              let hours = nowTime.diff(latestUpdateTime, 'hours')
+              if (hours < 12) { // 相隔的时间大于12个小时，显示12小时前，小于12小时，显示XX小时前
+                this.latestPublish = hours + '小时前'
+              }
+            }
+          }
+        })
       },
       changeProductTab: function (index) {
         console.info('选择的tab Index为：%s', index)
@@ -252,30 +242,6 @@
     /*height: 100%;*/
     /*overflow: auto;*/
   }
-  .header .left-button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: auto;
-    height: 100%;
-    line-height: 45px;
-    font-size: 15px;
-    color: #8a8a8a;
-    span {
-      margin-right: 10px;
-    }
-  }
-  .bottom-fixed-footer table {
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    div {
-      font-size: 10px;
-    }
-    i {
-      font-size: 16px;
-    }
-  }
   .content {
     /*overflow: auto;*/
     padding: 44px 0;
@@ -287,14 +253,37 @@
       overflow-y: hidden;
       background: white;
     }
-    .activity {
+    .pay-notify {
+      position: relative;
+      /*padding: 5px;*/
+      font-size: 12px;
+      height: 34px;
+      line-height: 25px;
+      padding: 6px 5px;
+      /*line-height: 30px;*/
+      .pay {
+        position: absolute;
+        /*font-size: 15px;*/
+        /*line-height: 22px;*/
+        right: 10px;
+        top: 4px;
+        line-height: initial;
+        color: #949494;
+        border: 1px solid;
+        border-radius: 3px;
+        padding: 4px 8px;
+      }
     }
     .activity,.product-type {
       >table {
         width: 100%;
         text-align: center;
+        height: 150px;
         .first {
           border-right: 2px solid white;
+          a {
+            padding: 64px 0;
+          }
         }
         .second {
           border-bottom: 2px solid white;
@@ -302,7 +291,11 @@
         td {
           width: 50%;
           background: #e5e5e5;
-          padding: 10px 0;
+          /*padding: 10px 0;*/
+          a {
+            display: block;
+            padding: 26px 0;
+          }
         }
       }
     }
@@ -329,18 +322,10 @@
 </style>
 
 <style>
-  .van-search {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 5px 10px;
-    padding-right: 100px;
-    background: white;
-  }
-  .product-item {
-    border-top: 1px solid #EEE;
-  }
-
-  .swiper-pagination-bullet {
+  .home .swiper-pagination-bullet {
     margin: 0 5px;
+  }
+  .home .banner .swiper-container {
+    height: 230px;
   }
 </style>

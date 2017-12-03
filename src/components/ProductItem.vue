@@ -1,48 +1,69 @@
 <template>
   <div class="product-item">
     <div class="pic">
-      <img :src="pic" alt="">
+      <img :src="product.img" alt="">
     </div>
     <router-link :to="productUrl" class="info">
-      <div class="title">{{title}}</div>
-      <div class="desc">{{desc}}</div>
-      <div class="desc">{{buyInfo}}</div>
+      <div class="title">{{product.name}}</div>
+      <div class="desc">{{product.standard_name}}|{{product.sub_title}}</div>
     </router-link>
     <div class="product-bottom">
-      <div class="price-info">
-        <span class="price">{{price}}</span>
-        <span class="old-price">{{oriPrice}}</span>
+      <div v-if="isLogin()">
+        <div class="buy-num">本周{{product.week_sell_num}}家购买</div>
+        <div class="price-info">
+          <span class="price">￥{{product.sell_price}}/{{product.measure_unit}}</span>
+          <span class="ori-price">￥{{product.original_price}}/{{product.measure_unit}}</span>
+        </div>
       </div>
-      <!--<div class="add-to-cart">加入购物车</div>-->
+      <div v-else class="hide-price">登录查看价格</div>
+      <div class="add-to-cart" @click="addToCart()">加入购物车</div>
       <!--<van-button class="add-to-cart" type="default" size="small">加入购物车</van-button>-->
-      <div class="add-to-cart">加入购物车</div>
     </div>
   </div>
 </template>
 
 <script>
- // import { Button } from 'vant'
+  import session from '../mixins/sessionMixin'
+  import {addCartProducts} from '../common/session'
+//  import {ToastPlugin} from 'vux'
+//  Vue.use(ToastPlugin)
 
   export default {
     name: 'product-item',
+    mixins: [session],
     components: {
 //      [Button.name]: Button
+//      ToastPlugin
     },
-    props: ['productId', 'url', 'pic', 'title', 'desc', 'buyInfo', 'price', 'oriPrice'],
-    created: function () {
-    },
+    props: ['product'],
+    created: function () {},
     data: function () {
       return {
-        searchData: {type: '', status: '', startTime: '', endTime: ''}
+//        isLogin: false
       }
     },
     mounted: function () {
     },
     methods: {
+      addToCart: function () {
+        if (this.isLogin()) {
+          // 删除数据库中该用户的购物车商品
+          this.$http.post('/cart/addProduct', {standard_id: this.product.standard_id}).then((response) => {
+            // TODO 提示添加购物车成功
+//            this.$vux.toast.show({
+//              type: 'success',
+//              text: '添加购物车成功'
+//            })
+          })
+        } else {
+          addCartProducts(this.product.standard_id)
+          // TODO 提示添加购物车成功
+        }
+      }
     },
     computed: {
       productUrl: function () {
-        return '/product/' + this.productId
+        return '/product/' + this.product.id + '-' + this.product.standard_id
       }
     }
   }
@@ -51,7 +72,9 @@
 <style scoped lang="scss">
   .product-item {
     position: relative;
+    background: white;
     padding: 5px 0;
+    border-top: 1px solid #EEE;
   }
   .pic {
     position: absolute;
@@ -66,53 +89,68 @@
     color: black;
     display: block;
     box-sizing: border-box;
-    padding: 10px 10px 10px 155px;
-    padding-left: 125px;
-    height: 85px;
+    padding: 10px 10px 3px 125px;
+    /*padding-left: 125px;*/
+    height: 70px;
     line-height: 23px;
-    font-size: 14px;
+    font-size: 15px;
     >div {
       /*margin-bottom: 5px;*/
     }
     .title {
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
       word-break: break-all;
-    }
-    >.desc {
-      font-size: 13px;
-      color: #626262;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-size: 17px;
+      font-weight: 500;
     }
+    >.desc {
+      display: -webkit-box;
+      font-size: 13px;
+      color: #626262;
+      line-height: 18px;
+      margin-top: 5px;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    /*>.desc.buy {*/
+      /*-webkit-line-clamp: 1;*/
+    /*}*/
   }
   .product-bottom {
     position: relative;
-    margin: 16px 10px 0 120px;
+    margin: 5px 10px 0 125px;
     /*margin-bottom: 0;*/
-    height: 25px;
-    >.price-info {
+    height: 40px;
+    .hide-price {
+      color: red;
+      padding: 8px 0;
+    }
+    .buy-num {
+      font-size: 13px;
+      color: #626262;
+    }
+    .price-info {
       position: absolute;
       font-size: 13px;
       .price {
         color: red;
         font-size: 15px;
       }
-      .old-price {
+      .ori-price {
         text-decoration: line-through;
         font-size: 12px;
         color: #959595;
         margin-left: 10px;
       }
     }
-    >.add-to-cart {
+    .add-to-cart {
       position: absolute;
       right: 0;
-      top: -10px;
-      padding: 3px 9px;
+      top: 6px;
+      padding: 5px 9px;
       font-size: 12px;
       border: 1px solid;
       border-radius: 3px;

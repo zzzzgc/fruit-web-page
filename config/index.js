@@ -4,13 +4,14 @@
 
 // const path = require('path')
 var devConfig = require('./dev.env')
+var prodConfig = require('./prod.env')
 module.exports = {
   build: {
     env: require('./prod.env'),
     // index: path.resolve(__dirname, '../dist/index.html'),
     // assetsRoot: path.resolve(__dirname, '../dist'),
-    index: process.env.BUILD_PATH + '/index.html',
-    assetsRoot: process.env.BUILD_PATH,
+    index: prodConfig.BUILD_PATH + '/index.html',
+    assetsRoot: prodConfig.BUILD_PATH,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     productionSourceMap: false,
@@ -28,7 +29,7 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: process.env.DEV_PORT || 8095,
+    port: devConfig.DEV_PORT,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
