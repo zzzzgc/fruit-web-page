@@ -1,6 +1,7 @@
 import axios from 'axios'
 // import {Loading, Message} from 'element-ui'
 import {ajaxPrefix} from './const.js'
+import { toast } from './utils'
 
 var globalLoadingInstance = {
   loadingNum: 0,
@@ -65,11 +66,14 @@ httpIntence.interceptors.response.use(function (response) { // 如果请求配�
     if (errorText === null || errorText === '' || errorText === 'unknown') { // 后台即使使用response.setStatus设置错误文本，这里也拿不到，所以后台也会设置到header中
       errorText = error.response.headers['error-text']
     }
-    alert(decodeURI(errorText))
+    // alert(decodeURI(errorText))
+    toast(decodeURI(errorText))
   } else if (error.response && error.response.status === 410) { // 身份认证失败
     window.location = '/login'
   } else {
-    alert('请求数据异常，请稍后重试(' + error.message + ')')
+    // alert('请求数据异常，请稍后重试(' + error.message + ')')
+    // Toast('请求数据异常，请稍后重试(' + error.message + ')')
+    toast('请求数据异常，请稍后重试(' + error.message + ')')
   }
   error.config.showLoading && globalLoadingInstance.hide()
   throw error
