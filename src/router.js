@@ -9,15 +9,40 @@ const ProductInfo = resolve => require(['./components/ProductInfo'], resolve)
 const Classify = resolve => require(['./components/Classify'], resolve)
 const ProductList = resolve => require(['./components/ProductList'], resolve)
 const ShoppingCart = resolve => require(['./components/ShoppingCart'], resolve)
+const login = resolve => require(['./components/login/login'], resolve)
+const register = resolve => require(['./components/login/Register'], resolve)
+const forgetPwd = resolve => require(['./components/login/ForgetPwd'], resolve)
+const serviceProtocol = resolve => require(['./components/login/ServiceProtocol'], resolve)
 
 export default new Router({
   mode: 'history',
   routes: [
     {
+      path: '/login', // 登录页面
+      name: 'login',
+      component: login
+    },
+    {
       path: '/Hello',
       name: 'Hello',
       component: HelloWorld
-    }, {
+    },
+    {
+      path: '/register', // 注册页面
+      name: 'register',
+      component: register
+    },
+    {
+      path: '/forgetPwd', // 忘记密码页面
+      name: 'forgetPwd',
+      component: forgetPwd
+    },
+    {
+      path: '/serviceProtocol', // 注册详情页面
+      name: 'serviceProtocol',
+      component: serviceProtocol
+    },
+    {
       path: '/', // 首页
       name: 'Home',
       component: Home,

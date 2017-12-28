@@ -1,0 +1,70 @@
+<template>
+    <div class="forget-pwd">
+      <div class="top-fixed-header title">
+        <div class="back" @click="$router.go(-1)">
+          <icon scale="1.6" name="angle-left"></icon>
+        </div>
+        <div class="title-desc">忘记密码</div>
+      </div>
+      <div class="content">
+        <mt-field label="手机号码"  placeholder="请输入手机号码" style="color:red;" class="horizontal"></mt-field>
+        <mt-field label="验 证 码"  placeholder="请输入验证码" style="color:red;" class="horizontal">
+          <mt-cell title="获取验证码" to="www.baidu.com" class="authcode"></mt-cell>
+        </mt-field>
+        <mt-field label="新 密 码" type="password"  placeholder="请输入最少6位数密码" style="color:red;" class="horizontal"></mt-field>
+        <mt-button type="primary" size="large" class="registerButton">重设密码</mt-button>
+      </div>
+    </div>
+</template>
+
+<script>
+  import Vue from 'vue'
+  import 'vue-awesome/icons/angle-left'
+  import Icon from 'vue-awesome/components/Icon'
+  import Mint from 'mint-ui'
+  import 'mint-ui/lib/style.css'
+
+  Vue.use(Mint)
+  export default {
+    name: 'forget-pwd',
+    components: {
+      Icon
+    }
+  }
+</script>
+
+<style scoped>
+  .forget-pwd {
+    margin-bottom: 0;
+  }
+  .title {
+    text-align: center;
+    box-sizing: border-box;
+    padding: 10px 20px 0;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .back{
+    position: absolute;
+    top: 10px;
+    left:15px;
+  }
+
+  .content{
+    margin-top:45px;
+  }
+  .horizontal{
+    border-bottom:1px solid rgba(51, 51, 51, 0.42);
+  }
+  .authcode{
+    width:95px;
+    color:deepskyblue;
+    font-size:12px;
+  }
+  .authcode :hover{
+    color:deepskyblue;
+  }
+  .registerButton{
+    margin-top:15px;
+  }
+</style>

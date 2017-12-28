@@ -1,4 +1,5 @@
 import * as moment from 'moment'
+import { Toast } from 'mint-ui'
 // import * as lodash from 'lodash'
 
 // 格式化日期，如果未穿值则返回当前时间的格式化字符串
@@ -68,3 +69,11 @@ export function stringToInt (val) {
 // export function deepCopy (source) {
 //   return lodash.cloneDeep(source)
 // }
+
+export function toast (msg) {
+  Toast({
+    message: msg,
+    // position: 'top',
+    duration: 2000
+  })
+}

@@ -25,6 +25,7 @@
 <script>
   import session from '../mixins/sessionMixin'
   import {addCartProducts} from '../common/session'
+  import { toast } from '../common/utils'
 //  import {ToastPlugin} from 'vux'
 //  Vue.use(ToastPlugin)
 
@@ -50,14 +51,12 @@
           // 删除数据库中该用户的购物车商品
           this.$http.post('/cart/addProduct', {standard_id: this.product.standard_id}).then((response) => {
             // TODO 提示添加购物车成功
-//            this.$vux.toast.show({
-//              type: 'success',
-//              text: '添加购物车成功'
-//            })
+            toast('添加购物车成功')
           })
         } else {
           addCartProducts(this.product.standard_id)
           // TODO 提示添加购物车成功
+          toast('添加购物车成功')
         }
       }
     },
