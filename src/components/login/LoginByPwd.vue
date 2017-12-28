@@ -32,11 +32,7 @@
               align="left"
               :options="['记住密码']" class="rememberPwd">
             </mt-checklist>
-            <mt-cell-swipe
-              title="忘记密码"
-              class="forgetPwd"
-              to="./forgetPwd">
-            </mt-cell-swipe>
+            <mt-cell-swipe title="忘记密码" class="forgetPwd" to="./forgetPwd"> </mt-cell-swipe>
           </div>
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
