@@ -9,11 +9,16 @@ const ProductInfo = resolve => require(['./components/ProductInfo'], resolve)
 const Classify = resolve => require(['./components/Classify'], resolve)
 const ProductList = resolve => require(['./components/ProductList'], resolve)
 const ShoppingCart = resolve => require(['./components/ShoppingCart'], resolve)
+const login = resolve => require(['./components/login/login'], resolve)
 
 export default new Router({
   mode: 'history',
   routes: [
     {
+      path: '/login', // 登录页面
+      name: 'login',
+      component: login
+    }, {
       path: '/Hello',
       name: 'Hello',
       component: HelloWorld
