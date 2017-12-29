@@ -10,17 +10,27 @@
     <div class="products">
       <!--<product-item v-for="(p, index) in products" :product="p" :key="p.id"></product-item>-->
       <div v-if="products.length > 0" v-for="(product, index) in products" :key="product.id" class="product-item">
+
+        <!-- 商品图片 -->
         <router-link :to="'/product/' + product.id + '-' + product.standard_id" class="pic">
           <img :src="product.img" alt="">
         </router-link>
+
+        <!-- 商品信息 -->
         <div class="info" @click="choice(index)">
           <div class="operate">
-            <div class="check" v-show="product.check"><icon scale="1.0" name="check"></icon></div>
-            <div class="close" v-show="isEdit" @click="remove(index)"><icon scale="1.0" name="close"></icon></div>
+            <div class="check" v-show="product.check">
+              <icon scale="1.0" name="check"></icon>
+            </div>
+            <div class="close" v-show="isEdit" @click="remove(index)">
+              <icon scale="1.0" name="close"></icon>
+            </div>
           </div>
           <div class="title">{{product.name}}</div>
           <div class="desc">{{product.standard_name}}</div>
         </div>
+
+        <!-- 价格和按钮 -->
         <div class="product-bottom">
           <div class="price-info" v-if="isLogin()">
             <span class="price">￥{{product.sell_price}}</span>/{{product.measure_unit}}
@@ -30,12 +40,18 @@
             <van-stepper v-model="product.buy_num" :max="1000" @change="update(index)"/>
           </div>
         </div>
+
+        <!--<span>备注信息</span>-->
         <div class="remark">
-          <!--<span>备注信息</span>-->
           <input v-model="product.remark" placeholder="填写备注信息" @blur="update(index)"/>
         </div>
+
       </div>
-      <div v-if="products.length === 0" class="no-cart-product">暂无商品，<router-link to="/" class="go-shopping">去看看</router-link></div>
+
+      <div v-if="products.length === 0" class="no-cart-product">暂无商品，
+        <router-link to="/" class="go-shopping">去看看</router-link>
+      </div>
+
     </div>
     <table class="pay-order">
       <tr v-if="isLogin()">
@@ -49,21 +65,23 @@
         </td>
         <td class="go-pay">去结算</td>
       </tr>
-      <tr v-else><td class="login">登录</td></tr>
+      <tr v-else>
+        <td class="login">登录</td>
+      </tr>
     </table>
     <bottom-menu></bottom-menu>
   </div>
 </template>
 
 <script>
-  import { Stepper } from 'vant'
+  import {Stepper} from 'vant'
   import BottomMenu from './common/BottomMenu'
   import 'vue-awesome/icons/angle-left'
   import 'vue-awesome/icons/check'
   import 'vue-awesome/icons/close'
   import Icon from 'vue-awesome/components/Icon'
   import session from '../mixins/sessionMixin'
-  import { getCartProducts, removeCartProduct, setCartProducts } from '../common/session'
+  import {getCartProducts, removeCartProduct, setCartProducts} from '../common/session'
 
   export default {
     name: 'ProductList',
@@ -157,7 +175,12 @@
         this.getProducts()
       },
       update: function (index) {
-        let product = {standard_id: this.products[index].standard_id, buy_num: this.products[index].buy_num, remark: this.products[index].remark}
+        console.log('index' + index + ',进来了')
+        let product = {
+          standard_id: this.products[index].standard_id,
+          buy_num: this.products[index].buy_num,
+          remark: this.products[index].remark
+        }
         if (this.isLogin()) {
           // 更新或添加数据库中该用户的购物车商品
           this.$http.post('/cart/addProduct', product).then((response) => {
@@ -200,7 +223,7 @@
     box-sizing: border-box;
     padding: 10px 20px 0;
     font-size: 20px;
-    .back,.edit {
+    .back, .edit {
       position: absolute;
       top: 10px;
     }
@@ -212,6 +235,7 @@
       font-size: 17px;
     }
   }
+
   .products {
     padding: 44px 0 88px;
     box-sizing: border-box;
@@ -249,7 +273,7 @@
         font-size: 17px;
         font-weight: 500;
       }
-      >.desc {
+      > .desc {
         display: -webkit-box;
         font-size: 13px;
         color: #626262;
@@ -266,11 +290,11 @@
         width: 120px;
         height: 93px;
         line-height: 135px;
-        >div {
+        > div {
           position: absolute;
           color: white;
           width: 100%;
-          height:100%;
+          height: 100%;
           border-radius: 55%;
           padding-left: 15px;
         }
@@ -291,7 +315,7 @@
         color: red;
         padding: 8px 0;
       }
-      >.price-info {
+      > .price-info {
         position: absolute;
         top: 6px;
         .price {
@@ -300,7 +324,7 @@
           font-size: 17px;
         }
       }
-      >.modify-num {
+      > .modify-num {
         position: absolute;
         right: 0;
         top: 5px;
@@ -324,6 +348,7 @@
       }
     }
   }
+
   .pay-order {
     position: fixed;
     bottom: 44px;
@@ -334,8 +359,8 @@
     border-top: 1px solid #EEE;
     /*box-shadow: 0 0 10px 0 rgba(155,143,143,0.6);*/
     /*.price {*/
-      /*line-height: inherit;*/
-      /*padding: 0 10px;*/
+    /*line-height: inherit;*/
+    /*padding: 0 10px;*/
     /*}*/
     .total-pay {
       font-size: 14px;

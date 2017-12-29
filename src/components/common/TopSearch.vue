@@ -3,7 +3,7 @@
     <van-search placeholder="请输入商品关键字" @search="goSearch" type="showcase" :class="{ login: isLogin() }" class="search"></van-search>
     <!--<search @on-submit="goSearch" :class="{ login: isLogin() }" :autoFixed="false" :cancel-text="''" class="search"></search>-->
     <!--<mt-search v-model="value"></mt-search>-->
-    <div class="left-button" v-if="!isLogin()"><span>登录</span></div>
+    <div class="left-button" v-if="!isLogin()" @click="toLogin"><span>登录</span></div>
   </div>
 </template>
 
@@ -31,6 +31,9 @@
     methods: {
       goSearch: function (val) {
         this.$router.push({path: '/product/list', query: {keyword: val}})
+      },
+      toLogin: function () {
+        window.location.href = 'login'
       }
     }
   }
