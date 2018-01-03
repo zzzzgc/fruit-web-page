@@ -86,7 +86,10 @@
     },
     watch: {
       selected (val, oldVal) {
-        this.$indicator.open()
+        this.$indicator.open({
+          text: '加载中...',
+          spinnerType: 'fading-circle'
+        })
         this.getOrderList()
         this.$indicator.close()
       }

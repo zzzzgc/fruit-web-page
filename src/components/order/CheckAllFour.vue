@@ -65,23 +65,6 @@
           }
         }
         return price
-      },
-      watch: {
-        checkAll: function (val, oldVal) { // 此处只能使用监听的方式，更新商品列表，因为搜索后还是在当前页面，所以不会执行mounted
-          if (val) {
-            for (var key in this.orders) {
-              for (let o in this.orders[key]) {
-                this.orders[key][o].check = true
-              }
-            }
-          } else {
-            for (var index in this.orders) {
-              for (let o of this.orders[index]) {
-                o.check = false
-              }
-            }
-          }
-        }
       }
     }
   }
