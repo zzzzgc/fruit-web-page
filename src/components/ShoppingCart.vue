@@ -68,7 +68,7 @@
         <td class="go-pay" @click="goPay">去结算</td>
       </tr>
       <tr v-else>
-        <mt-button type='primary' size='large'>primary</mt-button>
+        <mt-button type='danger' size='large' @click='toLogin'>登录</mt-button>
         <!--<div style="width:100%;height:38px;line-height: 38px;color:white;background-color:deepskyblue;border-radius:3px;text-align:center;">登录</div>-->
       </tr>
     </table>
@@ -83,9 +83,10 @@
   import 'vue-awesome/icons/check'
   import 'vue-awesome/icons/close'
   import Icon from 'vue-awesome/components/Icon'
+  import MtButton from 'mint-ui/packages/button/src/button'
+  import 'mint-ui/lib/style.css'
   import session from '../mixins/sessionMixin'
   import {getCartProducts, removeCartProduct, setCartProducts} from '../common/session'
-  import MtButton from '../../node_modules/mint-ui/packages/button/src/button'
 
   export default {
     name: 'ProductList',

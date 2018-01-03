@@ -15,7 +15,7 @@ const forgetPwd = resolve => require(['./components/login/ForgetPwd'], resolve)
 const serviceProtocol = resolve => require(['./components/login/ServiceProtocol'], resolve)
 const OrderList = resolve => require(['./components/order/OrderList'], resolve)
 const PaySuccess = resolve => require(['./components/common/PaySuccess'], resolve)
-const orderInfo = resolve => require(['./components/OrderInfo'], resolve)
+const orderInfo = resolve => require(['./components/order/OrderInfo'], resolve)
 
 export default new Router({
   mode: 'history',
@@ -110,6 +110,14 @@ export default new Router({
       path: '/cart', // 购物车
       name: 'ShoppingCart',
       component: ShoppingCart
+    }, {
+      path: '/PaySuccess', // 注册详情页面
+      name: 'PaySuccess',
+      component: PaySuccess
+    }, {
+      path: '/OrderList', // 注册详情页面
+      name: 'OrderList',
+      component: OrderList
     }
   ],
   scrollBehavior (to, from, savedPosition) {
