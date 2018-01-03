@@ -13,6 +13,8 @@ const login = resolve => require(['./components/login/login'], resolve)
 const register = resolve => require(['./components/login/Register'], resolve)
 const forgetPwd = resolve => require(['./components/login/ForgetPwd'], resolve)
 const serviceProtocol = resolve => require(['./components/login/ServiceProtocol'], resolve)
+const OrderList = resolve => require(['./components/order/OrderList'], resolve)
+const PaySuccess = resolve => require(['./components/common/PaySuccess'], resolve)
 
 export default new Router({
   mode: 'history',
@@ -101,6 +103,14 @@ export default new Router({
       path: '/cart', // 购物车
       name: 'ShoppingCart',
       component: ShoppingCart
+    }, {
+      path: '/orderList', // 订单列表
+      name: 'OrderList',
+      component: OrderList
+    }, {
+      path: '/paySuccess', // 支付成功
+      name: 'PaySuccess',
+      component: PaySuccess
     }
   ],
   scrollBehavior (to, from, savedPosition) {
