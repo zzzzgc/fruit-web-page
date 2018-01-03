@@ -97,20 +97,16 @@
         var validtion = validatePhone(phone)
         if (validtion) {
           this.phoneValidation = 'success'
-          console.log('phoneValidation-' + this.phoneValidation)
         } else {
           this.phoneValidation = 'error'
-          console.log('phoneValidation-' + this.phoneValidation)
         }
       },
       vailablePassword: function (pwd) {
         var validtion = validateStrLength(pwd)
         if (validtion) {
           this.passwordValidation = 'success'
-          console.log('passwordValidation-' + this.passwordValidation)
         } else {
           this.passwordValidation = 'error'
-          console.log('passwordValidation-' + this.passwordValidation)
         }
       }
     }

@@ -32,10 +32,12 @@
 
         <!-- 价格和按钮 -->
         <div class="product-bottom">
+          <!-- 价格 -->
           <div class="price-info" v-if="isLogin()">
             <span class="price">￥{{product.sell_price}}</span>/{{product.measure_unit}}
           </div>
           <div v-else class="hide-price">登录查看价格</div>
+
           <div class="modify-num">
             <van-stepper v-model="product.buy_num" :max="1000" @change="update(index)"/>
           </div>
@@ -63,10 +65,11 @@
           <div>合计：<span class="total-price">￥{{totalPrice}}</span></div>
           <!--<div class="total-pay">总额：￥{{totalPay}} 立减：￥{{discountMoney}}</div>-->
         </td>
-        <td class="go-pay">去结算</td>
+        <td class="go-pay" @click="goPay">去结算</td>
       </tr>
       <tr v-else>
-        <td class="login">登录</td>
+        <mt-button type='primary' size='large'>primary</mt-button>
+        <!--<div style="width:100%;height:38px;line-height: 38px;color:white;background-color:deepskyblue;border-radius:3px;text-align:center;">登录</div>-->
       </tr>
     </table>
     <bottom-menu></bottom-menu>
@@ -82,11 +85,13 @@
   import Icon from 'vue-awesome/components/Icon'
   import session from '../mixins/sessionMixin'
   import {getCartProducts, removeCartProduct, setCartProducts} from '../common/session'
+  import MtButton from '../../node_modules/mint-ui/packages/button/src/button'
 
   export default {
     name: 'ProductList',
     mixins: [session],
     components: {
+      MtButton,
       [Stepper.name]: Stepper,
       BottomMenu,
       Icon
@@ -175,7 +180,6 @@
         this.getProducts()
       },
       update: function (index) {
-        console.log('index' + index + ',进来了')
         let product = {
           standard_id: this.products[index].standard_id,
           buy_num: this.products[index].buy_num,
@@ -188,6 +192,20 @@
         } else {
           setCartProducts(product)
         }
+      },
+      goPay: function () {
+        // 获取所有选中的商品规格的id
+        let standardIds = []
+        for (let p of this.products) {
+          if (p.check) {
+            console.log(p.standard_id)
+            standardIds.push(p.standard_id)
+          }
+        }
+        this.$http.post('/order/createOrder', {'ids': standardIds}).then((res) => {
+          console.log('返回的数据' + res.data)
+          this.$router.push({path: 'orderInfo', params: { 'totalPay': res.data }})
+        })
       }
     },
     computed: {

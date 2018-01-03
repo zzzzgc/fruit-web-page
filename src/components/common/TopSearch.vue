@@ -33,7 +33,7 @@
         this.$router.push({path: '/product/list', query: {keyword: val}})
       },
       toLogin: function () {
-        window.location.href = 'login'
+        this.$router.push({path: '/login'})
       }
     }
   }

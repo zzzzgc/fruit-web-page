@@ -68,7 +68,7 @@ httpIntence.interceptors.response.use(function (response) { // 如果请求配�
     }
     // alert(decodeURI(errorText))
     toast(decodeURI(errorText))
-  } else if (error.response && error.response.status === 410) { // 身份认证失败
+  } else if (error.response && error.response.status === 401) { // 身份认证失败
     window.location = '/login'
   } else {
     // alert('请求数据异常，请稍后重试(' + error.message + ')')

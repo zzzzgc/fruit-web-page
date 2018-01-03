@@ -13,7 +13,7 @@ const login = resolve => require(['./components/login/login'], resolve)
 const register = resolve => require(['./components/login/Register'], resolve)
 const forgetPwd = resolve => require(['./components/login/ForgetPwd'], resolve)
 const serviceProtocol = resolve => require(['./components/login/ServiceProtocol'], resolve)
-
+const orderInfo = resolve => require(['./components/OrderInfo'], resolve)
 export default new Router({
   mode: 'history',
   routes: [
@@ -21,6 +21,12 @@ export default new Router({
       path: '/login', // 登录页面
       name: 'login',
       component: login
+    },
+    {
+      path: '/orderInfo',
+      name: 'orderInfo',
+      component: orderInfo,
+      props: true
     },
     {
       path: '/Hello',
