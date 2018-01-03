@@ -13,7 +13,10 @@ const login = resolve => require(['./components/login/login'], resolve)
 const register = resolve => require(['./components/login/Register'], resolve)
 const forgetPwd = resolve => require(['./components/login/ForgetPwd'], resolve)
 const serviceProtocol = resolve => require(['./components/login/ServiceProtocol'], resolve)
+const OrderList = resolve => require(['./components/order/OrderList'], resolve)
+const PaySuccess = resolve => require(['./components/common/PaySuccess'], resolve)
 const orderInfo = resolve => require(['./components/OrderInfo'], resolve)
+
 export default new Router({
   mode: 'history',
   routes: [
@@ -23,7 +26,7 @@ export default new Router({
       component: login
     },
     {
-      path: '/orderInfo',
+      path: '/orderInfo', // 订单确认页面
       name: 'orderInfo',
       component: orderInfo,
       props: true
