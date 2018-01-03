@@ -12,7 +12,8 @@
               <input type="checkbox" :id="order.order_id+index" v-model="order.check">
               <label :for="order.order_id+index">您的订单正在确认中…</label>
             </div>
-            <mt-cell value="" style="flex:0.2;margin-top:7px;">{{order.ispay == 1 ? '已支付':'待付款'}}</mt-cell>
+            <mt-cell style="flex:0.2;margin-top:7px;" v-if="order.ispay == 1">已支付</mt-cell>
+            <mt-cell style="flex:0.2;margin-top:7px;" v-else><span style="color:red;">代付款</span></mt-cell>
           </div>
           <div style="clear:both;display:flex;flex-direction: row;margin:15px 0 10px 3.8%;">
             <div style="flex:0.65;font-size:13px;">下单时间：{{order.create_time}}</div>

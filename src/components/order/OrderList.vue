@@ -3,7 +3,7 @@
     <!-- navbar -->
     <mt-navbar class="page-part" v-model="selected">
       <mt-tab-item id="one">
-        <div class="subtitleitem">代付款</div>
+        <div class="subtitleitem">待付款</div>
       </mt-tab-item>
       <mt-tab-item id="two">
         <div class="subtitleitem">确认中</div>
@@ -80,17 +80,25 @@
       getOrderList: function () {
         this.$http.post('/order/getOderList', {order_status: this.selected}).then((response) => {
           this.orders = response.data
+          this.$indicator.close()
         })
       }
     },
     watch: {
       selected (val, oldVal) {
+        this.$indicator.open()
         this.getOrderList()
+        this.$indicator.close()
       }
     },
     mounted: function () {
+      this.$indicator.open({
+        text: '加载中...',
+        spinnerType: 'fading-circle'
+      })
       this.getOrderList()
     }
+
   }
 </script>
 

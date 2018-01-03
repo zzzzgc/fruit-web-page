@@ -22,8 +22,8 @@
 
 <script>
   export default {
+    name: 'check-all-one',
     watch: {
-      name: 'check-all-one',
       checkAll: function (val, oldVal) { // 此处只能使用监听的方式，更新商品列表，因为搜索后还是在当前页面，所以不会执行mounted
         if (val) {
           for (var key in this.orders) {
