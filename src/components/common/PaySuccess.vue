@@ -37,10 +37,10 @@ export default {
   },
   methods: {
     goOnShopping: function () {
-      window.location.href = '/'
+      this.$router.push({path: '/'})
     },
     searchOrderDetail: function () {
-      Toast('请填写订单详情链接')
+      this.$router.push({path: 'orderList', query: {'selected': 'four'}})
     }
   }
 }
