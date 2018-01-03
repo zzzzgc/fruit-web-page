@@ -8,6 +8,7 @@
       <div class="desc">{{product.standard_name}}|{{product.sub_title}}</div>
     </router-link>
     <div class="product-bottom">
+
       <div v-if="isLogin()">
         <div class="buy-num">本周{{product.week_sell_num}}家购买</div>
         <div class="price-info">

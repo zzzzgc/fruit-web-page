@@ -15,11 +15,13 @@
   import Mint from 'mint-ui'
 //  import bus from '../../common/bus'
   import { homeUrl } from '../../common/const.js'
+  import session from '../../mixins/sessionMixin'
 
   Vue.use(Mint)
 
   export default {
     name: 'login-bottom',
+    mixins: [session],
     components: {
       Icon
     },
@@ -33,18 +35,17 @@
     ],
     methods: {
       handleLogin: function () {
-        console.log(this.phone)
-        console.log(this.password)
-        Vue.$toast(this.phone + '---' + this.password)
-
         this.$http.post('/login/auth', Object.assign({}, {phone: this.phone, password: this.password}), {showLoading: true}).then((response) => {
-//          window.localStorage.setItem('username', this.username)
-//            this.$router.push({path: homeUrl})
-          window.location = homeUrl
+          let userInfo = {
+            username: this.phone,
+            password: this.password
+          }
+          this.setLoginUser(userInfo)
+          this.$router.push(homeUrl)
         })
       },
       handleRegister: function () {
-        window.location.href = './register'
+        this.$router.push('./register')
       }
     }
   }
