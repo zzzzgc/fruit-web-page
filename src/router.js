@@ -16,6 +16,7 @@ const serviceProtocol = resolve => require(['./components/login/ServiceProtocol'
 const OrderList = resolve => require(['./components/order/OrderList'], resolve)
 const PaySuccess = resolve => require(['./components/common/PaySuccess'], resolve)
 const orderInfo = resolve => require(['./components/order/OrderInfo'], resolve)
+const Person = resolve => require(['./components/person/persons'], resolve)
 
 export default new Router({
   mode: 'history',
@@ -118,6 +119,10 @@ export default new Router({
       path: '/OrderList', // 注册详情页面
       name: 'OrderList',
       component: OrderList
+    }, {
+      path: '/person', // 我的信息
+      name: 'Person',
+      component: Person
     }
   ],
   scrollBehavior (to, from, savedPosition) {
