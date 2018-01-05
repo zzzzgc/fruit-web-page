@@ -77,8 +77,8 @@
       }
     },
     methods: {
-      getOrderList: function () {
-        this.$http.post('/order/getOderList', {order_status: this.selected}).then((response) => {
+      getOrderList: function (selected) {
+        this.$http.post('/order/getOderList', {order_status: selected}).then((response) => {
           this.orders = response.data
           this.$indicator.close()
         })
@@ -90,16 +90,17 @@
           text: '加载中...',
           spinnerType: 'fading-circle'
         })
-        this.getOrderList()
+        this.getOrderList(this.selected)
         this.$indicator.close()
       }
     },
     mounted: function () {
+      this.selected = this.$route.query.selected
       this.$indicator.open({
         text: '加载中...',
         spinnerType: 'fading-circle'
       })
-      this.getOrderList()
+      this.getOrderList(this.selected)
     }
 
   }
