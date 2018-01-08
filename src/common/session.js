@@ -28,6 +28,12 @@ export function isLogin () {
   // return localStorage.hasOwnProperty('userInfo')
   return existCookie(cookieUserInfoKey)
 }
+
+// 跳转登录
+export function toLogin () {
+  this.$router.push({path: '/login'})
+}
+
 // 获取登录用户信息
 export function getLoginUserInfo () {
   // if (isLogin()) {

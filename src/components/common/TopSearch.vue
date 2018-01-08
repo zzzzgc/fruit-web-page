@@ -31,9 +31,6 @@
     methods: {
       goSearch: function (val) {
         this.$router.push({path: '/product/list', query: {keyword: val}})
-      },
-      toLogin: function () {
-        this.$router.push({path: '/login'})
       }
     }
   }

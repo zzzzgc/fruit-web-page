@@ -49,7 +49,7 @@
     methods: {
       addToCart: function () {
         if (this.isLogin()) {
-          // 删除数据库中该用户的购物车商品
+          // 新增或累加商品
           this.$http.post('/cart/addProduct', {standard_id: this.product.standard_id}).then((response) => {
             // TODO 提示添加购物车成功
             toast('添加购物车成功')

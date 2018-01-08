@@ -188,7 +188,7 @@
         }
         if (this.isLogin()) {
           // 更新或添加数据库中该用户的购物车商品
-          this.$http.post('/cart/addProduct', product).then((response) => {
+          this.$http.post('/cart/updateProduct', product).then((response) => {
           })
         } else {
           setCartProducts(product)
@@ -203,9 +203,14 @@
             standardIds.push(p.standard_id)
           }
         }
-        this.$http.post('/order/createOrder', {'ids': standardIds}).then((res) => {
-          console.log('返回的数据' + res.data)
-          this.$router.push({path: 'orderInfo', params: { 'totalPay': res.data }})
+        // 生成订单
+        this.$http.post('/order/createOrder', {'standardIds': standardIds}).then((res) => {
+          this.$router.push({path: '/orderInfo', query: { 'orderId': res.data }})
+        },
+        (res) => {
+          console.log(res)
+          console.log('返回的数据:' + res.data)
+          this.$router.push({path: '/orderInfo', query: { 'orderId': res.data }})
         })
       }
     },

@@ -25,7 +25,7 @@ let httpIntence = axios.create({
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'
   },
-  responseType: 'json',
+  // responseType: 'json',
   transformRequest: [
     function (data) { // 将post的数据转换成key-val的格式，支持基本数据类型的数组参数转换为多个key-val，不支持对象转换需自己转换后调用请求
       let ret = ''
