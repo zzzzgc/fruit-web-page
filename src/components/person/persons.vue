@@ -2,7 +2,7 @@
     <div class="persons">
       <div class="persons-header">
         <div class="persons-user-title">
-          <div class="user-phone">1353940xxxx</div>
+          <div class="user-phone" >{{phone}}</div>
           <div class="user-logout" @click.navite="toLogOut">退出当前用户</div>
           <div class="persons-blank"></div>
         </div>
@@ -18,16 +18,16 @@
         <div class="my-orders">
           <table class="my-orders-container">
             <tr class="order-item">
-              <td><router-link :to="{path: '/orderList',query: {selected:'one'}}" class="order-item-child">待付款</router-link></td>
+              <td style="position: relative;"><router-link :to="{path: '/orderList',query: {selected:'one'}}" class="order-item-child">待付款</router-link><span class="badge">{{waitPay}}</span></td>
             </tr>
             <tr class="order-item">
-              <td><router-link :to="{path: '/orderList',query: {selected:'two'}}" class="order-item-child">确认中</router-link></td>
+              <td style="position: relative;"><router-link :to="{path: '/orderList',query: {selected:'two'}}" class="order-item-child">确认中</router-link><span class="badge">{{verifying}}</span></td>
             </tr>
             <tr class="order-item">
-              <td><router-link :to="{path: '/orderList',query: {selected:'three'}}" class="order-item-child">代发货</router-link></td>
+              <td style="position: relative;"><router-link :to="{path: '/orderList',query: {selected:'three'}}" class="order-item-child">代发货</router-link><span class="badge">{{waitReceiver}}</span></td>
             </tr>
             <tr class="order-item">
-              <td><router-link :to="{path: '/orderList',query: {selected:'four'}}" class="order-item-child">我的订单</router-link></td>
+              <td style="position: relative;"><router-link :to="{path: '/orderList',query: {selected:'four'}}" class="order-item-child">我的订单</router-link><span class="badge">{{myOrders}}</span></td>
             </tr>
           </table>
         </div>
@@ -69,6 +69,15 @@
   Vue.use(Mint)
   export default {
     name: 'persons',
+    data: function () {
+      return {
+        phone: '',
+        myOrders: '',
+        verifying: '',
+        waitPay: '',
+        waitReceiver: ''
+      }
+    },
     components: {
       BottomMenu
     },
@@ -78,13 +87,29 @@
           logout()
           this.$router.push('/login')
         })
+      },
+      getUserAndOrderInfo: function () {
+        this.$http.post('/person/getUserInfo').then((response) => {
+          this.phone = response.data['phone']
+          this.myOrders = response.data['mapStatusAndCount']['myOrders']
+          this.waitPay = response.data['mapStatusAndCount']['waitPay']
+          this.waitReceiver = response.data['mapStatusAndCount']['waitReceiver']
+          this.verifying = response.data['mapStatusAndCount']['verifying']
+        })
       }
     },
     mounted: function () {
+      this.getUserAndOrderInfo()
     }
   }
 </script>
 
 <style scoped>
-
+.badge{
+  color:red;
+  position:absolute;
+  right:-7px;
+  top:-7px;
+  font-size:12px;
+}
 </style>
