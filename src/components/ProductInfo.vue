@@ -63,9 +63,9 @@
       </div>
     </div>
     <div class="bottom-fixed-footer">
-      <div class="my-cart"><icon scale="1.5" name="shopping-cart"></icon><div>购物车</div></div>
-      <div class="pay-now">立即购买</div>
-      <div class="add-cart">加入购物车</div>
+      <div class="my-cart" @click='toShoppingCart'><icon scale="1.5" name="shopping-cart"></icon><div>购物车</div></div>
+      <div class="pay-now" @click = 'payNow'>立即购买</div>
+      <div class="add-cart" @click = 'addCart'>加入购物车</div>
     </div>
   </div>
 </template>
@@ -176,6 +176,49 @@
           }
           this.selectStandard = this.standards[selectedIndex]
         })
+      },
+      payNow: function () {
+        console.log('product:')
+        console.log(this.product)
+        console.log('standards:')
+        console.log(this.standards)
+        console.log('selectStandard:')
+        console.log(this.selectStandard)
+        console.log('market:')
+        console.log(this.market)
+        console.log('marketImgs:')
+        console.log(this.marketImgs)
+        console.log('productImgs:')
+        console.log(this.productImgs)
+
+        // 后倒入的数据会覆盖前导入的数据this.selectStandard的id被this.product的id覆盖了,所以换一个名字导入selectStandard的id
+        let order = Object.assign({}, this.selectStandard, this.product, {standard_id: this.selectStandard.id, standard_name: this.selectStandard.name, buyNum: this.buyNum})
+        console.log('order:')
+        console.log(order)
+        // TODO 提交订单
+        this.$http.post('/order/directCreateOrder', order).then(
+          // 成功函数
+          (redponse) => {
+
+          },
+          // 失败函数
+          (redponse) => {
+
+          }
+        )
+      },
+      addCart: function () {
+        let carProduct = {
+          'standard_id': this.selectStandard.id,
+          'buy_num': this.buyNum,
+          'remark': ''
+        }
+        // 更新或添加数据库中该用户的购物车商品
+        this.$http.post('/cart/updateProduct', carProduct).then((response) => {
+        })
+      },
+      toShoppingCart: function () {
+        this.$router.push({path: '/cart'})
       }
     },
     computed: {
