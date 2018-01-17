@@ -24,9 +24,9 @@
 </template>
 
 <script>
-  import session from '../mixins/sessionMixin'
-  import {addCartProducts} from '../common/session'
-  import { toast } from '../common/utils'
+  import session from '../../mixins/sessionMixin'
+  import {addCartProducts} from '../../common/session'
+  import { toast } from '../../common/utils'
 //  import {ToastPlugin} from 'vux'
 //  Vue.use(ToastPlugin)
 

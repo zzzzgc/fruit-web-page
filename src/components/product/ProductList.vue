@@ -11,7 +11,7 @@
 <script>
   import ProductItem from './ProductItem'
 //  import * as moment from 'moment'
-  import TopSearch from './common/TopSearch'
+  import TopSearch from '../common/TopSearch'
 
   export default {
     name: 'ProductList',

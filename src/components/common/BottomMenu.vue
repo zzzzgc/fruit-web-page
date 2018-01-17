@@ -6,7 +6,7 @@
         <td><router-link to="/classify" replace><icon scale="1.2" name="th"></icon><div>分类</div></router-link></td>
         <!--<td><router-link to="/a"><icon scale="1.2" name="heart"></icon><div>赚钱</div></router-link></td>-->
         <td><router-link to="/cart" replace><icon scale="1.2" name="shopping-cart"></icon><div>购物车</div></router-link></td>
-        <td><router-link to="/c" replace><icon scale="1.2" name="user"></icon><div>我的</div></router-link></td>
+        <td><router-link to="/person" replace><icon scale="1.2" name="user"></icon><div>我的</div></router-link></td>
       </tr>
     </table>
   </div>

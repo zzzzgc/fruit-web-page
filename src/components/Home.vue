@@ -58,7 +58,7 @@
 <script>
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
   import 'swiper/dist/css/swiper.css'
-  import ProductItem from './ProductItem'
+  import ProductItem from './product/ProductItem'
   import * as moment from 'moment'
   import TopSearch from './common/TopSearch'
   import BottomMenu from './common/BottomMenu'

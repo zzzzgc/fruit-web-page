@@ -53,7 +53,7 @@
         </tr>
         <tr>
           <td>物 流 费:</td>
-          <td>发货后按实际产生费用收取</td
+          <td>发货后按实际产生费用收取</td>
         </tr>
       </table>
 
@@ -155,6 +155,27 @@
       MtTabItem,
       MtTabbar,
       Icon
+    },
+    methods: {
+      getProducts: function () {
+        // 获取下单商品
+        // this.$http.post('/order/createOrder', {'standardIds': this.standardIds}).then((res) => {
+        //     this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
+        //   },
+        //   (res) => {
+        //     // 成功执行
+        //     console.log(res)
+        //     console.log('返回的数据:' + res.data)
+        //     this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
+        //   },
+        //   (res) => {
+        //     // 失败执行
+        //     console.log(res)
+        //     console.log('返回的数据:' + res.data)
+        //     this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
+        //   }
+        // )
+      }
     }
   }
 </script>
