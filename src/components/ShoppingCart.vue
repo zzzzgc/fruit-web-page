@@ -116,13 +116,17 @@
     },
     methods: {
       getProducts: function () {
+        // 获取购物车
         if (this.isLogin()) {
+          // 登陆的
           this._getServerProduct()
         } else {
+          // 未登录的
           this._getLocalProduct()
         }
       },
       _getLocalProduct: function () {
+        // 获取localStorage中的商品信息
         let products = getCartProducts()
         let productStandardIds = []
         for (let p of products) {
@@ -145,6 +149,7 @@
         })
       },
       _getServerProduct: function () {
+        // 获取服务器中的本人的购物车
         this.$http.post('/cart/getProduct', {pageNum: this.pageNum}).then((response) => {
           this.products = response.data
           this.pageNum++ // 下次取数据，从下一页开始
@@ -197,9 +202,9 @@
       goPay: function () {
         // 获取所有选中的商品规格的id
         let standardIds = []
+        console.log(this.products)
         for (let p of this.products) {
           if (p.check) {
-            console.log(p.standard_id)
             standardIds.push(p.standard_id)
           }
         }

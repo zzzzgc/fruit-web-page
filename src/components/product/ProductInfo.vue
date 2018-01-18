@@ -178,6 +178,7 @@
         })
       },
       payNow: function () {
+        // 立即购买
         console.log('product:')
         console.log(this.product)
         console.log('standards:')
@@ -198,11 +199,14 @@
         // TODO 提交订单
         this.$http.post('/order/directCreateOrder', order).then(
           // 成功函数
-          (redponse) => {
-
+          (response) => {
+            console.log(response)
+            console.log(response.data)
+            // 支付确认页面
+            this.$router.push({path: '/orderInfo', query: {'orderId': response.data}})
           },
           // 失败函数
-          (redponse) => {
+          (response) => {
 
           }
         )
