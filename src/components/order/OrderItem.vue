@@ -15,9 +15,15 @@
             <mt-cell style="flex:0.2;margin-top:7px;" v-if="order.ispay == 5">已支付</mt-cell>
             <mt-cell style="flex:0.2;margin-top:7px;" v-else="order.ispay == 0"><span style="color:red;">待付款</span></mt-cell>
           </div>
-          <div style="clear:both;display:flex;flex-direction: row;margin:15px 0 10px 3.8%;">
+        <!--  <div style="clear:both;display:flex;flex-direction: row;margin:15px 0 10px 3.8%;">
             <div style="flex:0.55;font-size:13px;">下单时间：{{order.create_time}}</div>
             <div style="flex:0.45;height:10px;font-size:13px;">订单号:{{order.order_id}}</div>
+          </div>-->
+          <div style="clear:both;display:flex;flex-direction: row;margin:15px 0 0px 3.8%;">
+            <div style="flex:0.55;font-size:13px;">下单时间：{{order.create_time}}</div>
+          </div>
+          <div style="clear:both;display:flex;flex-direction: row;margin:15px 0 20px 3.8%;">
+            <div style="flex:1;height:10px;font-size:13px;">订单号:{{order.order_id}}</div>
           </div>
         </div>
         <div class="order-content" style="display: flex;width:94%;height:96px;flex-direction: row;background-color: #F2F2F2;margin-left:3%;margin-bottom:15px;">
