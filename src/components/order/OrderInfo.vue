@@ -117,6 +117,7 @@
     data: function () {
       return {
         selected: true,
+        orderId: '',
         products: [
           {
             img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
@@ -150,6 +151,16 @@
     },
     mounted: function () {
       console.log('totalPay:' + this.$route.query.orderId)
+      this.orderId = this.$route.query.orderId
+      // 获取预微信预支付
+      this.http.post('/order/createPayOrder', {'orderId': this.orderId})
+        .then(
+          (response) => {
+
+          }, (response) => {
+
+          }
+        )
     },
     components: {
       MtTabItem,
@@ -159,22 +170,20 @@
     methods: {
       getProducts: function () {
         // 获取下单商品
-        // this.$http.post('/order/createOrder', {'standardIds': this.standardIds}).then((res) => {
-        //     this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
-        //   },
-        //   (res) => {
-        //     // 成功执行
-        //     console.log(res)
-        //     console.log('返回的数据:' + res.data)
-        //     this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
-        //   },
-        //   (res) => {
-        //     // 失败执行
-        //     console.log(res)
-        //     console.log('返回的数据:' + res.data)
-        //     this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
-        //   }
-        // )
+        this.$http.post('/order/createOrder', {'standardIds': this.standardIds})
+          .then((res) => {
+              // 成功执行
+              console.log(res)
+              console.log('返回的数据:' + res.data)
+              this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
+            },
+            (res) => {
+              // 失败执行
+              console.log(res)
+              console.log('失败返回的数据:' + res.data)
+              this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
+            }
+          )
       }
     }
   }
