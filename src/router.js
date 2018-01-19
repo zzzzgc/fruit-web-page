@@ -17,6 +17,10 @@ const OrderList = resolve => require(['./components/order/OrderList'], resolve)
 const PaySuccess = resolve => require(['./components/common/PaySuccess'], resolve)
 const orderInfo = resolve => require(['./components/shopping/OrderInfo'], resolve)
 const Person = resolve => require(['./components/person/persons'], resolve)
+const ShopInfo = resolve => require(['./components/person/ShopInfo'], resolve)
+const AuthIdentity = resolve => require(['./components/person/AuthIdentity/AuthIdentity'], resolve)
+const PhysicalShop = resolve => require(['./components/person/AuthIdentity/PhysicalShop'], resolve)
+const NetSale = resolve => require(['./components/person/AuthIdentity/NetSale'], resolve)
 
 export default new Router({
   mode: 'history',
@@ -123,6 +127,22 @@ export default new Router({
       path: '/person', // 我的信息
       name: 'Person',
       component: Person
+    }, {
+      path: '/shopInfo',
+      name: 'ShopInfo',
+      component: ShopInfo // 店铺认证页面
+    }, {
+      path: '/authIdentity', // 实名认证页面
+      name: 'AuthIdentity',
+      component: AuthIdentity
+    }, {
+      path: '/physicalShop', // 实体店实名认证
+      name: 'PhysicalShop',
+      component: PhysicalShop
+    }, {
+      path: '/netSale', // 网络销售认证
+      name: 'NetSale',
+      component: NetSale
     }
   ],
   scrollBehavior (to, from, savedPosition) {
