@@ -1,12 +1,13 @@
 <template>
   <div class="order-info">
     <!--TopBar-->
-    <div class="top-fixed-header header">
-      <div class="back" @click="$router.go(-1)">
-        <icon scale="1.6" name="angle-left"></icon>
-      </div>
-      <div class="title">获取的数据</div>
-    </div>
+    <!--<div class="top-fixed-header header">-->
+      <!--<div class="back" @click="$router.go(-1)">-->
+        <!--<icon scale="1.6" name="angle-left"></icon>-->
+      <!--</div>-->
+      <!--<div class="title">获取的数据</div>-->
+    <!--</div>-->
+    <TitleInfo titleContent="填写订单"></TitleInfo>
 
     <!--content-->
     <div class="content">
@@ -32,19 +33,24 @@
       </div>
       <!--<hr>-->
       <div class="products">
-        <div v-for="(product, index) in products" :key="product.id" class="product-item">
+        <div v-for="(product, index) in products" :key="product.id">
           <div class="product">
-            <img :src='product.img' alt="">
+            <img  :src='product.img' alt="">
             <span class="top_left_str">[{{product.country =='中国'?'国产':'进口'}}]{{product.product_name}}</span>
             <span class="sub_str">{{product.product_standard_name}}</span>
             <span class="lower_right_str"><span
-              style="color: red;">￥{{product.sell_price}}</span> X {{product.num}}</span>
+              style="color: red;">￥{{product.sell_price}}</span> X {{product.num}}{{product.measure_unit}}</span>
           </div>
         </div>
       </div>
+
       <!--<hr>-->
-      <span class="count_str">共{{countNum}}件</span>
+      <span class="count_str"></span>
       <table class="order_detail">
+        <tr>
+          <td></td>
+          <td style="color: #000">共{{countNum}}件</td>
+        </tr>
         <tr>
           <td>商品金额:</td>
           <td>￥{{countPrice}}</td>
@@ -62,8 +68,7 @@
     z-index: 1;
     width: 100%;
     height: 44px;
-    background: white;
-    border-top: 1px solid #62ff41;">
+    background: white;">
       <tr >
         <td style="z-index: 2;text-align: right;color: red;">实付款: ￥{{this.countPrice}}</td>
         <td style="z-index: 2;width: 40%;background-color: red;text-align: center;color: #fff;"><mt-button name="submit" type='danger' size='large'>提交订单</mt-button></td>
@@ -94,7 +99,8 @@
   import MtTabbar from '../../../node_modules/mint-ui/packages/tabbar/src/tabbar.vue'
   import MtTabItem from '../../../node_modules/mint-ui/packages/tab-item/src/tab-item.vue'
   import BottomMenu from '../common/BottomMenu'
-
+  import OrderInfoList from './OrderInfoList'
+  import TitleInfo from '../common/TitleInfo'
   export default {
     name: 'orderInfo',
     computed: {
@@ -129,6 +135,7 @@
             id: 1,
             country: '中国',
             product_name: '天山雪莲',
+            measure_unit: '箱',
             product_standard_name: '1朵',
             sell_price: 999.00,
             num: 27
@@ -138,6 +145,7 @@
             id: 2,
             country: '美国',
             product_name: '牛油果',
+            measure_unit: '箱',
             product_standard_name: '12个',
             sell_price: 20.00,
             num: 5
@@ -147,6 +155,7 @@
             id: 3,
             country: '菲律宾',
             product_name: '大芒果',
+            measure_unit: '箱',
             product_standard_name: '24个',
             sell_price: 15.00,
             num: 10
@@ -183,7 +192,9 @@
       MtTabItem,
       MtTabbar,
       Icon,
-      BottomMenu
+      BottomMenu,
+      OrderInfoList,
+      TitleInfo
     },
     methods: {
       getProducts: function () {
@@ -233,19 +244,21 @@
         padding-left: 10px;
       }
     }
+
     .products {
       border-bottom: 1px solid #676767;
-      margin-bottom: 10px;
+      border-top: 1px solid #676767;
+      margin: 10px 0;
       .product {
         /*border: 1px solid; // 临时*/
         box-sizing: border-box;
         height: 90px;
         font-size: 14px;
-        background-color: white;
-        margin-bottom: 10px;
-        margin-left: 10px;
-        border-radius: 15px;
-        border-bottom: 5px solid #676767;
+        margin: 10px 0px 10px 0px;
+        /*background-color: white;*/
+        /*box-shadow: 0px 5px 15px #888888;*/
+        /*border-radius: 15px; 美化*/
+        /*border-bottom: 5px solid #676767;*/
         img {
           float: left;
           width: 80px;
@@ -273,7 +286,6 @@
         }
       }
     }
-
 
     .count_str {
       display: block;
