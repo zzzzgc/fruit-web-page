@@ -78,15 +78,16 @@
 
 <script>
   import {Stepper} from 'vant'
-  import BottomMenu from './common/BottomMenu'
+  import BottomMenu from '../common/BottomMenu'
+  import { Toast } from 'mint-ui'
   import 'vue-awesome/icons/angle-left'
   import 'vue-awesome/icons/check'
   import 'vue-awesome/icons/close'
   import Icon from 'vue-awesome/components/Icon'
   import MtButton from 'mint-ui/packages/button/src/button'
   import 'mint-ui/lib/style.css'
-  import session from '../mixins/sessionMixin'
-  import {getCartProducts, removeCartProduct, setCartProducts} from '../common/session'
+  import session from '../../mixins/sessionMixin'
+  import {getCartProducts, removeCartProduct, setCartProducts} from '../../common/session'
 
   export default {
     name: 'ProductList',
@@ -202,13 +203,18 @@
       goPay: function () {
         // 获取所有选中的商品规格的id
         let standardIds = []
-        console.log(this.products)
         for (let p of this.products) {
           if (p.check) {
             standardIds.push(p.standard_id)
           }
         }
-        // 生成订单
+        console.log('size:' + standardIds.length)
+        if (standardIds == null || standardIds.length < 1) {
+          Toast({
+            message: '请选择需要下单的商品哦'
+          })
+          return
+        }
         this.$http.post('/order/createOrder', {'standardIds': standardIds}).then((res) => {
           this.$router.push({path: '/orderInfo', query: { 'orderId': res.data }})
         },

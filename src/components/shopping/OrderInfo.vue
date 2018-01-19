@@ -30,21 +30,19 @@
           </tr>
         </table>
       </div>
-      <hr>
+      <!--<hr>-->
       <div class="products">
-        <div v-if="products.length > 0" v-for="(product, index) in products" :key="product.id" class="product-item">
-
+        <div v-for="(product, index) in products" :key="product.id" class="product-item">
           <div class="product">
             <img :src='product.img' alt="">
-            <span class="top_left_str">[{{product.import=='中国'?'国产':'进口'}}]{{product.product_name}}</span>
+            <span class="top_left_str">[{{product.country =='中国'?'国产':'进口'}}]{{product.product_name}}</span>
             <span class="sub_str">{{product.product_standard_name}}</span>
             <span class="lower_right_str"><span
-              style="color: red;">￥{{product.sell_price}}</span>*{{product.num}}</span>
+              style="color: red;">￥{{product.sell_price}}</span> X {{product.num}}</span>
           </div>
-
         </div>
       </div>
-      <hr>
+      <!--<hr>-->
       <span class="count_str">共{{countNum}}件</span>
       <table class="order_detail">
         <tr>
@@ -58,15 +56,19 @@
       </table>
 
     </div>
-
     <!--底栏-->
-    <table class="bottom_bar" style="position: fixed;background-color: red">
-      <tr>
-        <td>实付款</td>
-        <td>提交订单</td>
+    <table class="bottom_bar" style="position: fixed;
+    bottom: 44px;
+    z-index: 1;
+    width: 100%;
+    height: 44px;
+    background: white;
+    border-top: 1px solid #62ff41;">
+      <tr >
+        <td style="z-index: 2;text-align: right;color: red;">实付款: ￥{{this.countPrice}}</td>
+        <td style="z-index: 2;width: 40%;background-color: red;text-align: center;color: #fff;"><mt-button name="submit" type='danger' size='large'>提交订单</mt-button></td>
       </tr>
     </table>
-
     <!--<mt-tabbar  v-model="selected">-->
     <!--<mt-tab-item >实付款</mt-tab-item>-->
     <!--<mt-tab-item >提交订单</mt-tab-item>-->
@@ -80,6 +82,7 @@
     <!--<mt-tab-item style="text-align: right">实付款</mt-tab-item>-->
     <!--<mt-tab-item style="text-align: center;background-color: red;">提交订单</mt-tab-item>-->
     <!--</mt-tabbar>-->
+    <bottom-menu></bottom-menu>
 
   </div>
 
@@ -90,6 +93,7 @@
   import 'vue-awesome/icons/angle-left'
   import MtTabbar from '../../../node_modules/mint-ui/packages/tabbar/src/tabbar.vue'
   import MtTabItem from '../../../node_modules/mint-ui/packages/tab-item/src/tab-item.vue'
+  import BottomMenu from '../common/BottomMenu'
 
   export default {
     name: 'orderInfo',
@@ -118,11 +122,12 @@
       return {
         selected: true,
         orderId: '',
+        prepay_id: '',
         products: [
           {
-            img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
+            img: '//timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
             id: 1,
-            import: '中国',
+            country: '中国',
             product_name: '天山雪莲',
             product_standard_name: '1朵',
             sell_price: 999.00,
@@ -131,7 +136,7 @@
           {
             img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
             id: 2,
-            import: '美国',
+            country: '美国',
             product_name: '牛油果',
             product_standard_name: '12个',
             sell_price: 20.00,
@@ -140,7 +145,7 @@
           {
             img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
             id: 3,
-            import: '菲律宾',
+            country: '菲律宾',
             product_name: '大芒果',
             product_standard_name: '24个',
             sell_price: 15.00,
@@ -150,39 +155,52 @@
       }
     },
     mounted: function () {
-      console.log('totalPay:' + this.$route.query.orderId)
       this.orderId = this.$route.query.orderId
-      // 获取预微信预支付
-      this.http.post('/order/createPayOrder', {'orderId': this.orderId})
+      console.log('orderId:' + this.orderId)
+      // 获取下单的商品信息
+      this.$http.post('/order/getOrderProducts', {'orderId': this.orderId})
         .then(
           (response) => {
-
-          }, (response) => {
-
+            console.log(response.data)
+            this.products = response.data
+            // 获取预微信预支付
+            this.$http.post('/order/createPayOrder', {'orderId': this.orderId})
+              .then(
+                (response) => {
+                  console.log(response.data)
+                  this.prepay_id = response.data
+                  console.log('获取成功了')
+                }, (response) => {
+                  console.log(response.data)
+                  this.prepay_id = response.data
+                  console.log('获取失败了')
+                }
+              )
           }
         )
     },
     components: {
       MtTabItem,
       MtTabbar,
-      Icon
+      Icon,
+      BottomMenu
     },
     methods: {
       getProducts: function () {
         // 获取下单商品
         this.$http.post('/order/createOrder', {'standardIds': this.standardIds})
           .then((res) => {
-              // 成功执行
-              console.log(res)
-              console.log('返回的数据:' + res.data)
-              this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
-            },
-            (res) => {
-              // 失败执行
-              console.log(res)
-              console.log('失败返回的数据:' + res.data)
-              this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
-            }
+            // 成功执行
+            console.log(res)
+            console.log('返回的数据:' + res.data)
+            this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
+          },
+          (res) => {
+            // 失败执行
+            console.log(res)
+            console.log('失败返回的数据:' + res.data)
+            this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
+          }
           )
       }
     }
@@ -215,42 +233,47 @@
         padding-left: 10px;
       }
     }
-
-    .product {
-      /*border: 1px solid; // 临时*/
-      box-sizing: border-box;
-      height: 90px;
-      font-size: 14px;
-      background-color: white;
+    .products {
+      border-bottom: 1px solid #676767;
       margin-bottom: 10px;
-      margin-left: 10px;
-      border-radius: 15px;
-      img {
-        float: left;
-        width: 80px;
-        height: 80px;
-        margin-top: 5px;
+      .product {
+        /*border: 1px solid; // 临时*/
+        box-sizing: border-box;
+        height: 90px;
+        font-size: 14px;
+        background-color: white;
+        margin-bottom: 10px;
         margin-left: 10px;
-      }
+        border-radius: 15px;
+        border-bottom: 5px solid #676767;
+        img {
+          float: left;
+          width: 80px;
+          height: 80px;
+          margin-top: 5px;
+          margin-left: 10px;
+        }
 
-      .top_left_str {
-        margin-top: 30px;
-      }
+        .top_left_str {
+          margin-top: 30px;
+        }
 
-      .sub_str {
-        // 把span的行级升级为块级模块,避免span因为空间充足而不换行的渲染span,导致多行并在一行上
-        display: block;
-        color: darkgrey;
-        /*margin-left: 100px;*/
-      }
+        .sub_str {
+          // 把span的行级升级为块级模块,避免span因为空间充足而不换行的渲染span,导致多行并在一行上
+          display: block;
+          color: darkgrey;
+          /*margin-left: 100px;*/
+        }
 
-      .lower_right_str {
-        display: block;
-        text-align: right;
-        line-height: 50px;
-        margin-right: 5px;
+        .lower_right_str {
+          display: block;
+          text-align: right;
+          line-height: 50px;
+          margin-right: 5px;
+        }
       }
     }
+
 
     .count_str {
       display: block;
