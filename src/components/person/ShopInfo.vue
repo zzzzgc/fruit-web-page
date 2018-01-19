@@ -1,5 +1,5 @@
 <template>
-  <div class="shop-info">
+  <div class="shop-info-container">
     <title-info titleContent="店铺信息"></title-info>
     <div class="shop-detail">
       <mt-field label="店铺名称:" style="color:#ff0000;" placeholder="所在城市+店名，如广州嘻果"></mt-field>
@@ -66,14 +66,20 @@
 </script>
 
 <style scoped>
+  body{
+    width:100%;
+    margin:0;
+  }
   .shop-info {
-    margin: 65px 0 0 0;
+    width:100%;
+    border: 0;
     padding: 0;background-color: white;
   }
 
   .shop-detail {
     line-height: 34px;
     color: #ff0000;
+    margin: 65px 0 0 0;
   }
 
   .shop-detail span {

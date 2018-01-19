@@ -2,12 +2,16 @@
     <div class="auth-identity">
       <title-info titleContent="实名认证"></title-info>
       <div class="persons-info">
-        <div class="shop-info">
-          <div style="margin-top:18%;">
-            <span style="display: block;">实体店</span><span>有工商注册营业执照</span>
-          </div>
+        <div class="auth-shop-info">
+          <router-link to="/physicalShop" style="text-decoration: none">
+            <div style="margin-top:18%;">
+              <span style="display: block;">实体店</span><span>有工商注册营业执照</span>
+            </div>
+          </router-link>
         </div>
-        <div class="shop-info" style="line-height: 90px;"><span  >实名认证</span></div>
+        <router-link to="netSale" style="text-decoration: none">
+          <div class="auth-shop-info" style="line-height: 90px;"><span  >实名认证</span></div>
+        </router-link>
       </div>
       <mt-button type="primary" size="large" style="margin-top:120px;">确认</mt-button>
     </div>
@@ -35,7 +39,7 @@
     flex-direction:row;
     margin-top:115px;
   }
-  .shop-info{
+  .auth-shop-info{
     width:150px;
     height:90px;
     font-size:14px;

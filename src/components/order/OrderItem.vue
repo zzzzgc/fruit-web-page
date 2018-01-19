@@ -34,7 +34,7 @@
             <span><span style="color:red;display:inline;">【{{order.country}}】</span>{{order.name}}</span>
             <span style="color:#999;font-size:12px;text-indent: 4px;">{{order.product_standard_name}}</span>
             <span style="float:right;margin-right:10px;color:#333;">￥ {{order.sell_price}} x{{order.num}}件</span>
-            <span style="clear:both;color:#524239;">备注:{{order.buy_remark}}</span>
+            <span style="clear:both;color:#524239;">备注:{{order.buy_remark == "null"? "" :order.buy_remark}}</span>
           </div>
         </div>
 
