@@ -180,7 +180,6 @@
     },
     mounted: function () {
       this.orderId = this.$route.query.orderId
-      console.log('orderId:' + this.orderId)
       this.getProducts()
     },
     components: {
@@ -228,9 +227,8 @@
           .then(
             (response) => {
               console.log('商品信息')
-              console.log(response.data)
               console.log(response)
-              this.products = response.data
+              // this.products = response.data
               // 获取预支付信息
               // TODO this.getPayInfo()
             }
