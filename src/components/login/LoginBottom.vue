@@ -36,12 +36,15 @@
     methods: {
       handleLogin: function () {
         this.$http.post('/login/auth', Object.assign({}, {phone: this.phone, password: this.password}), {showLoading: true}).then((response) => {
-          // TODO 登陆以后需要添加本地购物车内容到DB购物车里
+
           let userInfo = {
             username: this.phone,
             password: this.password
           }
           this.setLoginUser(userInfo)
+
+          // TODO 登陆以后需要添加本地购物车内容到DB购物车里
+
           this.$router.push(homeUrl)
         })
       },

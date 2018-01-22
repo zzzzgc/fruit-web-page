@@ -101,7 +101,6 @@
   import MtTabbar from '../../../node_modules/mint-ui/packages/tabbar/src/tabbar.vue'
   import MtTabItem from '../../../node_modules/mint-ui/packages/tab-item/src/tab-item.vue'
   import BottomMenu from '../common/BottomMenu'
-  import OrderInfoList from './OrderInfoList'
   import TitleInfo from '../common/TitleInfo'
 
   export default {
@@ -110,8 +109,7 @@
       countNum: function () {
         // 商品总数
         let count = 0
-        console.log(count)
-        for (let product of this.products) {
+        for (let product of this.product_info.products) {
           count += product.num
         }
         return count
@@ -119,7 +117,7 @@
       countPrice: function () {
         // 商品总金额
         let price = 0.0
-        for (let product of this.products) {
+        for (let product of this.product_info.products) {
           price += (product.num * 1.0) * (product.sell_price * 1.0)
 
           console.log('价格:')
@@ -130,7 +128,6 @@
     },
     data: function () {
       return {
-        selected: true,
         orderId: '',
         product_info: {
           products: [
@@ -187,7 +184,6 @@
       MtTabbar,
       Icon,
       BottomMenu,
-      OrderInfoList,
       TitleInfo
     },
     methods: {
@@ -227,8 +223,8 @@
           .then(
             (response) => {
               console.log('商品信息')
-              console.log(response)
-              // this.products = response.data
+              console.log(response.data)
+              this.product_info = response.data
               // 获取预支付信息
               // TODO this.getPayInfo()
             }
