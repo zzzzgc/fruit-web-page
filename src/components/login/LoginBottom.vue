@@ -13,8 +13,7 @@
   import Vue from 'vue'
   import Icon from 'vue-awesome/components/Icon'
   import Mint from 'mint-ui'
-//  import bus from '../../common/bus'
-  import { homeUrl } from '../../common/const.js'
+  import {homeUrl} from '../../common/const.js'
   import session from '../../mixins/sessionMixin'
 
   Vue.use(Mint)
@@ -26,8 +25,7 @@
       Icon
     },
     data: function () {
-      return {
-      }
+      return {}
     },
     props: [
       'phone',
@@ -36,14 +34,18 @@
     methods: {
       handleLogin: function () {
         this.$http.post('/login/auth', Object.assign({}, {phone: this.phone, password: this.password}), {showLoading: true}).then((response) => {
-
           let userInfo = {
             username: this.phone,
             password: this.password
           }
+          // 本地
           this.setLoginUser(userInfo)
 
-          // TODO 登陆以后需要添加本地购物车内容到DB购物车里
+          // 把本地的购物车移动到数据库中
+          this.$http.post('/cart/saveGoodsData', {'cartProducts': JSON.stringify(this.getCartProducts())}).then((response) => {
+            //清空购物车
+            this.removeCartProductAll()
+          })
 
           this.$router.push(homeUrl)
         })

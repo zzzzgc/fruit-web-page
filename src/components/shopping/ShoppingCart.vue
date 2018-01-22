@@ -203,13 +203,11 @@
       goPay: function () {
         // 获取所有选中的商品规格的id
         let standardIds = []
-        console.log('products:' + this.products)
         for (let p of this.products) {
           if (p.check) {
             standardIds.push(p.standard_id)
           }
         }
-        console.log('size:' + standardIds.length)
         if (standardIds == null || standardIds.length < 1) {
           Toast({
             message: '请选择需要下单的商品哦'
@@ -218,13 +216,9 @@
         }
         this.$http.post('/order/createOrder', {'standardIds': standardIds}).then(
           (res) => {
-            console.log(res)
-            console.log('返回的数据:' + res.data)
             this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
           },
           (res) => {
-            console.log(res)
-            console.log('error返回的数据:' + res.data)
             this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
           })
       }

@@ -76,6 +76,10 @@ export function removeCartProduct (id) {
   }
   localStorage.setItem(localSessionCartProductKey, JSON.stringify(products))
 }
+// 清空购物车
+export function removeCartProductAll () {
+  localStorage.removeItem(localSessionCartProductKey)
+}
 // 添加购物车商品，如果存在则数量加一，如果不存在，则添加一个当前商品
 export function addCartProducts (id) {
   let products = getCartProducts()
