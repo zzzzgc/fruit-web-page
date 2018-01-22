@@ -1,6 +1,6 @@
 <template>
   <div class="persons">
-    <div class="persons-header">
+    <div v-if="isLogin()" class="persons-header">
       <div class="persons-user-title">
         <div class="user-phone">{{phone}}</div>
         <div class="user-logout" @click.navite="toLogOut">退出当前用户</div>
@@ -42,11 +42,14 @@
         </table>
       </div>
     </div>
-    <div class="update-pwd-container">
+    <div v-if="isLogin()" class="update-pwd-container">
       <router-link to="/forgetPwd" class="update-pwd">修改密码</router-link>
     </div>
 
-    <div class="receiver">
+    <div v-else>
+      <span style="display: block;width:50%;height: 160px;line-height:160px;text-align:center;padding:20px;margin:0 auto 30px">您暂未登录，<span style="color: blue;" @click="toLogin()">请选登录</span></span>
+    </div>
+    <div v-if="isLogin()" class="receiver">
       <table>
         <tr>
           <td>收款信息</td>
@@ -65,6 +68,9 @@
         </tr>
       </table>
     </div>
+    <div style="position:fixed;width:100%;bottom: 45px;left: 0;" v-else>
+      <mt-button size="large" type="danger" @click="toLogin()">登录</mt-button>
+    </div>
     <bottom-menu></bottom-menu>
   </div>
 </template>
@@ -73,8 +79,10 @@
   import Vue from 'vue'
   import Mint from 'mint-ui'
   import BottomMenu from '../common/BottomMenu'
-  import {logout} from '../../common/session'
+  import {logout, isLogin, toLogin} from '../../common/session'
+  import session from '../../mixins/sessionMixin'
   import './css/persons.css'
+  import MtButton from 'mint-ui/packages/button/src/button'
 
   Vue.use(Mint)
   export default {
@@ -85,11 +93,15 @@
         myOrders: '',
         verifying: '',
         waitPay: '',
-        waitReceiver: ''
+        waitReceiver: '',
+        isLogin,
+        toLogin
       }
     },
     components: {
-      BottomMenu
+      MtButton,
+      BottomMenu,
+      mixins: [session]
     },
     methods: {
       toLogOut: function () {
@@ -109,7 +121,9 @@
       }
     },
     mounted: function () {
-      this.getUserAndOrderInfo()
+      if (isLogin()) {
+        this.getUserAndOrderInfo()
+      }
     }
   }
 </script>

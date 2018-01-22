@@ -3,7 +3,7 @@
     <title-info titleContent="店铺信息"></title-info>
     <div class="shop-detail">
       <mt-field label="店铺名称:" style="color:#ff0000;" placeholder="所在城市+店名，如广州嘻果"></mt-field>
-      <span style="display: block;color:#D6CCD6;width:100%;margin:-10px 0 0 10px;">店铺名称仅限中文+数字，不超过10个字符</span>
+      <span style="display: block;color:#D6CCD6;width:100%;margin:-5px 0 0 10px;">店铺名称仅限中文+数字，不超过10个字符</span>
       <!--<mt-cell style="color:#D6CCD6;" title="店铺名称仅限中文+数字，不超过10个字符"></mt-cell>-->
       <mt-field  label="联系人：" placeholder="请输入联系人"></mt-field>
       <mt-field  label="联系电话：" placeholder="请输入联系电话"></mt-field>
@@ -70,7 +70,7 @@
     width:100%;
     margin:0;
   }
-  .shop-info {
+  .shop-info-container {
     width:100%;
     border: 0;
     padding: 0;background-color: white;
