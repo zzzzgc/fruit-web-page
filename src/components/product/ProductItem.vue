@@ -26,9 +26,9 @@
 <script>
   import session from '../../mixins/sessionMixin'
   import {addCartProducts} from '../../common/session'
-  import { toast } from '../../common/utils'
-//  import {ToastPlugin} from 'vux'
-//  Vue.use(ToastPlugin)
+  import {toast} from '../../common/utils'
+  //  import {ToastPlugin} from 'vux'
+  //  Vue.use(ToastPlugin)
 
   export default {
     name: 'product-item',
@@ -38,7 +38,8 @@
 //      ToastPlugin
     },
     props: ['product'],
-    created: function () {},
+    created: function () {
+    },
     data: function () {
       return {
 //        isLogin: false
@@ -51,12 +52,10 @@
         if (this.isLogin()) {
           // 新增或累加商品
           this.$http.post('/cart/addProduct', {standard_id: this.product.standard_id}).then((response) => {
-            // TODO 提示添加购物车成功
             toast('添加购物车成功')
           })
         } else {
           addCartProducts(this.product.standard_id)
-          // TODO 提示添加购物车成功
           toast('添加购物车成功')
         }
       }
@@ -76,6 +75,7 @@
     padding: 5px 0;
     border-top: 1px solid #EEE;
   }
+
   .pic {
     position: absolute;
     width: 120px;
@@ -85,6 +85,7 @@
       height: 100%;
     }
   }
+
   .info {
     color: black;
     display: block;
@@ -94,7 +95,7 @@
     height: 70px;
     line-height: 23px;
     font-size: 15px;
-    >div {
+    > div {
       /*margin-bottom: 5px;*/
     }
     .title {
@@ -105,7 +106,7 @@
       font-size: 17px;
       font-weight: 500;
     }
-    >.desc {
+    > .desc {
       display: -webkit-box;
       font-size: 13px;
       color: #626262;
@@ -116,9 +117,10 @@
       -webkit-box-orient: vertical;
     }
     /*>.desc.buy {*/
-      /*-webkit-line-clamp: 1;*/
+    /*-webkit-line-clamp: 1;*/
     /*}*/
   }
+
   .product-bottom {
     position: relative;
     margin: 5px 10px 0 125px;

@@ -5,7 +5,7 @@
  */
 
 /**
- * 添加到购物车 // TODO 购物车模块功能集合
+ * 添加到购物车
  * @param product 商品对象,需要包含standard_id,buy_num,remark
  */
 export function addProduct (product) {

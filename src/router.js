@@ -115,7 +115,7 @@ export default new Router({
       name: 'ShoppingCart',
       component: ShoppingCart
     }, {
-      path: '/PaySuccess', // 注册详情页面
+      path: '/paySuccess', // 注册详情页面
       name: 'PaySuccess',
       component: PaySuccess
     }, {

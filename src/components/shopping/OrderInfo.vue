@@ -190,7 +190,7 @@
       getPay: function () {
         console.log('payInfo:')
         console.log(this.payInfo)
-        // TODO 微信拉起支付
+        // 微信拉起支付
         // if (typeof WeixinJSBridge == 'undefined') {
         //   if (document.addEventListener) {
         //     document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false)
@@ -201,7 +201,7 @@
         // } else {
         //   oWeixinJSBridge.invoke(
         //     'getBrandWCPayRequest', {
-        //       'appId': this.payInfo.appId,     // TODO 公众号名称，由商户传入
+        //       'appId': this.payInfo.appId,
         //       'timeStamp': this.payInfo.timeStamp,         // 时间戳，自1970年以来的秒数
         //       'nonceStr': this.payInfo.nonceStr, // 随机串
         //       'package': 'prepay_id=' + this.payInfo.prepay_id,
@@ -210,8 +210,7 @@
         //     },
         //     function (res) {
         //       if (res.data.err_msg === 'get_brand_wcpay_request:ok') {
-        //         // TODO 跳转到成功页面 ,需要添加页面
-        //         this.$router.push('')
+        //         this.$router.push('paySuccess')
         //       }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
         //     }
         //   )
@@ -226,11 +225,12 @@
               console.log(response.data)
               this.product_info = response.data
               // 获取预支付信息
-              // TODO this.getPayInfo()
+              //this.getPayInfo()
             }
           )
       },
       getPayInfo: function () {
+        return
         // 获取预微信预支付
         this.$http.post('/order/createPayOrder', {'orderId': this.orderId})
           .then(
