@@ -21,7 +21,6 @@ const ShopInfo = resolve => require(['./components/person/ShopInfo'], resolve)
 const AuthIdentity = resolve => require(['./components/person/AuthIdentity/AuthIdentity'], resolve)
 const PhysicalShop = resolve => require(['./components/person/AuthIdentity/PhysicalShop'], resolve)
 const NetSale = resolve => require(['./components/person/AuthIdentity/NetSale'], resolve)
-const test = resolve => require(['./components/shopping/OrderInfoList'], resolve)
 
 export default new Router({
   mode: 'history',
@@ -34,8 +33,7 @@ export default new Router({
     {
       path: '/orderInfo', // 订单确认页面
       name: 'orderInfo',
-      component: orderInfo,
-      props: true
+      component: orderInfo
     },
     {
       path: '/Hello',
@@ -117,7 +115,7 @@ export default new Router({
       name: 'ShoppingCart',
       component: ShoppingCart
     }, {
-      path: '/PaySuccess', // 注册详情页面
+      path: '/paySuccess', // 注册详情页面
       name: 'PaySuccess',
       component: PaySuccess
     }, {
@@ -144,10 +142,6 @@ export default new Router({
       path: '/netSale', // 网络销售认证
       name: 'NetSale',
       component: NetSale
-    }, {
-      path: '/test', // 网络销售认证
-      name: 'test',
-      component: test
     }
   ],
   scrollBehavior (to, from, savedPosition) {

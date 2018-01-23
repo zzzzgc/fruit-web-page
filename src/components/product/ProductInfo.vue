@@ -196,7 +196,6 @@
         let order = Object.assign({}, this.selectStandard, this.product, {standard_id: this.selectStandard.id, standard_name: this.selectStandard.name, buyNum: this.buyNum})
         console.log('order:')
         console.log(order)
-        // TODO 提交订单
         this.$http.post('/order/directCreateOrder', order).then(
           // 成功函数
           (response) => {

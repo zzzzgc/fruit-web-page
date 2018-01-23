@@ -79,7 +79,7 @@
 <script>
   import {Stepper} from 'vant'
   import BottomMenu from '../common/BottomMenu'
-  import { Toast } from 'mint-ui'
+  import {Toast} from 'mint-ui'
   import 'vue-awesome/icons/angle-left'
   import 'vue-awesome/icons/check'
   import 'vue-awesome/icons/close'
@@ -104,7 +104,7 @@
     mounted: function () {
       this.getProducts()
     },
-    data () {
+    data: function () {
       return {
         pageNum: 1,
         products: [],
@@ -208,21 +208,19 @@
             standardIds.push(p.standard_id)
           }
         }
-        console.log('size:' + standardIds.length)
         if (standardIds == null || standardIds.length < 1) {
           Toast({
             message: '请选择需要下单的商品哦'
           })
           return
         }
-        this.$http.post('/order/createOrder', {'standardIds': standardIds}).then((res) => {
-          this.$router.push({path: '/orderInfo', query: { 'orderId': res.data }})
-        },
-        (res) => {
-          console.log(res)
-          console.log('返回的数据:' + res.data)
-          this.$router.push({path: '/orderInfo', query: { 'orderId': res.data }})
-        })
+        this.$http.post('/order/createOrder', {'standardIds': standardIds}).then(
+          (res) => {
+            this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
+          },
+          (res) => {
+            this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
+          })
       }
     },
     computed: {
@@ -230,7 +228,7 @@
         let price = 0
         for (let p of this.products) {
           if (p.check) {
-            price += p.sell_price
+            price += p.sell_price * p.buy_num
           }
         }
         return price

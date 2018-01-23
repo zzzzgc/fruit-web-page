@@ -15,7 +15,7 @@ Vue.use(uploader, store)
 // Vue.use(Lazyload)
 Vue.prototype.$http = axiosIntence // 将http设置到vue组件中
 Vue.config.productionTip = false
-// initTest(false) // TODO 删除测试代码
+// initTest(false) //
 /* Vue.use(uploader) */
 /* eslint-disable no-new */
 new Vue({
