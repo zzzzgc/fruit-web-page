@@ -225,12 +225,11 @@
               console.log(response.data)
               this.product_info = response.data
               // 获取预支付信息
-              //this.getPayInfo()
+              // this.getPayInfo()
             }
           )
       },
       getPayInfo: function () {
-        return
         // 获取预微信预支付
         this.$http.post('/order/createPayOrder', {'orderId': this.orderId})
           .then(
