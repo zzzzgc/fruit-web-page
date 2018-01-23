@@ -43,7 +43,7 @@
 
           // 把本地的购物车移动到数据库中
           this.$http.post('/cart/saveGoodsData', {'cartProducts': JSON.stringify(this.getCartProducts())}).then((response) => {
-            //清空购物车
+            // 清空购物车
             this.removeCartProductAll()
           })
 
