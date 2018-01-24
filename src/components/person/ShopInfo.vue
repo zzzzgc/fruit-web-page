@@ -74,7 +74,7 @@
           {
             flex: 1,
             values: address,
-            defaultIndex: 10,
+            defaultIndex: 0,
             className: 'slot1',
             textAlign: 'center'
           }, {
