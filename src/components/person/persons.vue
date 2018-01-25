@@ -56,15 +56,15 @@
         </tr>
         <tr>
           <td>收款人姓名：</td>
-          <td>广州指猴互联科技有限公司</td>
+          <td>{{zihoName}}</td>
         </tr>
         <tr>
           <td>收款人卡号：</td>
-          <td>1232435465767687</td>
+          <td>{{zihoCardNum}}</td>
         </tr>
         <tr>
           <td>收 款 银 行 :</td>
-          <td> 工商银行</td>
+          <td> {{zihoBank}}</td>
         </tr>
       </table>
     </div>
@@ -95,7 +95,10 @@
         waitPay: '',
         waitReceiver: '',
         isLogin,
-        toLogin
+        toLogin,
+        zihoName: '',
+        zihoCardNum: '',
+        zihoBank: ''
       }
     },
     components: {
@@ -113,6 +116,9 @@
       getUserAndOrderInfo: function () {
         this.$http.post('/person/getUserInfo').then((response) => {
           this.phone = response.data['phone']
+          this.zihoName = response.data['zihoName']
+          this.zihoBank = response.data['zihoBank']
+          this.zihoCardNum = response.data['zihoCardNum']
           this.myOrders = response.data['mapStatusAndCount']['myOrders']
           this.waitPay = response.data['mapStatusAndCount']['waitPay']
           this.waitReceiver = response.data['mapStatusAndCount']['waitReceiver']

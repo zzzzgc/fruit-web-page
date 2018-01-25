@@ -21,6 +21,7 @@ const ShopInfo = resolve => require(['./components/person/ShopInfo'], resolve)
 const AuthIdentity = resolve => require(['./components/person/AuthIdentity/AuthIdentity'], resolve)
 const PhysicalShop = resolve => require(['./components/person/AuthIdentity/PhysicalShop'], resolve)
 const NetSale = resolve => require(['./components/person/AuthIdentity/NetSale'], resolve)
+const Test = resolve => require(['./components/Test'], resolve)
 
 export default new Router({
   mode: 'history',
@@ -54,6 +55,10 @@ export default new Router({
       path: '/serviceProtocol', // 注册详情页面
       name: 'serviceProtocol',
       component: serviceProtocol
+    }, {
+      path: '/test',
+      name: 'Test',
+      component: Test
     },
     {
       path: '/', // 首页
