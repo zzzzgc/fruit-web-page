@@ -19,22 +19,22 @@
     <!-- tabcontainer -->
     <mt-tab-container v-model="selected" :swipeable='true' value="tab-container1">
       <mt-tab-container-item id="one">
-        <order-item :orders="orders" :selected="selected"></order-item>
+        <order-item :orders="orders" :ordersCount="ordersCount" :selected="selected"></order-item>
         <check-all-one :orders="orders" ></check-all-one>
         <bottom-menu></bottom-menu>
       </mt-tab-container-item>
       <mt-tab-container-item id="two">
-        <order-item :orders="orders" :selected="selected"></order-item>
+        <order-item :orders="orders" :ordersCount="ordersCount" :selected="selected"></order-item>
         <check-all-two :orders="orders" ></check-all-two>
         <bottom-menu></bottom-menu>
       </mt-tab-container-item>
       <mt-tab-container-item id="three">
-        <order-item :orders="orders"  :selected="selected"></order-item>
+        <order-item :orders="orders" :ordersCount="ordersCount"  :selected="selected"></order-item>
         <check-all-three :orders="orders" ></check-all-three>
         <bottom-menu></bottom-menu>
       </mt-tab-container-item>
       <mt-tab-container-item id="four">
-        <order-item :orders="orders" :selected="selected"></order-item>
+        <order-item :orders="orders" :ordersCount="ordersCount" :selected="selected"></order-item>
         <check-all-four :orders="orders" ></check-all-four>
         <bottom-menu></bottom-menu>
       </mt-tab-container-item>
@@ -73,15 +73,27 @@
           key: '',
           value: []
         },
-        orderCount: []
+        orderCount: [],
+        ordersCount: 0
       }
     },
     methods: {
       getOrderList: function (selected) {
         this.$http.post('/order/getOderList', {order_status: selected}).then((response) => {
           this.orders = response.data
+          this.countOrderTotal() // 统计orders总数
           this.$indicator.close()
         })
+      },
+      countOrderTotal: function () {
+        let count = 0
+        let noMean = ''
+        for (var key in this.orders) {
+          count += 1
+          noMean = key
+        }
+        this.ordersCount = count
+        return noMean
       }
     },
     watch: {
