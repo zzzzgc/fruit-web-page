@@ -34,24 +34,14 @@
 <script>
   import Vue from 'vue'
   import TitleInfo from '../common/TitleInfo'
-  import Field from 'mint-ui/packages/field/src/field'
   import 'mint-ui/lib/style.css'
-  import Cell from 'mint-ui/packages/cell/src/cell'
-  import Button from 'mint-ui/packages/button/src/button'
   import Mint from 'mint-ui'
-  import Picker from 'mint-ui/packages/picker/src/picker'
-  import Popup from 'mint-ui/packages/popup/src/popup'
   import {address} from '../../assets/ProvinceAndCity'
   import {validatePhone} from '../../common/FormValidate'
 
   Vue.use(Mint)
   export default {
     components: {
-      Popup,
-      Picker,
-      Button,
-      Cell,
-      Field,
       TitleInfo},
     name: 'shop-info',
     data: function () {
