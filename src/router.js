@@ -12,6 +12,7 @@ const ShoppingCart = resolve => require(['./components/shopping/ShoppingCart'], 
 const login = resolve => require(['./components/login/login'], resolve)
 const register = resolve => require(['./components/login/Register'], resolve)
 const forgetPwd = resolve => require(['./components/login/ForgetPwd'], resolve)
+const UpdatePwd = resolve => require(['./components/login/UpdatePwd'], resolve)
 const serviceProtocol = resolve => require(['./components/login/ServiceProtocol'], resolve)
 const OrderList = resolve => require(['./components/order/OrderList'], resolve)
 const PaySuccess = resolve => require(['./components/common/PaySuccess'], resolve)
@@ -49,6 +50,11 @@ export default new Router({
       path: '/forgetPwd', // 忘记密码页面
       name: 'forgetPwd',
       component: forgetPwd
+    },
+    {
+      path: '/updatePwd', // 修改密码页面
+      name: 'UpdatePwd',
+      component: UpdatePwd
     },
     {
       path: '/serviceProtocol', // 注册详情页面
