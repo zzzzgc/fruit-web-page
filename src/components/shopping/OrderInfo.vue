@@ -13,25 +13,25 @@
       <div class="goods_info">
         <div @click="carTimeClick">
           <mt-field label="配送时间" readonly="readonly" :value="this.buy_info.delivery_time" placeholder="次日08:00--10:00"></mt-field>
-          <!--<mt-popup position="bottom" v-model="on_off.delivery_type_popup" style="width:100%;">-->
-            <!--&lt;!&ndash;<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">&ndash;&gt;-->
-            <!--<mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>-->
-          <!--</mt-popup>-->
         </div>
         <div @click.navite="carTypeClick">
           <mt-field label="配送方式" readonly="readonly" :value="this.buy_info.delivery_type" placeholder="市场车"></mt-field>
         </div>
         <div @click="usernameClick">
-          <mt-field label="收 货 人" readonly="readonly" :value="this.buy_info.buy_user_name" placeholder="请输入收货人"></mt-field>
+          <mt-field label="收 货 人" :value="this.buy_info.buy_user_name" placeholder="请输入收货人"></mt-field>
         </div>
         <div @click="usernameClick">
           <mt-field label="联系方式" type="tel" :value="this.buy_info.buy_phone" placeholder="请输入联系方式"></mt-field>
         </div>
         <div @click="carAddressClick">
-          <mt-field label="收货地址" placeholder="请输入收货地址"></mt-field>
+          <mt-field label="收货地址" :value="this.buy_info.buy_address" placeholder="请输入收货地址"></mt-field>
         </div>
 
         <mt-popup position="bottom" v-model="on_off.delivery_type_popup" style="width:100%;">
+          <!--<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">-->
+          <mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>
+        </mt-popup>
+        <mt-popup position="bottom" v-model="on_off.delivery_time_popup" style="width:100%;">
           <!--<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">-->
           <mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>
         </mt-popup>
@@ -145,6 +145,26 @@
           delivery_type_popup: false,
           delivery_time_popup: false
         },
+        // time: [
+        //   {
+        //     flex: 1,
+        //     values: [{code: 0, showName: '次日'}, {code: '0', showName: '后天'}],
+        //     defaultIndex: 0,
+        //     className: 'slot1',
+        //     textAlign: 'center'
+        //   }, {
+        //     divider: true,
+        //     content: '-',
+        //     defaultIndex: 0,
+        //     className: 'slot2'
+        //   }, {
+        //     flex: 1,
+        //     values: ['8点'],
+        //     defaultIndex: 0,
+        //     className: 'slot3',
+        //     textAlign: 'center'
+        //   }
+        // ],
         orderId: '',
         product_info: {
           products: [
@@ -232,6 +252,7 @@
         //     },
         //     function (res) {
         //       if (res.data.err_msg === 'get_brand_wcpay_request:ok') {
+        //               // 补充订单信息到数据库
         //         this.$router.push('paySuccess')
         //       }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
         //     }
@@ -270,16 +291,16 @@
         console.log('carTypeClick')
         console.log(this.on_off.delivery_type_popup)
         this.on_off.delivery_type_popup = true
-      },
-      carTimeClick: function () {
-        console.log('carTimeClick')
-      },
-      usernameClick: function () {
-        console.log('usernameClick')
-      },
-      carAddressClick: function () {
-        console.log('carAddressClick')
       }
+      // ,carTimeClick: function () {
+      //   console.log('carTimeClick')
+      // },
+      // usernameClick: function () {
+      //   console.log('usernameClick')
+      // },
+      // carAddressClick: function () {
+      //   console.log('carAddressClick')
+      // }
     }
   }
 </script>
