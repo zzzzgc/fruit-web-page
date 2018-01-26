@@ -2,18 +2,18 @@
   <div class="shop-info-container">
     <title-info titleContent="店铺信息"></title-info>
     <div class="shop-detail">
-      <mt-field label="店铺名称:" placeholder="所在城市+店名，如广州嘻果" v-model="businessInfo.business_name"></mt-field>
+      <mt-field label="店铺名称:" placeholder="所在城市+店名，如广州嘻果" v-model="businessInfo.business_name" :readonly="this.isEdit"></mt-field>
       <span style="display: block;color:#D6CCD6;width:100%;text-indent: 10px;">店铺名称仅限中文+数字，不超过10个字符</span>
       <!--<mt-cell style="color:#D6CCD6;" title="店铺名称仅限中文+数字，不超过10个字符"></mt-cell>-->
-      <mt-field  label="联系人："  placeholder="请输入联系人" v-model="businessInfo.business_contacts"></mt-field>
-      <mt-field  label="联系电话：" placeholder="请输入联系电话" v-model="businessInfo.phone"></mt-field>
+      <mt-field  label="联系人："  placeholder="请输入联系人" v-model="businessInfo.business_contacts" :readonly="this.isEdit"></mt-field>
+      <mt-field  label="联系电话：" placeholder="请输入联系电话" v-model="businessInfo.phone" :readonly="this.isEdit"></mt-field>
       <div style="display: flex;flex-direction: row;background-color: white;">
         <mt-cell style="flex:0.5;color: #ff0000;"  title="省      市：">
         </mt-cell>
-        <div style="flex:1;margin-top:8px;text-align: left;color:#000;" @click.navite="showProvinceAndCity">{{businessInfo.address_province}}-{{businessInfo.address_city}}</div>
+        <div style="flex:1;margin-top:8px;text-align: left;color:#000;" @click.navite="showProvinceAndCity" :readonly="this.isEdit">{{businessInfo.address_province}}-{{businessInfo.address_city}}</div>
       </div>
-      <mt-field  label="收货地址：" placeholder="请输入收货地址" v-model="businessInfo.address_detail"></mt-field>
-      <mt-field  label="店铺地址：" placeholder="若与收货地址一致，无需填写" v-model="businessInfo.address_shop"></mt-field>
+      <mt-field  label="收货地址：" placeholder="请输入收货地址" v-model="businessInfo.address_detail" :readonly="this.isEdit"></mt-field>
+      <mt-field  label="店铺地址：" placeholder="若与收货地址一致，无需填写" v-model="businessInfo.address_shop" :readonly="this.isEdit"></mt-field>
       <div style="display: flex;flex-direction: row;background-color: white;">
         <mt-cell style="color:#ff0000;flex: 0.5;" title="物流方式："></mt-cell>
         <div style="flex: 1;line-height: 44px;margin-top:4px;text-align: left;color:#000;">
@@ -26,7 +26,7 @@
       <mt-popup position="bottom" v-model="isShowProvinceAndCity" style="width:100%;padding:20px 0;">
         <mt-picker :slots="addressProvince" value-key="showName" :visible-item-count="5" @change="onValuesChange2"></mt-picker>
       </mt-popup>
-      <mt-button size="large" type="primary" style="margin-top:20px;" @click.navite="addBusinessInfo">确认</mt-button>
+      <mt-button size="large" type="primary" style="margin-top:20px;" @click.navite="addBusinessInfo" v-show="!this.isEdit">确认</mt-button>
     </div>
   </div>
 </template>
@@ -80,11 +80,12 @@
             textAlign: 'center'
           }
         ],
-        isShowProvinceAndCity: false
+        isShowProvinceAndCity: false,
+        isEdit: true
       }
     },
     methods: {
-      addBusinessInfoBefore: function () {
+      addBusinessInfoBefore: function () { // 添加商户信息时进行校验
         var flag = true
         var showError = ''
         if (this.businessInfo.business_name.trim() === '') {
@@ -118,7 +119,7 @@
         }
         return flag
       },
-      addBusinessInfo: function () {
+      addBusinessInfo: function () { // 添加商店信息
         if (this.addBusinessInfoBefore()) {
           this.$http.post('/businessInfo/addBusinessInfo', this.businessInfo).then((response) => {
             if (response.data === 1) {
@@ -135,21 +136,18 @@
           })
         }
       },
-      showShipmentsType: function () {
-        console.log('123')
-        console.log(this.isShowShipmentsType)
-        if (!this.isShowShipmentsType) {
+      showShipmentsType: function () { // 通过isShowShipmentsType为true来控制popup显示
+        if (!this.isShowShipmentsType && this.isEdit === false) {
           this.isShowShipmentsType = true
         }
-        console.log(this.isShowShipmentsType)
       },
-      onValuesChange (picker, values) {
+      onValuesChange (picker, values) { // 设置物流方式的值
         this.businessInfo.shipments_type = values[0]
         if (values[0] > values[1]) {
           picker.setSlotValue(1, values[0])
         }
       },
-      onValuesChange2 (picker, values) {
+      onValuesChange2 (picker, values) { // 设置省份城市二级联动
         if (!values[0]) {
           this.$nextTick(() => {
             picker.setValues([address[0], address[0].city[0]])
@@ -167,13 +165,34 @@
           this.businessInfo.address_city = values[1].showName
         }
       },
-      showProvinceAndCity: function () {
-        this.isShowProvinceAndCity = true
+      showProvinceAndCity: function () { // 通过设置isShowProvinceAndCity的true来设置展示popup
+        if (this.isEdit === false) {
+          this.isShowProvinceAndCity = true
+        }
+      },
+      getBusinessInfo: function () { // 获取商户信息
+        this.$http.post('/businessInfo/getBusinessInfo').then((response) => {
+          if (response.data !== null && response.data !== '' && response.data.length > 0 && typeof (response.data[0]) !== 'undefined') {
+            this.businessInfo.business_name = response.data[0]['business_name']
+            this.businessInfo.business_contacts = response.data[0]['business_contacts']
+            this.businessInfo.phone = response.data[0]['phone']
+            this.businessInfo.address_detail = response.data[0]['address_detail']
+            this.businessInfo.address_shop = response.data[0]['address_shop']
+            this.businessInfo.shipments_type = this.shipmentsType[0].values[response.data[0]['shipments_type']]
+            this.businessInfo.address_province = address[response.data[0]['address_province']].showName
+            this.businessInfo.address_city = address[response.data[0]['address_province']].city[response.data[0]['address_city'].split('-')[1] - 1].showName
+            // this.businessInfo.address_city = address[response.data[0]['address_province'].city[response.data[0]['address_city'].showName]]
+          } else {
+            this.isEdit = false
+          }
+        })
       }
+    },
+    mounted: function () {
+      this.getBusinessInfo()
     }
   }
 </script>
-
 <style scoped>
   body{
     width:100%;
@@ -188,7 +207,7 @@
   .shop-detail {
     line-height: 34px;
     color: #ff0000;
-    margin: 65px 0 0 0;
+    margin: 55px 0 0 0;
   }
 
   .shop-detail span {

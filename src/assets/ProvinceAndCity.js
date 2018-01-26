@@ -45,11 +45,11 @@ export const address = [
       }
     ]
   } */
-  {'code': '0', 'showName': '北京', 'city': [{'code': '0-0', 'showName': '北京'}]}, {'code': '1', 'showName': '上海', 'city': [{'code': '1-0', 'showName': '上海'}]}, {
+  {'code': '0', 'showName': '北京', 'city': [{'code': '0-1', 'showName': '北京'}]}, {'code': '1', 'showName': '上海', 'city': [{'code': '1-1', 'showName': '上海'}]}, {
     'code': '2',
     'showName': '天津',
-    'city': [{'code': '2-0', 'showName': '天津'}]
-  }, {'code': '3', 'showName': '重庆', 'city': [{'code': '3-0', 'showName': '重庆'}]}, {
+    'city': [{'code': '2-1', 'showName': '天津'}]
+  }, {'code': '3', 'showName': '重庆', 'city': [{'code': '3-1', 'showName': '重庆'}]}, {
     'code': '4',
     'showName': '河北',
     'city': [{'code': '4-1', 'showName': '石家庄'}, {'code': '4-2', 'showName': '唐山'}, {
