@@ -3,13 +3,13 @@
     <titlt-info titleContent="实名认证(实体店)"></titlt-info>
     <div class="physical-shop-info">
       <form id="businessAuthForm" method="post" action="" enctype="multipart/form-data">
-      <mt-field label="法人姓名：" name="legal_person_name" placeholder="请输入法人姓名" v-model="businessAuth.legal_person_name"></mt-field>
-      <mt-field label="身份证号：" name="identity" placeholder="请输入身份证号" v-model="businessAuth.identity"></mt-field>
-      <mt-field label="银行卡帐号：" name="bank_account" placeholder="请输入银行卡帐号" v-model="businessAuth.bank_account"></mt-field>
-      <mt-field label="营业执照号：" name="business_license" placeholder="请输入营业执照号" v-model="businessAuth.business_license"></mt-field>
+      <mt-field label="法人姓名：" :readonly="isEdit" name="legal_person_name" placeholder="请输入法人姓名" v-model="businessAuth.legal_person_name"></mt-field>
+      <mt-field label="身份证号：" :readonly="isEdit" name="identity" placeholder="请输入身份证号" v-model="businessAuth.identity"></mt-field>
+      <mt-field label="银行卡帐号：" :readonly="isEdit" name="bank_account" placeholder="请输入银行卡帐号" v-model="businessAuth.bank_account"></mt-field>
+      <mt-field label="营业执照号：" :readonly="isEdit" name="business_license" placeholder="请输入营业执照号" v-model="businessAuth.business_license"></mt-field>
       </form>
     </div>
-    <div class="physical-shop-img">
+    <div class="physical-shop-img" v-show="!isEdit">
       <div style="display: flex;flex-direction: column;">
         <div id="img_identity_front_container" class="img_container">
           <div>
@@ -32,6 +32,17 @@
       </div>
       <mt-button size="large" type="primary" @click.navite="saveAuthInfo">确认</mt-button>
     </div>
+    <div v-show="isEdit" style="width:100%;margin:0 auto;">
+      <div class="uploader-img" style="margin-top: 20px;">
+      <img :src="businessAuth.img_identity_front" class="uploader-img"/>
+      </div>
+      <div class="uploader-img" style="margin-top: 20px;">
+      <img :src="businessAuth.img_identity_reverse" class="uploader-img"/>
+      </div>
+      <div class="uploader-img" style="margin-top: 20px;">
+      <img :src="businessAuth.img_license" class="uploader-img"/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -42,6 +53,7 @@
   import { mapState } from 'vuex'
   import MtButton from 'mint-ui/packages/button/src/button'
   import Mint from 'mint-ui'
+  import {imgUrlPrefix, urlPrefix} from '../../../common/const'
 
   Vue.use(Mint)
   export default {
@@ -65,7 +77,9 @@
         },
         imgDefault1: require('../../../images/default/img_identity_front.png'),
         imgDefault2: require('../../../images/default/img_identity_reverse.png'),
-        imgDefault3: require('../../../images/default/img_license.png')
+        imgDefault3: require('../../../images/default/img_license.png'),
+        isEdit: false,
+        imgUrlPrefix
       }
     },
     computed: {
@@ -87,7 +101,6 @@
         return flag
       },
       initDrawImg: function () { // 初始化图片页面
-        console.log('initDrawImg')
         var fileTag1 = document.getElementById('file1')
         var fileTag2 = document.getElementById('file2')
         var fileTag3 = document.getElementById('file3')
@@ -193,7 +206,7 @@
         })
         // 新建请求
         const xhr = new XMLHttpRequest()
-        xhr.open('POST', 'http://localhost:8090/authIdentity/addAuthInfoImg', true)
+        xhr.open('POST', urlPrefix + 'authIdentity/addAuthInfoImg', true)
         xhr.send(formData)
         var _this = this
         xhr.onload = () => {
@@ -215,6 +228,7 @@
                 document.getElementById('img_license').setAttribute('src', _this.imgDefault3)
                 document.getElementById('img_identity_reverse').setAttribute('src', _this.imgDefault2)
                 _this.$toast('添加成功')
+                _this.getAuthInfoByUid()
               } else {
                 _this.$toast('添加失败')
               }
@@ -223,10 +237,26 @@
             _this.$toast('添加失败')
           }
         }
+      },
+      getAuthInfoByUid: function () {
+        this.$http.post('/authIdentity/getAuthInfoByUid').then((response) => {
+          console.log(response)
+          if (response.data !== null && response.data !== '' && response.data.length > 0 && typeof (response.data[0]) !== 'undefined') {
+            this.businessAuth.legal_person_name = response.data[0]['legal_person_name']
+            this.businessAuth.bank_account = response.data[0]['bank_account']
+            this.businessAuth.identity = response.data[0]['identity']
+            this.businessAuth.business_license = response.data[0]['business_license']
+            this.businessAuth.img_identity_front = imgUrlPrefix + response.data[0]['img_identity_front'].split('images')[1]
+            this.businessAuth.img_identity_reverse = imgUrlPrefix + response.data[0]['img_identity_reverse'].split('images')[1]
+            this.businessAuth.img_license = imgUrlPrefix + response.data[0]['img_license'].split('images')[1]
+            this.isEdit = true
+          }
+        })
       }
     },
     mounted: function () {
       this.initDrawImg() // 初始化图片页面
+      this.getAuthInfoByUid()
     }
   }
 </script>
@@ -235,6 +265,7 @@
   .physical-shop {
     margin: 0;
     padding: 0;
+    width: 100%;
   }
 
   .physical-shop-info {
@@ -248,5 +279,6 @@
   .uploader-img{
     width:274px;
     height: 144px;
+    margin:0 auto;
   }
 </style>

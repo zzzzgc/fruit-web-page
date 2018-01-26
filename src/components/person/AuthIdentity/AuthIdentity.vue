@@ -3,13 +3,13 @@
       <title-info titleContent="实名认证"></title-info>
       <div class="persons-info">
         <div class="auth-shop-info">
-          <router-link to="/physicalShop" style="text-decoration: none">
+          <router-link to="/physicalShop" style="text-decoration: none;width:50%;">
             <div style="margin-top:18%;">
               <span style="display: block;">实体店</span><span>有工商注册营业执照</span>
             </div>
           </router-link>
         </div>
-        <router-link to="netSale" style="text-decoration: none">
+        <router-link to="netSale" style="text-decoration: none;width:50%;">
           <div class="auth-shop-info" style="line-height: 90px;"><span  >实名认证</span></div>
         </router-link>
       </div>
