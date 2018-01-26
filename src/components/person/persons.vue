@@ -13,7 +13,7 @@
            </div>-->
       <div class="persons-info">
         <div class="shop-info"><span><router-link to="/shopInfo">店铺信息</router-link></span></div>
-        <div class="shop-info"><span><router-link to="authIdentity">网络销售</router-link></span></div>
+        <div class="shop-info"><span><router-link to="authIdentity">实名认证</router-link></span></div>
       </div>
       <div class="my-orders">
         <table class="my-orders-container">
@@ -42,8 +42,8 @@
         </table>
       </div>
     </div>
-    <div v-if="isLogin()" class="update-pwd-container">
-      <router-link to="/forgetPwd" class="update-pwd">修改密码</router-link>
+    <div v-if="isLogin()" class="update-pwd-container-person">
+      <router-link to="/updatePwd" class="update-pwd-person">修改密码</router-link>
     </div>
 
     <div v-else>
