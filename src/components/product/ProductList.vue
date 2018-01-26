@@ -5,19 +5,22 @@
     <div class="content">
       <product-item v-for="(p, index) in products" :product="p" :key="p.id"></product-item>
     </div>
+    <BottomMenu></BottomMenu>
   </div>
 </template>
 
 <script>
   import ProductItem from './ProductItem'
 //  import * as moment from 'moment'
+  import BottomMenu from '../common/BottomMenu'
   import TopSearch from '../common/TopSearch'
 
   export default {
     name: 'ProductList',
     components: {
       ProductItem,
-      TopSearch
+      TopSearch,
+      BottomMenu
     },
     props: ['type', 'groupType', 'recommendType', 'searchKeyword'], // 目前只能是字符串类型，不能是int
     created: function () {

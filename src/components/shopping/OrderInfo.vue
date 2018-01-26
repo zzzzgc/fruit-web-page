@@ -8,38 +8,63 @@
     <!--<div class="title">获取的数据</div>-->
     <!--</div>-->
     <TitleInfo titleContent="填写订单"></TitleInfo>
-
     <!--content-->
     <div class="content">
       <div class="goods_info">
-        <table>
-          <tr>
-            <td>配送时间:</td>
-            <td>次日08:00--10:00</td>
-          </tr>
-          <tr>
-            <td>配送方式:</td>
-            <td>市场车</td>
-          </tr>
-          <tr>
-            <td>收 货 人:</td>
-            <td>张小姐 12329090000</td>
-          </tr>
-          <tr>
-            <td>收货地址:</td>
-            <td>贵州省贵阳市（小件都要捆一下）</td>
-          </tr>
-        </table>
+        <div @click="carTimeClick">
+          <mt-field label="配送时间" readonly="readonly" :value="this.buy_info.delivery_time" placeholder="次日08:00--10:00"></mt-field>
+          <!--<mt-popup position="bottom" v-model="on_off.delivery_type_popup" style="width:100%;">-->
+            <!--&lt;!&ndash;<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">&ndash;&gt;-->
+            <!--<mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>-->
+          <!--</mt-popup>-->
+        </div>
+        <div @click.navite="carTypeClick">
+          <mt-field label="配送方式" readonly="readonly" :value="this.buy_info.delivery_type" placeholder="市场车"></mt-field>
+        </div>
+        <div @click="usernameClick">
+          <mt-field label="收 货 人" readonly="readonly" :value="this.buy_info.buy_user_name" placeholder="请输入收货人"></mt-field>
+        </div>
+        <div @click="usernameClick">
+          <mt-field label="联系方式" type="tel" :value="this.buy_info.buy_phone" placeholder="请输入联系方式"></mt-field>
+        </div>
+        <div @click="carAddressClick">
+          <mt-field label="收货地址" placeholder="请输入收货地址"></mt-field>
+        </div>
+
+        <mt-popup position="bottom" v-model="on_off.delivery_type_popup" style="width:100%;">
+          <!--<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">-->
+          <mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>
+        </mt-popup>
+        <!--<table>-->
+        <!--<tr>-->
+        <!--<td>配送时间:</td>-->
+        <!--<td>次日08:00&#45;&#45;10:00</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+        <!--<td>配送方式:</td>-->
+        <!--<mt-popup position="bottom" v-model="isShowShipmentsType">-->
+        <!--<mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>-->
+        <!--</mt-popup>-->
+        <!--<td>市场车</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+        <!--<td>收 货 人:</td>-->
+        <!--<td>张小姐 12329090000</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+        <!--<td>收货地址:</td>-->
+        <!--<td>贵州省贵阳市（小件都要捆一下）</td>-->
+        <!--</tr>-->
+        <!--</table>-->
       </div>
       <!--<hr>-->
       <div class="products">
         <div v-for="(product, index) in product_info.products" :key="product.id">
-          <div class="product">
+          <div class="product" @click="lookProduct(product.product_id,product.product_standard_id)">
             <img :src='product.img' alt="">
             <span class="top_left_str">[{{product.country =='中国'?'国产':'进口'}}]{{product.product_name}}</span>
             <span class="sub_str">{{product.product_standard_name}}</span>
-            <span class="lower_right_str"><span
-              style="color: red;">￥{{product.sell_price}}</span> X {{product.num}}{{product.measure_unit}}</span>
+            <span class="lower_right_str"><span style="color: red;">￥{{product.sell_price}}</span> X {{product.num}}{{product.measure_unit}}</span>
           </div>
         </div>
       </div>
@@ -63,45 +88,26 @@
 
     </div>
     <!--底栏-->
-    <table class="bottom_bar" style="position: fixed;
-    bottom: 44px;
-    z-index: 1;
-    width: 100%;
-    height: 44px;
-    background: white;">
+    <table class="bottom_bar">
       <tr>
-        <td style="z-index: 2;text-align: right;color: red;">实付款: ￥{{this.countPrice}}</td>
-        <td style="z-index: 2;width: 40%;background-color: red;text-align: center;color: #fff;">
-          <mt-button name="submit" type='danger' @click="getPay" size='large'>提交订单</mt-button>
+        <td class="pay_money_str">实付款: ￥{{this.countPrice}}</td>
+        <td >
+          <mt-button name="submit"  style="background-color: red" type='danger' @click="getPay" size='large'>提交订单</mt-button>
         </td>
       </tr>
     </table>
-    <!--<mt-tabbar  v-model="selected">-->
-    <!--<mt-tab-item >实付款</mt-tab-item>-->
-    <!--<mt-tab-item >提交订单</mt-tab-item>-->
-    <!--</mt-tabbar>-->
-
-    <!--<mt-tabbar style="position: fixed;height: 50px;" v-model="selected">-->
-    <!--<mt-tab-item style="text-align: right">实付款</mt-tab-item>-->
-    <!--<mt-tab-item style="text-align: center;background-color: red">提交订单</mt-tab-item>-->
-    <!--</mt-tabbar>-->
-    <!--<mt-tabbar style="position: fixed;height: 50px;" v-model="selected">-->
-    <!--<mt-tab-item style="text-align: right">实付款</mt-tab-item>-->
-    <!--<mt-tab-item style="text-align: center;background-color: red;">提交订单</mt-tab-item>-->
-    <!--</mt-tabbar>-->
     <bottom-menu></bottom-menu>
-
   </div>
-
 </template>
 
 <script>
-  import Icon from 'vue-awesome/components/Icon'
-  import 'vue-awesome/icons/angle-left'
-  import MtTabbar from '../../../node_modules/mint-ui/packages/tabbar/src/tabbar.vue'
-  import MtTabItem from '../../../node_modules/mint-ui/packages/tab-item/src/tab-item.vue'
+  import Mint from 'mint-ui'
+  import Vue from 'vue'
+  import 'mint-ui/lib/style.css'
   import BottomMenu from '../common/BottomMenu'
   import TitleInfo from '../common/TitleInfo'
+
+  Vue.use(Mint)
 
   export default {
     name: 'orderInfo',
@@ -119,31 +125,43 @@
         let price = 0.0
         for (let product of this.product_info.products) {
           price += (product.num * 1.0) * (product.sell_price * 1.0)
-
-          console.log('价格:')
-          console.log(price)
         }
         return price
       }
     },
     data: function () {
       return {
+        deliveryType: [
+          {values: ['市场车', '物流', '自提']}
+        ],
+        buy_info: {
+          delivery_type: '',
+          delivery_time: '',
+          buy_user_name: '',
+          buy_phone: '',
+          buy_address: ''
+        },
+        on_off: {
+          delivery_type_popup: false,
+          delivery_time_popup: false
+        },
         orderId: '',
         product_info: {
           products: [
             {
               img: '//timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
-              id: 1,
+              product_standard_id: 1,
               country: '中国',
               product_name: '天山雪莲',
               measure_unit: '箱',
+              product_id: 1,
               product_standard_name: '1朵',
               sell_price: 999.00,
               num: 27
             },
             {
               img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
-              id: 2,
+              product_standard_id: 2,
               country: '美国',
               product_name: '牛油果',
               measure_unit: '箱',
@@ -153,7 +171,7 @@
             },
             {
               img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
-              id: 3,
+              product_standard_id: 3,
               country: '菲律宾',
               product_name: '大芒果',
               measure_unit: '箱',
@@ -172,7 +190,6 @@
           paySign: '',
           signType: ''
         }
-
       }
     },
     mounted: function () {
@@ -180,13 +197,18 @@
       this.getProducts()
     },
     components: {
-      MtTabItem,
-      MtTabbar,
-      Icon,
       BottomMenu,
       TitleInfo
     },
     methods: {
+      pickerChange: function (picker, values) {
+        this.buy_info.delivery_type = values[0]
+        picker.setSlotValue(0, values[0])
+      },
+      lookProduct: function (productId, productStandardId) {
+        // 查看商品
+        this.$router.push('/product/' + productId + '-' + productStandardId)
+      },
       getPay: function () {
         console.log('payInfo:')
         console.log(this.payInfo)
@@ -243,36 +265,31 @@
               console.log('获取失败了')
             }
           )
+      },
+      carTypeClick: function () {
+        console.log('carTypeClick')
+        console.log(this.on_off.delivery_type_popup)
+        this.on_off.delivery_type_popup = true
+      },
+      carTimeClick: function () {
+        console.log('carTimeClick')
+      },
+      usernameClick: function () {
+        console.log('usernameClick')
+      },
+      carAddressClick: function () {
+        console.log('carAddressClick')
       }
     }
   }
 </script>
 
 <style scoped lang="scss">
-
-  .header {
-    text-align: center;
-    box-sizing: border-box;
-    padding: 10px 20px 0;
-    font-size: 20px;
-    .back {
-      position: absolute;
-      left: 20px;
-      top: 10px;
-    }
-  }
-
   .content {
-    padding: 55px 0 88px;
-    margin-left: 15px;
-    margin-right: 15px;
-    /*margin-top: 50px;*/
-    tr {
-      line-height: 30px;
-      td:nth-child(2) {
-        width: 250px;
-        padding-left: 10px;
-      }
+    margin-top: 45px;
+    margin-bottom: 90px;
+    .goods_info {
+
     }
 
     .products {
@@ -323,6 +340,7 @@
     }
 
     .order_detail {
+      width: 100%;
       td:nth-child(2) {
         text-align: right;
         color: red;
@@ -331,7 +349,22 @@
   }
 
   .bottom_bar {
-
+    position: fixed;
+    bottom: 44px;
+    z-index: 1;
+    width: 100%;
+    height: 44px;
+    background: white;
+    .pay_money_str {
+      z-index: 2;
+      text-align: right;
+      color: red;
+    }
+    .go_pay_button {
+      z-index: 2;
+      width: 40%;
+      text-align: center;
+    }
   }
 
 

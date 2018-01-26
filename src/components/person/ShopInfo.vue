@@ -136,9 +136,12 @@
         }
       },
       showShipmentsType: function () {
+        console.log('123')
+        console.log(this.isShowShipmentsType)
         if (!this.isShowShipmentsType) {
           this.isShowShipmentsType = true
         }
+        console.log(this.isShowShipmentsType)
       },
       onValuesChange (picker, values) {
         this.businessInfo.shipments_type = values[0]
