@@ -231,7 +231,6 @@
             this.businessAuth.legal_person_name = response.data[0]['legal_person_name']
             this.businessAuth.bank_account = response.data[0]['bank_account']
             this.businessAuth.identity = response.data[0]['identity']
-            this.businessAuth.business_license = response.data[0]['business_license']
             this.businessAuth.img_identity_front = imgUrlPrefix + response.data[0]['img_identity_front'].split('images')[1]
             this.businessAuth.img_identity_reverse = imgUrlPrefix + response.data[0]['img_identity_reverse'].split('images')[1]
             this.businessAuth.img_online_shop = imgUrlPrefix + response.data[0]['img_online_shop'].split('images')[1]

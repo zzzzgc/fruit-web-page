@@ -124,14 +124,15 @@
           this.$http.post('/businessInfo/addBusinessInfo', this.businessInfo).then((response) => {
             if (response.data === 1) {
               this.$toast('添加成功')
-              this.businessInfo.business_name = ''
-              this.businessInfo.business_contacts = ''
-              this.businessInfo.phone = ''
-              this.businessInfo.address_province = '请选择'
-              this.businessInfo.address_city = '请选择'
-              this.businessInfo.address_detail = ''
-              this.businessInfo.address_shop = ''
-              this.businessInfo.shipments_type = '请选择'
+              // this.businessInfo.business_name = ''
+              // this.businessInfo.business_contacts = ''
+              // this.businessInfo.phone = ''
+              // this.businessInfo.address_province = '请选择'
+              // this.businessInfo.address_city = '请选择'
+              // this.businessInfo.address_detail = ''
+              // this.businessInfo.address_shop = ''
+              // this.businessInfo.shipments_type = '请选择'
+              this.getBusinessInfo()
             }
           })
         }
@@ -178,10 +179,14 @@
             this.businessInfo.phone = response.data[0]['phone']
             this.businessInfo.address_detail = response.data[0]['address_detail']
             this.businessInfo.address_shop = response.data[0]['address_shop']
-            this.businessInfo.shipments_type = this.shipmentsType[0].values[response.data[0]['shipments_type']]
-            this.businessInfo.address_province = address[response.data[0]['address_province']].showName
-            this.businessInfo.address_city = address[response.data[0]['address_province']].city[response.data[0]['address_city'].split('-')[1] - 1].showName
+            this.businessInfo.shipments_type = response.data[0]['shipments_type']
+            this.businessInfo.address_province = response.data[0]['address_province']
+            this.businessInfo.address_city = response.data[0]['address_city']
+            // this.businessInfo.shipments_type = this.shipmentsType[0].values[response.data[0]['shipments_type']]
+            // this.businessInfo.address_province = address[response.data[0]['address_province']].showName
+            // this.businessInfo.address_city = address[response.data[0]['address_province']].city[response.data[0]['address_city'].split('-')[1] - 1].showName
             // this.businessInfo.address_city = address[response.data[0]['address_province'].city[response.data[0]['address_city'].showName]]
+            this.isEdit = true
           } else {
             this.isEdit = false
           }
