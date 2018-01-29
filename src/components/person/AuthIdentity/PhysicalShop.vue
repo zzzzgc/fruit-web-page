@@ -73,7 +73,8 @@
           business_license: '',
           img_identity_front: '',
           img_identity_reverse: '',
-          img_license: ''
+          img_license: '',
+          auth_type: '1'
         },
         imgDefault1: require('../../../images/default/img_identity_front.png'),
         imgDefault2: require('../../../images/default/img_identity_reverse.png'),
@@ -239,8 +240,7 @@
         }
       },
       getAuthInfoByUid: function () {
-        this.$http.post('/authIdentity/getAuthInfoByUid').then((response) => {
-          console.log(response)
+        this.$http.post('/authIdentity/getAuthInfoByUid', this.businessAuth).then((response) => {
           if (response.data !== null && response.data !== '' && response.data.length > 0 && typeof (response.data[0]) !== 'undefined') {
             this.businessAuth.legal_person_name = response.data[0]['legal_person_name']
             this.businessAuth.bank_account = response.data[0]['bank_account']

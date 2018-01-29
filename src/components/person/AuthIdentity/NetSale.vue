@@ -2,11 +2,11 @@
     <div class="net-sale">
       <titlt-info titleContent="实名认证(无实体店)"></titlt-info>
       <div class="netSale-shop-info">
-        <mt-field label="法人姓名：" placeholder="请输入法人姓名" v-model="businessAuth.legal_person_name"></mt-field>
-        <mt-field label="身份证号：" placeholder="请输入身份证号" v-model="businessAuth.identity"></mt-field>
-        <mt-field label="银行卡帐号：" placeholder="请输入银行卡帐号" v-model="businessAuth.bank_account"></mt-field>
+        <mt-field label="法人姓名：" :readonly="isEdit" placeholder="请输入法人姓名" v-model="businessAuth.legal_person_name"></mt-field>
+        <mt-field label="身份证号：" :readonly="isEdit" placeholder="请输入身份证号" v-model="businessAuth.identity"></mt-field>
+        <mt-field label="银行卡帐号：" :readonly="isEdit" placeholder="请输入银行卡帐号" v-model="businessAuth.bank_account"></mt-field>
       </div>
-      <div class="netSale-shop-img">
+      <div class="netSale-shop-img" v-show="!isEdit">
         <div style="display: flex;flex-direction: column;">
           <div id="img_identity_front_container" class="img_container">
             <div>
@@ -29,6 +29,17 @@
         </div>
         <mt-button size="large" type="primary" @click.navite="saveAuthInfo">确认</mt-button>
       </div>
+      <div v-show="isEdit" style="width:100%;margin:0 auto;">
+        <div style="margin: 20px auto;width:274px;">
+          <img :src="businessAuth.img_identity_front" class="uploader-img"/>
+        </div>
+        <div style="margin: 20px auto;width:274px;">
+          <img :src="businessAuth.img_identity_reverse" class="uploader-img"/>
+        </div>
+        <div style="margin: 20px auto;width:274px;">
+          <img :src="businessAuth.img_online_shop" class="uploader-img"/>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -38,6 +49,7 @@
   import MtField from 'mint-ui/packages/field/src/field'
   import MtButton from 'mint-ui/packages/button/src/button'
   import Mint from 'mint-ui'
+  import {imgUrlPrefix, urlPrefix} from '../../../common/const'
 
   Vue.use(Mint)
   export default {
@@ -56,11 +68,15 @@
           bank_account: '',
           img_identity_front: '',
           img_identity_reverse: '',
-          img_online_shop: ''
+          img_online_shop: '',
+          auth_type: '2'
         },
         imgDefault1: require('../../../images/default/img_identity_front.png'),
         imgDefault2: require('../../../images/default/img_identity_reverse.png'),
-        imgDefault3: require('../../../images/default/img_online_shop.png')
+        imgDefault3: require('../../../images/default/img_online_shop.png'),
+        imgUrlPrefix,
+        urlPrefix,
+        isEdit: false
       }
     },
     methods: {
@@ -199,6 +215,7 @@
                 document.getElementById('img_online_shop').setAttribute('src', _this.imgDefault3)
                 document.getElementById('img_identity_reverse').setAttribute('src', _this.imgDefault2)
                 _this.$toast('添加成功')
+                this.getAuthInfoByUid()
               } else {
                 _this.$toast('添加失败')
               }
@@ -207,10 +224,25 @@
             _this.$toast('添加失败')
           }
         }
+      },
+      getAuthInfoByUid: function () {
+        this.$http.post('/authIdentity/getAuthInfoByUid', this.businessAuth).then((response) => {
+          if (response.data !== null && response.data !== '' && response.data.length > 0 && typeof (response.data[0]) !== 'undefined') {
+            this.businessAuth.legal_person_name = response.data[0]['legal_person_name']
+            this.businessAuth.bank_account = response.data[0]['bank_account']
+            this.businessAuth.identity = response.data[0]['identity']
+            this.businessAuth.business_license = response.data[0]['business_license']
+            this.businessAuth.img_identity_front = imgUrlPrefix + response.data[0]['img_identity_front'].split('images')[1]
+            this.businessAuth.img_identity_reverse = imgUrlPrefix + response.data[0]['img_identity_reverse'].split('images')[1]
+            this.businessAuth.img_online_shop = imgUrlPrefix + response.data[0]['img_online_shop'].split('images')[1]
+            this.isEdit = true
+          }
+        })
       }
     },
     mounted: function () {
       this.initDrawImg() // 初始化图片页面
+      this.getAuthInfoByUid()
     }
   }
 </script>
@@ -219,6 +251,7 @@
   .net-sale {
     margin: 0;
     padding: 0;
+    width: 100%;
   }
   .netSale-shop-info {
     color: #ff0000;

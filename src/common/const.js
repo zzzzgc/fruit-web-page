@@ -9,4 +9,4 @@ export const ajaxPrefix = '/api'// ajax请求url前缀，测试环境下使用/a
 export const homeUrl = '/' // 登录后跳转页面
 
 export const urlPrefix = 'http://localhost:8090/'
-export const imgUrlPrefix = 'http://localhost:8090/images/'
+export const imgUrlPrefix = 'http://localhost:8090/static/images/'
