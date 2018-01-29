@@ -2,18 +2,18 @@
   <div class="shop-info-container">
     <title-info titleContent="店铺信息"></title-info>
     <div class="shop-detail">
-      <mt-field label="店铺名称:" placeholder="所在城市+店名，如广州嘻果" v-model="businessInfo.business_name" :readonly="this.isEdit"></mt-field>
+      <mt-field label="店铺名称:" :attr="{ maxlength: 10 }" placeholder="所在城市+店名，如广州嘻果" v-model="businessInfo.business_name" :readonly="this.isEdit"></mt-field>
       <span style="display: block;color:#D6CCD6;width:100%;text-indent: 10px;">店铺名称仅限中文+数字，不超过10个字符</span>
       <!--<mt-cell style="color:#D6CCD6;" title="店铺名称仅限中文+数字，不超过10个字符"></mt-cell>-->
-      <mt-field  label="联系人："  placeholder="请输入联系人" v-model="businessInfo.business_contacts" :readonly="this.isEdit"></mt-field>
-      <mt-field  label="联系电话：" placeholder="请输入联系电话" v-model="businessInfo.phone" :readonly="this.isEdit"></mt-field>
+      <mt-field  label="联系人：" :attr="{ maxlength: 5 }"  placeholder="请输入联系人" v-model="businessInfo.business_contacts" :readonly="this.isEdit"></mt-field>
+      <mt-field  label="联系电话：" :attr="{ maxlength: 11 }" placeholder="请输入联系电话" v-model="businessInfo.phone" :readonly="this.isEdit"></mt-field>
       <div style="display: flex;flex-direction: row;background-color: white;">
         <mt-cell style="flex:0.5;color: #ff0000;"  title="省      市：">
         </mt-cell>
         <div style="flex:1;margin-top:8px;text-align: left;color:#000;" @click.navite="showProvinceAndCity" :readonly="this.isEdit">{{businessInfo.address_province}}-{{businessInfo.address_city}}</div>
       </div>
-      <mt-field  label="收货地址：" placeholder="请输入收货地址" v-model="businessInfo.address_detail" :readonly="this.isEdit"></mt-field>
-      <mt-field  label="店铺地址：" placeholder="若与收货地址一致，无需填写" v-model="businessInfo.address_shop" :readonly="this.isEdit"></mt-field>
+      <mt-field  label="收货地址：" placeholder="请输入收货地址"  :attr="{ maxlength: 35 }" v-model="businessInfo.address_detail" :readonly="this.isEdit"></mt-field>
+      <mt-field  label="店铺地址：" placeholder="若与收货地址一致，无需填写"  :attr="{ maxlength: 35 }" v-model="businessInfo.address_shop" :readonly="this.isEdit"></mt-field>
       <div style="display: flex;flex-direction: row;background-color: white;">
         <mt-cell style="color:#ff0000;flex: 0.5;" title="物流方式："></mt-cell>
         <div style="flex: 1;line-height: 44px;margin-top:4px;text-align: left;color:#000;">

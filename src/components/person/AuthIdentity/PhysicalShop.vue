@@ -3,10 +3,10 @@
     <titlt-info titleContent="实名认证(实体店)"></titlt-info>
     <div class="physical-shop-info">
       <form id="businessAuthForm" method="post" action="" enctype="multipart/form-data">
-      <mt-field label="法人姓名：" :readonly="isEdit" name="legal_person_name" placeholder="请输入法人姓名" v-model="businessAuth.legal_person_name"></mt-field>
-      <mt-field label="身份证号：" :readonly="isEdit" name="identity" placeholder="请输入身份证号" v-model="businessAuth.identity"></mt-field>
-      <mt-field label="银行卡帐号：" :readonly="isEdit" name="bank_account" placeholder="请输入银行卡帐号" v-model="businessAuth.bank_account"></mt-field>
-      <mt-field label="营业执照号：" :readonly="isEdit" name="business_license" placeholder="请输入营业执照号" v-model="businessAuth.business_license"></mt-field>
+      <mt-field label="法人姓名：" :attr="{ maxlength: 5 }" :readonly="isEdit" name="legal_person_name" placeholder="请输入法人姓名" v-model="businessAuth.legal_person_name"></mt-field>
+      <mt-field label="身份证号：" :attr="{ maxlength: 18 }" :readonly="isEdit" name="identity" placeholder="请输入身份证号" v-model="businessAuth.identity"></mt-field>
+      <mt-field label="银行卡帐号：" :attr="{ maxlength: 19 }" :readonly="isEdit" name="bank_account" placeholder="请输入银行卡帐号" v-model="businessAuth.bank_account"></mt-field>
+      <mt-field label="营业执照号：" :attr="{ maxlength: 15 }" :readonly="isEdit" name="business_license" placeholder="请输入营业执照号" v-model="businessAuth.business_license"></mt-field>
       </form>
     </div>
     <div class="physical-shop-img" v-show="!isEdit">
@@ -114,10 +114,11 @@
             size: file.size,
             file: file
           }
-          var flag = _this.isExitImgList(1, img)
-          if (!flag) {
-            _this.imgList.push(img)
-          }
+          // var flag = _this.isExitImgList(1, img)
+          // if (!flag) {
+          //   _this.imgList.push(img)
+          // }
+          _this.imgList[0] = img
           var fileReader = new FileReader()
           fileReader.onloadend = function () {
             if (fileReader.readyState === fileReader.DONE) {
@@ -134,10 +135,11 @@
             size: file.size,
             file: file
           }
-          var flag = _this.isExitImgList(2, img)
-          if (!flag) {
-            _this.imgList.push(img)
-          }
+          // var flag = _this.isExitImgList(2, img)
+          // if (!flag) {
+          //   _this.imgList.push(img)
+          // }
+          _this.imgList[1] = img
           var fileReader = new FileReader()
           fileReader.onloadend = function () {
             if (fileReader.readyState === fileReader.DONE) {
@@ -154,10 +156,11 @@
             size: file.size,
             file: file
           }
-          var flag = _this.isExitImgList(3, img)
-          if (!flag) {
-            _this.imgList.push(img)
-          }
+          // var flag = _this.isExitImgList(3, img)
+          // if (!flag) {
+          //   _this.imgList.push(img)
+          // }
+          _this.imgList[2] = img
           var fileReader = new FileReader()
           fileReader.onloadend = function () {
             if (fileReader.readyState === fileReader.DONE) {
