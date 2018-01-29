@@ -91,8 +91,8 @@
     <table class="bottom_bar">
       <tr>
         <td class="pay_money_str">实付款: ￥{{this.countPrice}}</td>
-        <td >
-          <mt-button name="submit"  style="background-color: red" type='danger' @click="getPay" size='large'>提交订单</mt-button>
+        <td>
+          <mt-button name="submit" style="background-color: red" type='danger' @click="getPay" size='large'>提交订单</mt-button>
         </td>
       </tr>
     </table>
@@ -229,36 +229,39 @@
         // 查看商品
         this.$router.push('/product/' + productId + '-' + productStandardId)
       },
-      getPay: function () {
-        console.log('payInfo:')
-        console.log(this.payInfo)
-        // 微信拉起支付
-        // if (typeof WeixinJSBridge == 'undefined') {
-        //   if (document.addEventListener) {
-        //     document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false)
-        //   } else if (document.attachEvent) {
-        //     document.attachEvent('WeixinJSBridgeReady', onBridgeReady)
-        //     document.attachEvent('onWeixinJSBridgeReady', onBridgeReady)
-        //   }
-        // } else {
-        //   oWeixinJSBridge.invoke(
-        //     'getBrandWCPayRequest', {
-        //       'appId': this.payInfo.appId,
-        //       'timeStamp': this.payInfo.timeStamp,         // 时间戳，自1970年以来的秒数
-        //       'nonceStr': this.payInfo.nonceStr, // 随机串
-        //       'package': 'prepay_id=' + this.payInfo.prepay_id,
-        //       'signType': this.payInfo.signType,         // 微信签名方式：
-        //       'paySign': this.payInfo.paySign // 微信签名
-        //     },
-        //     function (res) {
-        //       if (res.data.err_msg === 'get_brand_wcpay_request:ok') {
-        //               // 补充订单信息到数据库
-        //         this.$router.push('paySuccess')
-        //       }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
-        //     }
-        //   )
-        // }
-      },
+      // getPay: function () {
+      //   console.log('payInfo:')
+      //   console.log(this.payInfo)
+      //   微信拉起支付
+      //   if (typeof WeixinJSBridge == 'undefined') {
+      //     if (document.addEventListener) {
+      //       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false)
+      //     } else if (document.attachEvent) {
+      //       document.attachEvent('WeixinJSBridgeReady', onBridgeReady)
+      //       document.attachEvent('onWeixinJSBridgeReady', onBridgeReady)
+      //     }
+      //   } else {
+      //     oWeixinJSBridge.invoke(
+      //       'getBrandWCPayRequest', {
+      //         'appId': this.payInfo.appId,
+      //         'timeStamp': this.payInfo.timeStamp,         // 时间戳，自1970年以来的秒数
+      //         'nonceStr': this.payInfo.nonceStr, // 随机串
+      //         'package': 'prepay_id=' + this.payInfo.prepay_id,
+      //         'signType': this.payInfo.signType,         // 微信签名方式：
+      //         'paySign': this.payInfo.paySign // 微信签名
+      //       },
+      //       function (res) {
+      //         if (res.data.err_msg === 'get_brand_wcpay_request:ok') {
+      //                 // 补充订单信息到数据库
+      //           this.$router.push('/paySuccess')
+      //         } else {
+      //           this.$router.push('/orderList?selected=one')
+      //         }
+      //         // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+      //       }
+      //     )
+      //   }
+      // },
       getProducts: function () {
         // 获取下单的商品信息
         this.$http.post('/order/getOrderProducts', {'orderId': this.orderId})

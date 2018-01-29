@@ -117,6 +117,7 @@
     },
     methods: {
       getProducts: function () {
+        console.log('更新商品')
         // 获取购物车
         if (this.isLogin()) {
           // 登陆的
@@ -150,19 +151,17 @@
         })
       },
       _getServerProduct: function () {
+        console.log('获取购物车商品')
         // 获取服务器中的本人的购物车
         this.$http.post('/cart/getProduct', {pageNum: this.pageNum}).then((response) => {
+          console.log(response.data)
           this.products = response.data
-          this.pageNum++ // 下次取数据，从下一页开始
+          // this.pageNum++ // 下次取数据，从下一页开始
         })
       },
       edit: function () {
-        if (this.isEdit) {
-          this.isEdit = false
-        } else {
-          this.isEdit = true
-        }
-//        this.isEdit = !this.isEdit
+        // 设置为选中和为选中
+        this.isEdit = !this.isEdit
       },
       choice: function (index) {
         if (this.isEdit) {
@@ -184,7 +183,9 @@
         } else {
           removeCartProduct(productStandardId)
         }
+        console.log('开始进入')
         this.getProducts()
+        console.log('进入结束')
       },
       update: function (index) {
         let product = {
@@ -225,10 +226,12 @@
     },
     computed: {
       totalPrice: function () {
-        let price = 0
+        let price = 0.00
         for (let p of this.products) {
           if (p.check) {
-            price += p.sell_price * p.buy_num
+            // 普通小数计算可能会丢失精度,所以转换整数运算,这里默认精度为小数点后一位
+            price = (price * 10 + (p.sell_price * 10 * p.buy_num)) / 10
+            // price += p.sell_price * p.buy_num
           }
         }
         return price

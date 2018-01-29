@@ -16,8 +16,8 @@
       </div>
       <!-- 支付提醒 -->
       <div v-if="nonPayNum > 0" class="pay-notify line-block">
-        您有待支付订单{{order.num}}个，共计:￥{{order.price}}元
-        <router-link to="/goods" class="pay">确认付款</router-link>
+        您有待支付订单{{totalOrderInfo.order_count}}个，共计:￥{{totalOrderInfo.total_money}}元
+        <router-link to="/orderList?selected=one" class="pay">确认付款</router-link>
       </div>
       <!--活动-->
       <!--<div class="activity line-block">-->
@@ -62,6 +62,7 @@
   import * as moment from 'moment'
   import TopSearch from './common/TopSearch'
   import BottomMenu from './common/BottomMenu'
+  import { isLogin } from '../common/session'
 
   export default {
     name: 'Home',
@@ -78,10 +79,15 @@
       this.getBanner()
       this.getBuyProduct()
       this.getNewProduct()
+      this.getTotalOrderInfo()
     },
     data () {
       return {
         nonPayNum: 1,
+        totalOrderInfo: {
+          order_count: '?',
+          total_money: '?'
+        },
         productSwiper: {
           notNextTick: true,
           swiperOption: {
@@ -182,11 +188,7 @@
           }
         ],
         productsNew: [],
-        latestPublish: '12小时前',
-        order: {
-          num: 1,
-          price: 8790.00
-        }
+        latestPublish: '12小时前'
       }
     },
     computed: {
@@ -195,6 +197,16 @@
       }
     },
     methods: {
+      isLogin: isLogin,
+      getTotalOrderInfo: function () {
+        if (this.isLogin()) {
+          this.$http.post('/order/getOrderCount').then((response) => {
+            this.totalOrderInfo = response.data
+          })
+        } else {
+          // TODO 未登录的购物车统计单数和
+        }
+      },
       getBanner: function () {
         this.$http.post('/banner/groupItem', {groupKey: 'GROUP_HOME'}).then((response) => {
           this.banners = response.data
