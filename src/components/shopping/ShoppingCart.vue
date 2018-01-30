@@ -179,12 +179,15 @@
         if (this.isLogin()) {
           // 删除数据库中该用户的购物车商品
           this.$http.post('/cart/removeProduct', {ids: [productStandardId]}).then((response) => {
+            Toast('删除成功,删除的productStandardId:' + productStandardId)
+            this.getProducts()
+          }, (response) => {
+            Toast('删除失败,删除的productStandardId:' + productStandardId)
           })
         } else {
           removeCartProduct(productStandardId)
         }
         console.log('开始进入')
-        this.getProducts()
         console.log('进入结束')
       },
       update: function (index) {
@@ -217,10 +220,11 @@
         }
         this.$http.post('/order/createOrder', {'standardIds': standardIds}).then(
           (res) => {
+            console.log(res)
             this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
           },
           (res) => {
-            this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
+            Toast('生成订单失败')
           })
       }
     },
