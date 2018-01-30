@@ -53,7 +53,6 @@
         if (!this.toLoginBefore()) {
           return false
         }
-        console.log(this.verifyCode)
         this.$http.post('/login/validationVerifyCode', {verifyCode: this.verifyCode}).then((response) => {
           this.$http.post('/login/auth', Object.assign({}, {
             phone: this.phone,

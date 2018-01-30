@@ -1,5 +1,6 @@
 <template>
   <div class="persons">
+    <title-info titleContent="我的" style="margin-bottom:50px"></title-info>
     <div v-if="isLogin()" class="persons-header">
       <div class="persons-user-title">
         <div class="user-phone">{{phone}}</div>
@@ -83,6 +84,7 @@
   import session from '../../mixins/sessionMixin'
   import './css/persons.css'
   import MtButton from 'mint-ui/packages/button/src/button'
+  import TitleInfo from '../common/TitleInfo'
 
   Vue.use(Mint)
   export default {
@@ -104,7 +106,8 @@
     components: {
       MtButton,
       BottomMenu,
-      mixins: [session]
+      mixins: [session],
+      TitleInfo
     },
     methods: {
       toLogOut: function () {

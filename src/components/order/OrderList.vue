@@ -17,7 +17,7 @@
     </mt-navbar>
     <div class="horizontal"></div>
     <!-- tabcontainer -->
-    <mt-tab-container v-model="selected" :swipeable='true' value="tab-container1">
+    <mt-tab-container v-model="selected" :swipeable='true' value="tab-container1" style="margin-top:50px;">
       <mt-tab-container-item id="one">
         <order-item :orders="orders" :ordersCount="ordersCount" :selected="selected"></order-item>
         <check-all-one :orders="orders" ></check-all-one>
@@ -122,6 +122,13 @@
   .order-list{
     margin:0px;
     background-color: #F3F3F3;
+  }
+  .page-part{
+    position: fixed;
+    top:0;
+    left: 0;
+    width:100%;
+    z-index: 10;
   }
   .item {
     display: inline-block;
