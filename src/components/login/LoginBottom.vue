@@ -30,7 +30,8 @@
     },
     props: [
       'phone',
-      'password'
+      'password',
+      'verifyCode'
     ],
     methods: {
       toLoginBefore: function () {  // 登录校验
@@ -52,6 +53,7 @@
         if (!this.toLoginBefore()) {
           return false
         }
+        console.log(this.verifyCode)
         this.$http.post('/login/validationVerifyCode', {verifyCode: this.verifyCode}).then((response) => {
           this.$http.post('/login/auth', Object.assign({}, {
             phone: this.phone,
@@ -72,6 +74,8 @@
 
             this.$router.push(homeUrl)
           })
+        }, (response) => {
+          this.$emit('changeVerifyCode')
         })
       },
       handleRegister: function () {

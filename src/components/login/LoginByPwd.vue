@@ -54,7 +54,7 @@
         </mt-tab-container-item>
       </mt-tab-container>
     </div>
-    <login-bottom :phone="phone" :password="password"></login-bottom>
+    <login-bottom @changeVerifyCode="changeVerifyCode" :phone="phone" :password="password" :verifyCode="verifyCode"></login-bottom>
   </div>
 </template>
 
@@ -120,6 +120,7 @@
       changeVerifyCode: function () {
         this.$http.post('/login/createVerifyCode').then((response) => {
           this.fullPathImg = urlPrefix + response.data
+          this.verifyCode = ''
         })
       }
     },
