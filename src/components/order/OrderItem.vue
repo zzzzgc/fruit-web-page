@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="order-content"
-             style="display: flex;width:94%;height:96px;flex-direction: row;background-color: #F2F2F2;margin-left:3%;margin-bottom:15px;">
+             style="display: flex;width:94%;height:96px;flex-direction: row;background-color: #F2F2F2;margin-left:3%;margin-bottom:15px;" @click.navite="toProductDetail(order.product_id+'-'+order.product_standard_id)">
           <div style="flex:0.25;margin:3px 0 10px 3px">
             <img v-lazy.order-item="order.img_url" width="100" height="90"/>
           </div>
@@ -77,7 +77,9 @@
           buy_remark: '',
           ispay: '',
           sell_price: '',
-          product_standard_name: ''
+          product_standard_name: '',
+          product_id: '',
+          product_standard_id: ''
         },
         img: require('../../images/paysuccess.png'),
         loading: false
@@ -91,6 +93,9 @@
     mounted: function () {
     },
     methods: {
+      toProductDetail: function (productUrl) {
+        this.$router.push('/product/' + productUrl)
+      }
     }
   }
 </script>
