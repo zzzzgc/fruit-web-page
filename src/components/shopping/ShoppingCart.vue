@@ -117,7 +117,6 @@
     },
     methods: {
       getProducts: function () {
-        console.log('更新商品')
         // 获取购物车
         if (this.isLogin()) {
           // 登陆的
