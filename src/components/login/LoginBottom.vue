@@ -15,6 +15,7 @@
   import Mint from 'mint-ui'
   import {homeUrl} from '../../common/const.js'
   import session from '../../mixins/sessionMixin'
+  import {validatePhone, validateStrLength} from '../../common/FormValidate'
 
   Vue.use(Mint)
 
@@ -32,7 +33,25 @@
       'password'
     ],
     methods: {
+      toLoginBefore: function () {  // 登录校验
+        var flag = true
+        var errorMsg = ''
+        if (!validatePhone(this.phone)) {
+          flag = false
+          errorMsg = '手机号码'
+        } else if (!validateStrLength(this.password)) {
+          flag = false
+          errorMsg = '密码'
+        }
+        if (!flag) {
+          this.$toast(errorMsg + '输入格式有误!')
+        }
+        return flag
+      },
       handleLogin: function () {
+        if (!this.toLoginBefore()) {
+          return false
+        }
         this.$http.post('/login/auth', Object.assign({}, {phone: this.phone, password: this.password}), {showLoading: true}).then((response) => {
           let userInfo = {
             username: this.phone,
