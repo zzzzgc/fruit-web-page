@@ -52,21 +52,26 @@
         if (!this.toLoginBefore()) {
           return false
         }
-        this.$http.post('/login/auth', Object.assign({}, {phone: this.phone, password: this.password}), {showLoading: true}).then((response) => {
-          let userInfo = {
-            username: this.phone,
+        this.$http.post('/login/validationVerifyCode', {verifyCode: this.verifyCode}).then((response) => {
+          this.$http.post('/login/auth', Object.assign({}, {
+            phone: this.phone,
             password: this.password
-          }
-          // 本地
-          this.setLoginUser(userInfo)
+          }), {showLoading: true}).then((response) => {
+            let userInfo = {
+              username: this.phone,
+              password: this.password
+            }
+            // 本地
+            this.setLoginUser(userInfo)
 
-          // 把本地的购物车移动到数据库中
-          this.$http.post('/cart/saveGoodsData', {'cartProducts': JSON.stringify(this.getCartProducts())}).then((response) => {
-            // 清空购物车
-            this.removeCartProductAll()
+            // 把本地的购物车移动到数据库中
+            this.$http.post('/cart/saveGoodsData', {'cartProducts': JSON.stringify(this.getCartProducts())}).then((response) => {
+              // 清空购物车
+              this.removeCartProductAll()
+            })
+
+            this.$router.push(homeUrl)
           })
-
-          this.$router.push(homeUrl)
         })
       },
       handleRegister: function () {

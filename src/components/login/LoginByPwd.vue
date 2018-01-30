@@ -26,6 +26,10 @@
                     style="color:red;" class="horizontal"></mt-field>
           <mt-field :state="passwordValidation" label="密   码" :attr="{maxlength: 18 }"  type="password" placeholder="请输入密码" v-model="password" style="color:red;"
                     class="horizontal"></mt-field>
+          <div style="display: flex;flex-direction: row;">
+            <mt-field label="验 证 码" style="color:red;flex:3;" class="horizontal" v-model="verifyCode"></mt-field>
+            <img :src="fullPathImg" style="flex: 1;" width="120" height="49" @click.navite="changeVerifyCode"/>
+          </div>
           <div class="pwdmanage">
             <mt-checklist
               v-model="value"
@@ -63,6 +67,7 @@
   import loginBottom from './LoginBottom'
   import 'mint-ui/lib/style.css'
   import {validatePhone, validateStrLength} from '../../common/FormValidate'
+  import {urlPrefix} from '../../common/const'
 
   Vue.use(Mint)
   export default {
@@ -78,7 +83,9 @@
         phoneValidation: null,
         passwordValidation: null,
         selected: '1',
-        value: []
+        value: [],
+        fullPathImg: '',
+        verifyCode: ''
       }
     },
     watch: {
@@ -108,7 +115,17 @@
         } else {
           this.passwordValidation = 'error'
         }
+      },
+      // 获取验证码
+      changeVerifyCode: function () {
+        this.$http.post('/login/createVerifyCode').then((response) => {
+          this.fullPathImg = urlPrefix + response.data
+        })
       }
+    },
+    mounted: function () {
+      // 初始化验证码
+      this.changeVerifyCode()
     }
   }
 </script>
