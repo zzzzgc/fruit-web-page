@@ -1,7 +1,7 @@
 <template>
   <div class="product-item">
     <div class="pic">
-      <img :src="product.img" alt="">
+      <img v-lazy="product.img" alt="">
     </div>
     <router-link :to="productUrl" class="info">
       <div class="title">{{product.name}}</div>
@@ -10,13 +10,17 @@
     <div class="product-bottom">
 
       <div v-if="isLogin()">
-        <div class="buy-num">本周{{product.week_sell_num}}家购买</div>
-        <div class="price-info">
-          <span class="price">￥{{product.sell_price}}/{{product.measure_unit}}</span>
-          <span class="ori-price">￥{{product.original_price}}/{{product.measure_unit}}</span>
-        </div>
+        <router-link :to="productUrl">
+          <div class="buy-num">本周{{product.week_sell_num}}家购买</div>
+          <div class="price-info">
+            <span class="price">￥{{product.sell_price}}/{{product.measure_unit}}</span>
+            <span class="ori-price">￥{{product.original_price}}/{{product.measure_unit}}</span>
+          </div>
+        </router-link>
       </div>
-      <div v-else class="hide-price">登录查看价格</div>
+
+        <div v-else @click="toLogin" class="hide-price">登录查看价格</div>
+
       <div class="add-to-cart" @click="addToCart()">加入购物车</div>
       <!--<van-button class="add-to-cart" type="default" size="small">加入购物车</van-button>-->
     </div>
@@ -58,6 +62,9 @@
           addCartProducts(this.product.standard_id)
           toast('添加购物车成功')
         }
+      },
+      toLogin: function () {
+        this.$router.push('login')
       }
     },
     computed: {

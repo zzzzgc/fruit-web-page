@@ -13,7 +13,7 @@
 
         <!-- 商品图片 -->
         <router-link :to="'/product/' + product.id + '-' + product.standard_id" class="pic">
-          <img :src="product.img" alt="">
+          <img v-lazy="product.img" alt="">
         </router-link>
 
         <!-- 商品信息 -->
@@ -33,10 +33,10 @@
         <!-- 价格和按钮 -->
         <div class="product-bottom">
           <!-- 价格 -->
-          <div class="price-info" v-if="isLogin()">
+          <div class="price-info" v-if="isLogin()" @click="choice(index)">
             <span class="price">￥{{product.sell_price}}</span>/{{product.measure_unit}}
           </div>
-          <div v-else class="hide-price">登录查看价格</div>
+          <div v-else @click="toLogin" class="hide-price">登录查看价格</div>
 
           <div class="modify-num">
             <van-stepper v-model="product.buy_num" :max="1000" @change="update(index)"/>
@@ -225,6 +225,9 @@
           (res) => {
             Toast('生成订单失败')
           })
+      },
+      toLogin: function () {
+        this.$router.push('login')
       }
     },
     computed: {
