@@ -1,5 +1,9 @@
 <template>
   <div class="home">
+    <!--<div class="test-container">-->
+    <!--<div class="test">-->
+
+    <!--</div></div>-->
     <!--顶部搜索-->
     <top-search></top-search>
     <div class="content">
@@ -30,9 +34,9 @@
         <table cellspacing="0">
           <tr>
             <td rowspan="2" class="first"><router-link to="/product/list/0-0-1">低价热销</router-link></td>
-            <td class="second"><router-link to="/product/list/0-0-3">进口好货</router-link></td>
+            <td class="second"><router-link to="/product/list/0-0-3" style="color: white;font-size:26px;font-family: STSong,Georgia,Serif;">进口好货</router-link></td>
           </tr>
-          <tr><td><router-link to="/product/list/0-0-5">国产精品</router-link></td></tr>
+          <tr><td class="third"><router-link to="/product/list/0-0-5" style="color: white;font-size:26px;font-family: STSong,Georgia,Serif;">国产精品</router-link></td></tr>
         </table>
       </div>
       <!--商品-->
@@ -254,6 +258,15 @@
     /*height: 100%;*/
     /*overflow: auto;*/
   }
+
+  .test{
+    width:100%;
+    height: 1000px;
+    background: url('../images/homeIcon/智利车厘子-z.jpg');
+    background-size: cover;
+    background-repeat:no-repeat;
+    padding-top:40px;
+  }
   .content {
     /*overflow: auto;*/
     padding: 44px 0;
@@ -293,16 +306,34 @@
         height: 150px;
         .first {
           border-right: 2px solid white;
+          background: url("../images/homeIcon/不知火丑橘-z.jpg");
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center;
           a {
-            padding: 64px 0;
+            padding: 60px 0;
+            color:white;
+            font-size:26px;
+            font-family: STSong,Georgia,Serif;
           }
         }
         .second {
           border-bottom: 2px solid white;
+          border-right: 2px solid white;
+          background: url("../images/homeIcon/智利车厘子-z.jpg");
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center;
+        }
+        .third{
+          background: url("../images/homeIcon/齐峰翠香猕猴桃-z.jpg");
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center;
         }
         td {
           width: 50%;
-          background: #e5e5e5;
+          /* background: #e5e5e5; */
           /*padding: 10px 0;*/
           a {
             display: block;
