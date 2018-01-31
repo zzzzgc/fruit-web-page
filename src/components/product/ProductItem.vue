@@ -1,7 +1,7 @@
 <template>
   <div class="product-item">
-    <div class="pic">
-      <img v-lazy="product.img" alt="">
+    <div class="pic" id="product-item-img">
+      <img v-lazy.product-item-img="product.img">
     </div>
     <router-link :to="productUrl" class="info">
       <div class="title">{{product.name}}</div>
@@ -19,7 +19,7 @@
         </router-link>
       </div>
 
-        <div v-else @click="toLogin" class="hide-price">登录查看价格</div>
+      <div v-else @click="toLogin" class="hide-price">登录查看价格</div>
 
       <div class="add-to-cart" @click="addToCart()">加入购物车</div>
       <!--<van-button class="add-to-cart" type="default" size="small">加入购物车</van-button>-->
@@ -28,11 +28,15 @@
 </template>
 
 <script>
+  import Vue from 'vue'
+  import Mint from 'mint-ui'
   import session from '../../mixins/sessionMixin'
   import {addCartProducts} from '../../common/session'
   import {toast} from '../../common/utils'
+  // import {lazyload} from 'mint-ui'
   //  import {ToastPlugin} from 'vux'
   //  Vue.use(ToastPlugin)
+  Vue.use(Mint)
 
   export default {
     name: 'product-item',
@@ -50,6 +54,7 @@
       }
     },
     mounted: function () {
+      console.log(this.product)
     },
     methods: {
       addToCart: function () {
