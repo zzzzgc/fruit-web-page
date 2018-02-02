@@ -19,24 +19,32 @@
         </swiper>
       </div>
       <!-- 支付提醒 -->
-      <div v-if="nonPayNum > 0" class="pay-notify line-block">
+      <div v-if="totalOrderInfo.order_count > 0" class="pay-notify line-block">
         您有待支付订单{{totalOrderInfo.order_count}}个，共计:￥{{totalOrderInfo.total_money}}元
         <router-link to="/orderList?selected=one" class="pay">确认付款</router-link>
       </div>
       <!--活动-->
       <!--<div class="activity line-block">-->
-        <!--<table cellspacing="0" cellpadding="20px">-->
-          <!--<tr><td class="first">送66元</td><td>签到免现</td></tr>-->
-        <!--</table>-->
+      <!--<table cellspacing="0" cellpadding="20px">-->
+      <!--<tr><td class="first">送66元</td><td>签到免现</td></tr>-->
+      <!--</table>-->
       <!--</div>-->
       <!--商品分类-->
       <div class="product-type line-block">
         <table cellspacing="0">
           <tr>
-            <td rowspan="2" class="first"><router-link to="/product/list/0-0-1">低价热销</router-link></td>
-            <td class="second"><router-link to="/product/list/0-0-3" style="color: white;font-size:26px;font-family: STSong,Georgia,Serif;">进口好货</router-link></td>
+            <td rowspan="2" class="first">
+              <router-link to="/product/list/0-0-1">低价热销</router-link>
+            </td>
+            <td class="second">
+              <router-link to="/product/list/0-0-3" style="color: white;font-size:26px;font-family: STSong,Georgia,Serif;">进口好货</router-link>
+            </td>
           </tr>
-          <tr><td class="third"><router-link to="/product/list/0-0-5" style="color: white;font-size:26px;font-family: STSong,Georgia,Serif;">国产精品</router-link></td></tr>
+          <tr>
+            <td class="third">
+              <router-link to="/product/list/0-0-5" style="color: white;font-size:26px;font-family: STSong,Georgia,Serif;">国产精品</router-link>
+            </td>
+          </tr>
         </table>
       </div>
       <!--商品-->
@@ -60,13 +68,18 @@
 </template>
 
 <script>
-  import { swiper, swiperSlide } from 'vue-awesome-swiper'
+  import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import 'swiper/dist/css/swiper.css'
   import ProductItem from './product/ProductItem'
   import * as moment from 'moment'
   import TopSearch from './common/TopSearch'
   import BottomMenu from './common/BottomMenu'
-  import { isLogin } from '../common/session'
+  import {isLogin, getCartProducts} from '../common/session'
+
+  import Vue from 'vue'
+  import Mint from 'mint-ui'
+
+  Vue.use(Mint)
 
   export default {
     name: 'Home',
@@ -85,9 +98,8 @@
       this.getNewProduct()
       this.getTotalOrderInfo()
     },
-    data () {
+    data: function () {
       return {
-        nonPayNum: 1,
         totalOrderInfo: {
           order_count: '?',
           total_money: '?'
@@ -208,7 +220,11 @@
             this.totalOrderInfo = response.data
           })
         } else {
+          let localCartProducts = getCartProducts()
+          console.log(localCartProducts)
           // TODO 未登录的购物车统计单数和
+          this.totalOrderInfo.order_count = localCartProducts.length
+          this.totalOrderInfo.total_money = '请登录后查看'.toString()
         }
       },
       getBanner: function () {
@@ -259,14 +275,15 @@
     /*overflow: auto;*/
   }
 
-  .test{
-    width:100%;
+  .test {
+    width: 100%;
     height: 1000px;
     background: url('../images/homeIcon/智利车厘子-z.jpg');
     background-size: cover;
-    background-repeat:no-repeat;
-    padding-top:40px;
+    background-repeat: no-repeat;
+    padding-top: 40px;
   }
+
   .content {
     /*overflow: auto;*/
     padding: 44px 0;
@@ -299,8 +316,8 @@
         padding: 4px 8px;
       }
     }
-    .activity,.product-type {
-      >table {
+    .activity, .product-type {
+      > table {
         width: 100%;
         text-align: center;
         height: 150px;
@@ -312,9 +329,9 @@
           background-position: center;
           a {
             padding: 60px 0;
-            color:white;
-            font-size:26px;
-            font-family: STSong,Georgia,Serif;
+            color: white;
+            font-size: 26px;
+            font-family: STSong, Georgia, Serif;
           }
         }
         .second {
@@ -325,7 +342,7 @@
           background-size: cover;
           background-position: center;
         }
-        .third{
+        .third {
           background: url("../images/homeIcon/齐峰翠香猕猴桃-z.jpg");
           background-repeat: no-repeat;
           background-size: cover;
@@ -346,7 +363,7 @@
       .tab-title {
         white-space: nowrap;
         overflow: hidden;
-        >div {
+        > div {
           display: inline-block;
           width: 50%;
           box-sizing: border-box;
@@ -355,7 +372,7 @@
           white-space: nowrap;
           text-overflow: ellipsis;
         }
-        >div.select {
+        > div.select {
           border-bottom: 1px solid;
           color: red;
         }
@@ -368,6 +385,7 @@
   .home .swiper-pagination-bullet {
     margin: 0 5px;
   }
+
   .home .banner .swiper-container {
     height: 230px;
   }

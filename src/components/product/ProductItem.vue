@@ -1,7 +1,7 @@
 <template>
   <div class="product-item">
     <div class="pic" id="product-item-img">
-      <img v-lazy.product-item-img="product.img">
+      <img v-lazy.product-item-img="product.img" width="120px" height="120px">
     </div>
     <router-link :to="productUrl" class="info">
       <div class="title">{{product.name}}</div>
@@ -54,7 +54,7 @@
       }
     },
     mounted: function () {
-      console.log(this.product)
+      // console.log(this.product)
     },
     methods: {
       addToCart: function () {
@@ -81,14 +81,14 @@
 </script>
 
 <style scoped lang="scss">
+
   .product-item {
     position: relative;
-    background: white;
-    padding: 5px 0;
-    border-top: 1px solid #EEE;
+    background-color: white;
   }
 
   .pic {
+    background-color: #F3F3F3;
     position: absolute;
     width: 120px;
     height: 120px;
@@ -164,10 +164,8 @@
       position: absolute;
       right: 0;
       top: 6px;
-      padding: 5px 9px;
+      padding: 0px 9px;
       font-size: 12px;
-      border: 1px solid;
-      border-radius: 3px;
       color: #949494;
       background: white;
     }

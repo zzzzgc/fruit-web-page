@@ -78,8 +78,10 @@
     },
     data: function () {
       return {
-        phone: '',
-        password: '',
+        // phone: '',
+        // password: '',
+        phone: '13242871762',
+        password: '111111',
         phoneValidation: null,
         passwordValidation: null,
         selected: '1',

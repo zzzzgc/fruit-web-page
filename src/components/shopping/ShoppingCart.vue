@@ -1,5 +1,5 @@
 <template>
-  <div class="shopping-cart">
+  <div class="shopping-cart" id="shopping-cart">
     <div class="top-fixed-header header">
       <div class="back" @click="$router.go(-1)">
         <icon scale="1.6" name="angle-left"></icon>
@@ -13,7 +13,7 @@
 
         <!-- 商品图片 -->
         <router-link :to="'/product/' + product.id + '-' + product.standard_id" class="pic">
-          <img v-lazy="product.img" alt="">
+          <img v-lazy.shopping-cart="product.img">
         </router-link>
 
         <!-- 商品信息 -->
@@ -69,7 +69,6 @@
       </tr>
       <tr v-else>
         <mt-button type='danger' size='large' @click='toLogin'>登录</mt-button>
-        <!--<div style="width:100%;height:38px;line-height: 38px;color:white;background-color:deepskyblue;border-radius:3px;text-align:center;">登录</div>-->
       </tr>
     </table>
     <bottom-menu></bottom-menu>
@@ -79,21 +78,24 @@
 <script>
   import {Stepper} from 'vant'
   import BottomMenu from '../common/BottomMenu'
-  import {Toast} from 'mint-ui'
+  // import {this.$toast} from 'mint-ui'
+  import Icon from 'vue-awesome/components/Icon'
   import 'vue-awesome/icons/angle-left'
   import 'vue-awesome/icons/check'
   import 'vue-awesome/icons/close'
-  import Icon from 'vue-awesome/components/Icon'
-  import MtButton from 'mint-ui/packages/button/src/button'
+
   import 'mint-ui/lib/style.css'
   import session from '../../mixins/sessionMixin'
   import {getCartProducts, removeCartProduct, setCartProducts} from '../../common/session'
+
+  import Vue from 'vue'
+  import Mint from 'mint-ui'
+  Vue.use(Mint)
 
   export default {
     name: 'ProductList',
     mixins: [session],
     components: {
-      MtButton,
       [Stepper.name]: Stepper,
       BottomMenu,
       Icon
@@ -178,10 +180,10 @@
         if (this.isLogin()) {
           // 删除数据库中该用户的购物车商品
           this.$http.post('/cart/removeProduct', {ids: [productStandardId]}).then((response) => {
-            Toast('删除成功,删除的productStandardId:' + productStandardId)
+            this.$toast('删除成功,删除的productStandardId:' + productStandardId)
             this.getProducts()
           }, (response) => {
-            Toast('删除失败,删除的productStandardId:' + productStandardId)
+            this.$toast('删除失败,删除的productStandardId:' + productStandardId)
           })
         } else {
           removeCartProduct(productStandardId)
@@ -212,7 +214,7 @@
           }
         }
         if (standardIds == null || standardIds.length < 1) {
-          Toast({
+          this.$toast({
             message: '请选择需要下单的商品哦'
           })
           return
@@ -223,7 +225,7 @@
             this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
           },
           (res) => {
-            Toast('生成订单失败')
+            this.$toast('生成订单失败')
           })
       },
       toLogin: function () {
@@ -294,6 +296,7 @@
       width: 120px;
       height: 120px;
       img {
+        background: #F3F3F3;
         width: 100%;
         height: 100%;
       }
