@@ -156,11 +156,9 @@ export default new Router({
       return savedPosition
     } else {
       if (from.meta.keepAlive) {
-        console.log('document.body.scrollTop:' + document.body.scrollTop)
         from.meta.savedPosition = document.body.scrollTop
       }
       let ySize = (typeof (to.meta.savedPosition) === 'undefined' ? 0 : to.meta.savedPosition) || 0
-      console.log('ySize:' + ySize)
       return { x: 0, y: ySize }
     }
   }

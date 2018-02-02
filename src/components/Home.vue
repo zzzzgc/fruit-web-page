@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" id="home">
     <!--<div class="test-container">-->
     <!--<div class="test">-->
 
@@ -13,7 +13,7 @@
         <swiper :options="bannerSwiper.swiperOption" :not-next-tick="bannerSwiper.notNextTick">
           <swiper-slide v-for="(banner, index) in banners" :key="index">
             <a :href="banner.click_url" target="_blank">
-              <img :src="banner.img_url" alt="">
+              <img v-lazy.home="banner.img_url" :alt="banner.click_url">
             </a>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
@@ -43,7 +43,7 @@
           </tr>
           <tr>
             <td class="third">
-              <router-link to="/product/list/0-0-5" style="color: white;font-size:26px;font-family: STSong,Georgia,Serif;">国产精品</router-link>
+              <router-link to="/product/list/0-0-5" style=" color: white;font-size:26px;font-family: STSong,Georgia,Serif;">国产精品</router-link>
             </td>
           </tr>
         </table>
@@ -67,6 +67,8 @@
     <bottom-menu></bottom-menu>
   </div>
 </template>
+
+
 
 <script>
   import {swiper, swiperSlide} from 'vue-awesome-swiper'
@@ -113,6 +115,7 @@
       this.getBuyProduct()
       this.getNewProduct()
       this.getTotalOrderInfo()
+      console.log(this.banners)
     },
     data: function () {
       return {
