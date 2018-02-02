@@ -151,18 +151,17 @@ export default new Router({
     }
   ],
   scrollBehavior (to, from, savedPosition) {
-    // console.info(to)
-    // console.info(from)
-    // console.info(savedPosition)
-    // console.info(window.scrollY())
-    // console.info(document.body.scrollTop)
+    // TODO 切换页面后,再切回有缓存的页面时需要设置回原有的
     if (savedPosition) {
       return savedPosition
     } else {
       if (from.meta.keepAlive) {
+        console.log('document.body.scrollTop:' + document.body.scrollTop)
         from.meta.savedPosition = document.body.scrollTop
       }
-      return { x: 0, y: to.meta.savedPosition || 0 }
+      let ySize = (typeof (to.meta.savedPosition) === 'undefined' ? 0 : to.meta.savedPosition) || 0
+      console.log('ySize:' + ySize)
+      return { x: 0, y: ySize }
     }
   }
 })

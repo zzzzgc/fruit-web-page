@@ -90,6 +90,7 @@
 
   import Vue from 'vue'
   import Mint from 'mint-ui'
+
   Vue.use(Mint)
 
   export default {
@@ -104,6 +105,7 @@
     created: function () {
     },
     mounted: function () {
+      window.scrollTo(100, 100)
       this.getProducts()
     },
     data: function () {

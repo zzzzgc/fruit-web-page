@@ -25,6 +25,18 @@
     components: {
       Icon
     },
+    // beforeRouteUpdate: function (to, from, next) {
+    //   console.log(to)
+    //   console.log(from)
+    //   console.log(next)
+    //   next(vm => {
+    //     // 完成
+    //     console.log(to)
+    //     console.log(from)
+    //     console.log(next)
+    //     console.log(vm)
+    //   })
+    // },
     data: function () {
       return {}
     },
@@ -70,7 +82,6 @@
               // 清空购物车
               this.removeCartProductAll()
             })
-
             this.$router.push(homeUrl)
           })
         }, (response) => {

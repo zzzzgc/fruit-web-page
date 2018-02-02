@@ -1,26 +1,32 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-// import { Lazyload } from 'vant'
 import './assets/common.css'
 import axiosIntence from './common/axiosIntence'
-/* import uploader from 'vue-simple-uploader' */
-import uploader from 'vue-easy-uploader'
-import Vuex from 'vuex'
+import VueLazyload from 'vue-lazyload'
+import Mint from 'mint-ui'
 // import {initTest} from './common/session'
 
-Vue.use(Vuex)
-let store = new Vuex.Store({})
-Vue.use(uploader, store)
-// Vue.use(Lazyload)
+/* 导入插件 */
+Vue.use(Mint)
+Vue.use(VueLazyload, {
+  preLoad: 1.0,
+  preLoadTop: 10.0,
+  error: require('../src/images/loading/find.png'),
+  loading: require('../src/images/loading/loading.gif'),
+  attempt: 1,
+  listenEvents: ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend', 'touchmove']
+})
+
+/* 修改设置 */
+// initTest(false) //
 Vue.prototype.$http = axiosIntence // 将http设置到vue组件中
 Vue.config.productionTip = false
-// initTest(false) //
-/* Vue.use(uploader) */
+
+/* 引入组件 */
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  store,
   render: h => h(App)
 })

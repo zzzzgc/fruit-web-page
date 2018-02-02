@@ -6,6 +6,7 @@
     <!--</div></div>-->
     <!--顶部搜索-->
     <top-search></top-search>
+
     <div class="content">
       <!--轮播图-->
       <div class="banner line-block">
@@ -92,7 +93,22 @@
     },
     created: function () {
     },
+    beforeRouteEnter: function (to, from, next) {
+      next(vm => {
+        // 完成
+        console.log(from.fullPath)
+        if (from.fullPath === '/login') {
+          console.log('登陆进来的')
+          window.location.reload()
+        }
+      })
+    },
     mounted: function () {
+      // this.$router.beforeUpdate((to, from, next) => {
+      //   console.log(to)
+      //   console.log(from)
+      //   console.log(next)
+      // })
       this.getBanner()
       this.getBuyProduct()
       this.getNewProduct()
