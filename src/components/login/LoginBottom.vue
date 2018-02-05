@@ -25,18 +25,7 @@
     components: {
       Icon
     },
-    // beforeRouteUpdate: function (to, from, next) {
-    //   console.log(to)
-    //   console.log(from)
-    //   console.log(next)
-    //   next(vm => {
-    //     // 完成
-    //     console.log(to)
-    //     console.log(from)
-    //     console.log(next)
-    //     console.log(vm)
-    //   })
-    // },
+
     data: function () {
       return {}
     },
@@ -70,18 +59,19 @@
             phone: this.phone,
             password: this.password
           }), {showLoading: true}).then((response) => {
-            let userInfo = {
-              username: this.phone,
-              password: this.password
-            }
+            // let userInfo = {
+            //   username: this.phone,
+            //   password: this.password
+            // }
             // 本地
-            this.setLoginUser(userInfo)
+            this.setLoginUser(response.data)
 
             // 把本地的购物车移动到数据库中
             this.$http.post('/cart/saveGoodsData', {'cartProducts': JSON.stringify(this.getCartProducts())}).then((response) => {
               // 清空购物车
               this.removeCartProductAll()
             })
+
             this.$router.push(homeUrl)
           })
         }, (response) => {

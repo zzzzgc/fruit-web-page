@@ -10,8 +10,8 @@ import Mint from 'mint-ui'
 /* 导入插件 */
 Vue.use(Mint)
 Vue.use(VueLazyload, {
-  preLoad: 1.0,
-  preLoadTop: 10.0,
+  preLoad: 1.3,
+  preLoadTop: 0.0,
   error: require('../src/images/loading/find.png'),
   loading: require('../src/images/loading/loading.gif'),
   attempt: 1,

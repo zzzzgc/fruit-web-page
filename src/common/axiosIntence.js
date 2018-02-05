@@ -69,6 +69,15 @@ httpIntence.interceptors.response.use(function (response) { // 如果请求配�
     // alert(decodeURI(errorText))
     toast(decodeURI(errorText))
   } else if (error.response && error.response.status === 401) { // 身份认证失败
+    console.log('错误响应: ' + error.response.statusText)
+    console.log(error)
+    // console.info(error)
+    let errorText = error.response.statusText
+    if (errorText === null || errorText === '' || errorText === 'unknown') { // 后台即使使用response.setStatus设置错误文本，这里也拿不到，所以后台也会设置到header中
+      errorText = error.response.headers['error-text']
+    }
+    // alert(decodeURI(errorText))
+    toast(decodeURI(errorText))
     window.location = '/login'
   } else {
     // alert('请求数据异常，请稍后重试(' + error.message + ')')
