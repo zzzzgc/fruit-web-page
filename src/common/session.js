@@ -28,8 +28,6 @@ export function initTest (isDelete) {
 
 // 判断用户是否已登录
 export function isLogin () {
-  var token = getCookie(cookieToken)
-  console.log('token:' + token)
   // return localStorage.hasOwnProperty('userInfo')
   return existCookie(cookieToken)
 }
