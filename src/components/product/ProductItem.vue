@@ -4,7 +4,7 @@
       <img v-lazy.product-item-img="product.img" width="120px" height="120px">
     </div>
     <router-link :to="productUrl" class="info">
-      <div class="title">{{product.name}}</div>
+      <div class="title"><font color="red">[{{product.country != '中国' ? '进口' : '国产'}}]</font>{{product.name}}</div>
       <div class="desc">{{product.standard_name}}|{{product.sub_title}}</div>
     </router-link>
     <div class="product-bottom">
@@ -20,8 +20,8 @@
       </div>
 
       <div v-else @click="toLogin" class="hide-price">登录查看价格</div>
-
-      <div class="add-to-cart" @click="addToCart()">加入购物车</div>
+      <mt-button @click="addToCart()" class="add-to-cart">加入购物车</mt-button>
+      <!--<div class="add-to-cart" @click="addToCart()">加入购物车</div>-->
       <!--<van-button class="add-to-cart" type="default" size="small">加入购物车</van-button>-->
     </div>
   </div>
@@ -161,13 +161,15 @@
       }
     }
     .add-to-cart {
+      /*border: 1px solid #000;*/
       position: absolute;
       right: 0;
-      top: 6px;
+      top: 0;
+      height: 40px;
       padding: 0px 9px;
-      font-size: 12px;
-      color: #949494;
-      background: white;
+      font-size: 14px;
+      color: #fff;
+      background: #169BD5;
     }
   }
 </style>

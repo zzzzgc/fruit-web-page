@@ -97,10 +97,8 @@
     },
     beforeRouteEnter: function (to, from, next) {
       next(vm => {
-        // 完成
-        console.log(from.fullPath)
+        // 登录后主页是缓存的,所以需要刷新页面重新加载
         if (from.fullPath === '/login') {
-          console.log('登陆进来的')
           window.location.reload()
         }
       })
@@ -115,7 +113,6 @@
       this.getBuyProduct()
       this.getNewProduct()
       this.getTotalOrderInfo()
-      console.log(this.banners)
     },
     data: function () {
       return {
@@ -254,6 +251,8 @@
       getBuyProduct: function () {
         this.$http.post('/product/listBuy').then((response) => {
           this.productsBuy = response.data
+          console.log('productsBuy')
+          console.log(this.productsBuy)
         })
       },
       getNewProduct: function () {
@@ -271,6 +270,8 @@
               }
             }
           }
+          console.log('productsNew')
+          console.log(this.productsNew)
         })
       },
       changeProductTab: function (index) {

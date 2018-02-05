@@ -108,6 +108,10 @@
       window.scrollTo(100, 100)
       this.getProducts()
     },
+    activated: function () {
+    },
+    deactivated: function () {
+    },
     data: function () {
       return {
         pageNum: 1,
