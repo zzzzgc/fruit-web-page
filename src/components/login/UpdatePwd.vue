@@ -7,8 +7,8 @@
         <mt-field label="验 证 码" v-model="imgVerifyCode" placeholder="请输入验证码" style="color:red;flex:3;" class="horizontal" :attr="{maxlength: 4 }"></mt-field>
         <img :src="fullPathImg" style="flex: 1;" width="120" height="49" @click.navite="changeImagesVerifyCode"/>
       </div>
-      <mt-field label="手机验证码:"  v-model="msgVerifyCode" placeholder="请输入短信验证码" style="color:red;" class="horizontal">
-        <mt-cell title="获取验证码" @click.navite="changeSmsVerifyCode"class="authcode"></mt-cell>
+      <mt-field label="手机验证码:" v-model="msgVerifyCode" placeholder="请输入短信验证码" style="color:red;" class="horizontal">
+        <span @click.navite="changeSmsVerifyCode"><mt-cell title="获取验证码" class="authcode"></mt-cell></span>
       </mt-field>
       <mt-field label="请输入新密码:" v-model="password" type="password" placeholder="请输入最少6位数密码" style="color:red;" class="horizontal" :attr="{maxlength: 18 }"></mt-field>
       <mt-field label="请确认新密码:" v-model="validPwd" type="password" placeholder="请输入最少6位数密码" style="color:red;" class="horizontal" :attr="{maxlength: 18 }"></mt-field>
@@ -50,9 +50,10 @@
     methods: {
       // 获取图片验证码
       changeSmsVerifyCode: function () {
+        console.log('123')
         this.$http.post('/validate/createPhoneSmsVerifyCode').then(
           (response) => {
-            this.Toast('发送成功请查收')
+            this.$toast('发送成功请查收')
           }
         )
       },
@@ -91,7 +92,9 @@
         if (!this.updatePwdBefore()) {
           return false
         }
-        this.$http.post('').then((response) => {
+        this.$http.post('/login/updatePwd', {phone: this.phone, password: this.password, msgVerifyCode: this.msgVerifyCode, imgVerifyCode: this.imgVerifyCode}).then((response) => {
+          this.Toast('修改完成请重新登录')
+          this.$router.push('login')
         })
       }
     }

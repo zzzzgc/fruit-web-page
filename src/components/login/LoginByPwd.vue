@@ -27,7 +27,7 @@
           <mt-field :state="passwordValidation" label="密   码" :attr="{maxlength: 18 }"  type="password" placeholder="请输入密码" v-model="password" style="color:red;"
                     class="horizontal"></mt-field>
           <div style="display: flex;flex-direction: row;">
-            <mt-field label="验 证 码" style="color:red;flex:3;" class="horizontal" v-model="verifyCode"></mt-field>
+            <mt-field label="验 证 码" style="color:red;flex:3;" class="horizontal" v-model="imageVerifyCode"></mt-field>
             <img :src="fullPathImg" style="flex: 1;" width="120" height="49" @click.navite="changeImagesVerifyCode"/>
           </div>
           <div class="pwdmanage">
@@ -41,8 +41,8 @@
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
           <mt-field label="手机号码" v-model="phone" placeholder="请输入手机号码" style="color:red;" class="horizontal"></mt-field>
-          <mt-field label="验 证 码" v-model="msgCode" placeholder="请输入验证码" style="color:red;" class="horizontal">
-            <mt-cell title="获取验证码" to="www.baidu.com" class="authcode"></mt-cell>
+          <mt-field label="验 证 码" v-model="msgVerifyCode" placeholder="请输入验证码" style="color:red;" class="horizontal">
+            <mt-cell title="获取验证码" @click="changeSmsVerifyCode" class="authcode"></mt-cell>
           </mt-field>
           <div class="pwdmanage">
             <mt-checklist
@@ -54,7 +54,7 @@
         </mt-tab-container-item>
       </mt-tab-container>
     </div>
-    <login-bottom @changeVerifyCode="changeImagesVerifyCode" :phone="phone" :password="password" :verifyCode="verifyCode" :selected="selected" :msgCode="msgCode"></login-bottom>
+    <login-bottom @changeVerifyCode="changeImagesVerifyCode" :phone="phone" :password="password" :msgVerifyCode="msgVerifyCode" :imageVerifyCode="imageVerifyCode" :selected="selected"></login-bottom>
   </div>
 </template>
 
@@ -87,8 +87,8 @@
         selected: '1',
         value: [],
         fullPathImg: '',
-        verifyCode: '',
-        msgCode: ''
+        imageVerifyCode: '',
+        msgVerifyCode: ''
       }
     },
     watch: {
@@ -123,8 +123,16 @@
       changeImagesVerifyCode: function () {
         this.$http.post('/validate/createImagesVerifyCode').then((response) => {
           this.fullPathImg = urlPrefix + response.data
-          this.verifyCode = ''
+          this.imageVerifyCode = ''
         })
+      },
+      // 获取短信验证码
+      changeSmsVerifyCode: function () {
+        this.$http.post('/validate/createPhoneSmsVerifyCode').then(
+          (response) => {
+            this.$toast('发送成功请查收')
+          }
+        )
       }
     },
     mounted: function () {

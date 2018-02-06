@@ -32,7 +32,8 @@
     props: [
       'phone',
       'password',
-      'verifyCode',
+      'msgVerifyCode',
+      'imageVerifyCode',
       'selected',
       'msgCode'
     ],
@@ -73,12 +74,16 @@
           if (!this.toLoginByPwdBefore()) {
             return false
           }
+          this.login(1, this.imageVerifyCode)
         } else if (parseInt(this.selected) === 2) {
           if (!this.toLoginByMsgBefore()) {
             return false
           }
+          this.login(2, this.msgVerifyCode)
         }
-        this.$http.post('/login/auth', {phone: this.phone, password: this.password, verifyCode: this.verifyCode, verifyCodeType: this.selected}, {showLoading: true})
+      },
+      login: function (verifyCodeType, verifyCode) {
+        this.$http.post('/login/auth', {phone: this.phone, password: this.password, verifyCode: verifyCode, verifyCodeType: verifyCodeType}, {showLoading: true})
           .then(
             (response) => {
               // 本地
@@ -88,11 +93,13 @@
                 // 清空购物车
                 this.removeCartProductAll()
               })
+              this.$toast('登录成功')
               this.$router.push(homeUrl)
             },
             (response) => {
               this.$emit('changeVerifyCode')
-            })
+            }
+          )
         // this.$emit('changeVerifyCode') 触发父类的修改验证码
       },
       handleRegister: function () {

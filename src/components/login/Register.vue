@@ -40,14 +40,14 @@
       return {
         phone: '',
         password: '',
-        verifyCode: ''
+        imageVerifyCode: ''
       }
     },
     methods: {
       changeSmsVerifyCode: function () {
         this.$http.post('/validate/createPhoneSmsVerifyCode').then(
           (response) => {
-            this.Toast('发送成功请查收')
+            this.$toast('发送成功请查收')
           }
         )
       },
@@ -73,7 +73,7 @@
         if (!this.handleRegisterBefore()) {
           return false
         }
-        this.$http.post('/login/register', {phone: this.phone, password: this.password, verifyCode: this.verifyCode, verifyCodeType: 2}).then((response) => {
+        this.$http.post('/login/register', {phone: this.phone, password: this.password, verifyCode: this.imageVerifyCode, verifyCodeType: 2}).then((response) => {
           this.$router.push('login')
         })
       }
