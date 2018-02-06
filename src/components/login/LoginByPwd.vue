@@ -19,7 +19,7 @@
       </mt-navbar>
       <div class="horizontal"></div>
       <!-- tabcontainer -->
-      <mt-tab-container v-model="selected" >
+      <mt-tab-container v-model="selected">
         <mt-tab-container-item id="1">
           <!--<mt-cell v-for="n in 10" :title="'内容 ' + n" />-->
           <mt-field :state="phoneValidation" label="手机号码" type="tel" :attr="{maxlength: 11 }" v-model="phone" placeholder="请输入手机号码"
