@@ -21,24 +21,26 @@
           <tr class="order-item">
             <td style="position: relative;">
               <router-link :to="{path: '/orderList',query: {selected:'one'}}" class="order-item-child">待付款</router-link>
-              <span class="badge">{{waitPay==0?'':waitPay}}</span></td>
+              <span class="my-badge" v-if="waitPay!=0">{{waitPay}}</span>
+              <!--<mt-badge class="badge" size="small" type="error">{{waitPay==0?'':waitPay}}</mt-badge>-->
+            </td>
           </tr>
           <tr class="order-item">
             <td style="position: relative;">
               <router-link :to="{path: '/orderList',query: {selected:'two'}}" class="order-item-child">确认中</router-link>
-              <span class="badge">{{verifying==0?'':verifying}}</span></td>
+              <span class="my-badge" v-if="verifying!=0">{{verifying}}</span></td>
           </tr>
           <tr class="order-item">
             <td style="position: relative;">
               <router-link :to="{path: '/orderList',query: {selected:'three'}}" class="order-item-child">待发货
               </router-link>
-              <span class="badge">{{waitReceiver==0?'':waitReceiver}}</span></td>
+              <span class="my-badge" v-if="waitReceiver!=0">{{waitReceiver}}</span></td>
           </tr>
           <tr class="order-item">
             <td style="position: relative;">
               <router-link :to="{path: '/orderList',query: {selected:'four'}}" class="order-item-child">我的订单
               </router-link>
-              <span class="badge">{{myOrders==0?'':myOrders}}</span></td>
+              <span class="my-badge" v-if="myOrders!=0">{{myOrders}}</span></td>
           </tr>
         </table>
       </div>
@@ -138,11 +140,27 @@
 </script>
 
 <style scoped>
-  .badge {
-    color: red;
-    position: absolute;
-    right: -7px;
-    top: -7px;
-    font-size: 12px;
+  .my-badge {
+    /*position: absolute;*/
+    /*right: -26px;*/
+    /*top: 6px;*/
+    /*font-size: 8px;*/
+    /*width:26px;*/
+    /*height: 15px;*/
+    /*background-color: red;*/
+    /*text-align: center;*/
+    /*color: white;*/
+    /*line-height: 15px;*/
+    /*border-radius: 8px;*/
+    font-size: 8px;
+    width:26px;
+    padding:0 6px;
+    background-color: red;
+    text-align: center;
+    margin-left:-4px;
+    margin-top:-1px;
+    color: white;
+    line-height: 15px;
+    border-radius: 8px;
   }
 </style>
