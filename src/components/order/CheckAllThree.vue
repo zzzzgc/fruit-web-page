@@ -60,7 +60,7 @@
           }
           if (flag) {
             for (let o of this.orders[key]) {
-              price += ((o.sell_price * 10) * (o.num * 10)) / 10000
+              price = ((((o.sell_price * 10) * (o.num * 10)) / 100) * 10 + price * 10) / 10
             }
           }
         }

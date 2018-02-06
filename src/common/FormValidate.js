@@ -7,6 +7,15 @@ export function validatePhone (phone) {
   }
   return flag
 }
+// 校验商铺名字，中文+数字
+export function validateChineseAndNum (chineseAndNum) {
+  var flag = false
+  var regex = new RegExp('^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[0-9_]){1,20}$')
+  if (regex.test(chineseAndNum)) {
+    flag = true
+  }
+  return flag
+}
 // 校验正整数
 export function validatePositiveNum (num) {
   var flag = false
