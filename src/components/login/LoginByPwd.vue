@@ -28,7 +28,7 @@
                     class="horizontal"></mt-field>
           <div style="display: flex;flex-direction: row;">
             <mt-field label="验 证 码" style="color:red;flex:3;" class="horizontal" v-model="verifyCode"></mt-field>
-            <img :src="fullPathImg" style="flex: 1;" width="120" height="49" @click.navite="changeVerifyCode"/>
+            <img :src="fullPathImg" style="flex: 1;" width="120" height="49" @click.navite="changeImagesVerifyCode"/>
           </div>
           <div class="pwdmanage">
             <mt-checklist
@@ -54,7 +54,7 @@
         </mt-tab-container-item>
       </mt-tab-container>
     </div>
-    <login-bottom @changeVerifyCode="changeVerifyCode" :phone="phone" :password="password" :verifyCode="verifyCode" :selected="selected" :msgCode="msgCode"></login-bottom>
+    <login-bottom @changeVerifyCode="changeImagesVerifyCode" :phone="phone" :password="password" :verifyCode="verifyCode" :selected="selected" :msgCode="msgCode"></login-bottom>
   </div>
 </template>
 
@@ -119,9 +119,9 @@
           this.passwordValidation = 'error'
         }
       },
-      // 获取验证码
-      changeVerifyCode: function () {
-        this.$http.post('/login/createVerifyCode').then((response) => {
+      // 获取图片验证码
+      changeImagesVerifyCode: function () {
+        this.$http.post('/validate/createImagesVerifyCode').then((response) => {
           this.fullPathImg = urlPrefix + response.data
           this.verifyCode = ''
         })
@@ -129,7 +129,7 @@
     },
     mounted: function () {
       // 初始化验证码
-      this.changeVerifyCode()
+      this.changeImagesVerifyCode()
     }
   }
 </script>

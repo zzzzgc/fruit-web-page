@@ -78,29 +78,22 @@
             return false
           }
         }
-        this.$http.post('/login/validationVerifyCode', {verifyCode: this.verifyCode}).then((response) => {
-          this.$http.post('/login/auth', Object.assign({}, {
-            phone: this.phone,
-            password: this.password
-          }), {showLoading: true}).then((response) => {
-            // let userInfo = {
-            //   username: this.phone,
-            //   password: this.password
-            // }
-            // 本地
-            this.setLoginUser(response.data)
-
-            // 把本地的购物车移动到数据库中
-            this.$http.post('/cart/saveGoodsData', {'cartProducts': JSON.stringify(this.getCartProducts())}).then((response) => {
-              // 清空购物车
-              this.removeCartProductAll()
+        this.$http.post('/login/auth', {phone: this.phone, password: this.password, verifyCode: this.verifyCode, verifyCodeType: this.selected}, {showLoading: true})
+          .then(
+            (response) => {
+              // 本地
+              this.setLoginUser(response.data)
+              // 把本地的购物车移动到数据库中
+              this.$http.post('/cart/saveGoodsData', {'cartProducts': JSON.stringify(this.getCartProducts())}).then((response) => {
+                // 清空购物车
+                this.removeCartProductAll()
+              })
+              this.$router.push(homeUrl)
+            },
+            (response) => {
+              this.$emit('changeVerifyCode')
             })
-
-            this.$router.push(homeUrl)
-          })
-        }, (response) => {
-          this.$emit('changeVerifyCode')
-        })
+        // this.$emit('changeVerifyCode') 触发父类的修改验证码
       },
       handleRegister: function () {
         this.$router.push('./register')
