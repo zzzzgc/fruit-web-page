@@ -40,8 +40,8 @@
           </div>
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
-          <mt-field label="手机号码" placeholder="请输入手机号码" style="color:red;" class="horizontal"></mt-field>
-          <mt-field label="验 证 码" placeholder="请输入验证码" style="color:red;" class="horizontal">
+          <mt-field label="手机号码" v-model="phone" placeholder="请输入手机号码" style="color:red;" class="horizontal"></mt-field>
+          <mt-field label="验 证 码" v-model="msgCode" placeholder="请输入验证码" style="color:red;" class="horizontal">
             <mt-cell title="获取验证码" to="www.baidu.com" class="authcode"></mt-cell>
           </mt-field>
           <div class="pwdmanage">
@@ -54,7 +54,7 @@
         </mt-tab-container-item>
       </mt-tab-container>
     </div>
-    <login-bottom @changeVerifyCode="changeVerifyCode" :phone="phone" :password="password" :verifyCode="verifyCode"></login-bottom>
+    <login-bottom @changeVerifyCode="changeVerifyCode" :phone="phone" :password="password" :verifyCode="verifyCode" :selected="selected" :msgCode="msgCode"></login-bottom>
   </div>
 </template>
 
@@ -87,7 +87,8 @@
         selected: '1',
         value: [],
         fullPathImg: '',
-        verifyCode: ''
+        verifyCode: '',
+        msgCode: ''
       }
     },
     watch: {

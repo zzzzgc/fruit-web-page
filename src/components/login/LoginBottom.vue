@@ -32,10 +32,12 @@
     props: [
       'phone',
       'password',
-      'verifyCode'
+      'verifyCode',
+      'selected',
+      'msgCode'
     ],
     methods: {
-      toLoginBefore: function () {  // 登录校验
+      toLoginByPwdBefore: function () {  // 密码登录校验
         var flag = true
         var errorMsg = ''
         if (!validatePhone(this.phone)) {
@@ -50,9 +52,31 @@
         }
         return flag
       },
+      toLoginByMsgBefore: function () { // 短信登录校验
+        var flag = true
+        var errorMsg = ''
+        if (!validatePhone(this.phone)) {
+          flag = false
+          errorMsg = '手机号码'
+        } else if (this.msgCode === null || this.msgCode.trim() === '') {
+          flag = false
+          errorMsg = '短信验证码'
+        }
+        if (!flag) {
+          this.$toast(errorMsg + '输入格式有误!')
+        }
+        return flag
+      },
       handleLogin: function () {
-        if (!this.toLoginBefore()) {
-          return false
+        // 密码登录判断
+        if (parseInt(this.selected) === 1) {
+          if (!this.toLoginByPwdBefore()) {
+            return false
+          }
+        } else if (parseInt(this.selected) === 2) {
+          if (!this.toLoginByMsgBefore()) {
+            return false
+          }
         }
         this.$http.post('/login/validationVerifyCode', {verifyCode: this.verifyCode}).then((response) => {
           this.$http.post('/login/auth', Object.assign({}, {
