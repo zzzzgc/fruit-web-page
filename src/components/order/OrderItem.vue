@@ -9,8 +9,9 @@
             :options="['您的订单正在确认中…']"  style="flex:0.8;" >
           </mt-checklist>-->
             <div style="flex:0.8;margin:18px 0 0 15px">
-              <input type="checkbox" :id="order.order_id+index" v-model="order.check">
-              <label :for="order.order_id+index">您的订单正在确认中…</label>
+              <van-checkbox :id="order.order_id+index" v-model="order.check">您的订单正在确认中…</van-checkbox>
+              <!--<input type="checkbox" :id="order.order_id+index" v-model="order.check">
+              <label :for="order.order_id+index" style="flex:9;">您的订单正在确认中…</label>-->
             </div>
             <mt-cell style="flex:0.2;margin-top:7px;" v-if="order.ispay == 5">已支付</mt-cell>
             <mt-cell style="flex:0.2;margin-top:7px;" v-else="order.ispay == 0"><span style="color:red;">待付款</span>
@@ -52,9 +53,12 @@
   import Icon from 'vue-awesome/components/Icon'
   import Lazyload from 'mint-ui/packages/lazyload/src/lazyload'
   import InfiniteScroll from 'mint-ui/packages/infinite-scroll/src/infinite-scroll'
+  import VanCheckbox from 'vant/packages/checkbox/index'
+  import 'vant/lib/vant-css/index.css'
 
   export default {
     components: {
+      VanCheckbox,
       MtCell,
       Icon,
       Lazyload,
