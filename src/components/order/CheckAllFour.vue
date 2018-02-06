@@ -2,13 +2,14 @@
   <div style="clear:both;height:89px;">
     <table class="pay-order">
       <tr >
-        <td style="margin:0;">
+        <td style="margin:0;padding-left:10px;">
           <!--<mt-checklist-->
           <!--v-model="checkAll"-->
           <!--:options="['全选']" style="width:100px;margin-left:-10px;">-->
           <!--</mt-checklist>-->
-          <input type="checkbox" id="checkAllFour" v-model="checkAll">
-          <label for="checkAllFour">全选</label>
+          <van-checkbox id="checkAllFour" v-model="checkAll">全选</van-checkbox>
+          <!--<input type="checkbox" id="checkAllFour" v-model="checkAll">-->
+          <!--<label for="checkAllFour">全选</label>-->
         </td>
         <td class="price" style="font-size:16px;">
           <div>合计：<span class="total-price">￥{{totalPrice}}</span></div>
@@ -21,8 +22,12 @@
 </template>
 
 <script>
+  import VanCheckbox from 'vant/packages/checkbox/index'
   export default {
     name: 'check-all-four',
+    components: {
+      VanCheckbox
+    },
     watch: {
       checkAll: function (val, oldVal) { // 此处只能使用监听的方式，更新商品列表，因为搜索后还是在当前页面，所以不会执行mounted
         if (val) {
