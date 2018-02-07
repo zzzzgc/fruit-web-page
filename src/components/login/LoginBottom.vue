@@ -25,7 +25,6 @@
     components: {
       Icon
     },
-
     data: function () {
       return {}
     },
@@ -34,8 +33,7 @@
       'password',
       'msgVerifyCode',
       'imageVerifyCode',
-      'selected',
-      'msgCode'
+      'selected'
     ],
     methods: {
       toLoginByPwdBefore: function () {  // 密码登录校验
@@ -59,7 +57,7 @@
         if (!validatePhone(this.phone)) {
           flag = false
           errorMsg = '手机号码'
-        } else if (this.msgCode === null || this.msgCode.trim() === '') {
+        } else if (this.msgVerifyCode === null || this.msgVerifyCode.trim() === '') {
           flag = false
           errorMsg = '短信验证码'
         }

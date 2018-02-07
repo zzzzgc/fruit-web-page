@@ -53,7 +53,7 @@
         if (!validatePhone(this.phone)) {
           flag = false
           errorMsg = '手机号码'
-        } else if (this.msgValidCode === null || this.msgValidCode.trim() === '') {
+        } else if (this.msgValidCode === null || this.msgValidCode === '') {
           flag = false
           errorMsg = '短信验证码'
         } else if (!validateStrLength(this.password)) {

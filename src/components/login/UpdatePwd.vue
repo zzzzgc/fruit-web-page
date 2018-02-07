@@ -48,9 +48,8 @@
       this.changeImagesVerifyCode()
     },
     methods: {
-      // 获取图片验证码
+      // 获取短信验证码
       changeSmsVerifyCode: function () {
-        console.log('123')
         this.$http.post('/validate/createPhoneSmsVerifyCode').then(
           (response) => {
             this.$toast('发送成功请查收')
@@ -93,7 +92,7 @@
           return false
         }
         this.$http.post('/login/updatePwd', {phone: this.phone, password: this.password, msgVerifyCode: this.msgVerifyCode, imgVerifyCode: this.imgVerifyCode}).then((response) => {
-          this.Toast('修改完成请重新登录')
+          this.$toast('修改完成请重新登录')
           this.$router.push('login')
         })
       }

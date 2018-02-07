@@ -2,13 +2,13 @@
   <div class="product-item">
     <div class="pic" id="product-item-img">
       <img v-lazy.product-item-img="product.img" width="120px" height="120px">
+      <!--<img v-lazy.product-item-img="product.img" width="120px" height="120px">-->
     </div>
     <router-link :to="productUrl" class="info">
-      <div class="title"><font color="red">[{{product.country != '中国' ? '进口' : '国产'}}]</font>{{product.name}}</div>
+      <div class="title"><p style="display:inline;color: red">[{{product.country != '中国' ? '进口' : '国产'}}]</p>{{product.name}}</div>
       <div class="desc">{{product.standard_name}}|{{product.sub_title}}</div>
     </router-link>
     <div class="product-bottom">
-
       <div v-if="isLogin()">
         <router-link :to="productUrl">
           <div class="buy-num">本周{{product.week_sell_num}}家购买</div>
@@ -33,6 +33,10 @@
   import session from '../../mixins/sessionMixin'
   import {addCartProducts} from '../../common/session'
   import {toast} from '../../common/utils'
+  import Tag from 'vant/packages/tab/index'
+  import 'vant/lib/vant-css/index.css'
+
+  // Vue.use(Tag)
   // import {lazyload} from 'mint-ui'
   //  import {ToastPlugin} from 'vux'
   //  Vue.use(ToastPlugin)
@@ -42,6 +46,7 @@
     name: 'product-item',
     mixins: [session],
     components: {
+      Tag
 //      [Button.name]: Button
 //      ToastPlugin
     },
@@ -90,6 +95,7 @@
   .pic {
     background-color: #F3F3F3;
     position: absolute;
+    margin-left: 1px;
     width: 120px;
     height: 120px;
     img {

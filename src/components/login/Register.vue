@@ -8,8 +8,8 @@
     </div>
     <div class="content">
       <mt-field label="手机号码" v-model="phone" :attr="{ maxlength:11}" placeholder="请输入手机号码" style="color:red;" class="horizontal"></mt-field>
-      <mt-field label="验 证 码" v-model="verifyCode" placeholder="请输入验证码" style="color:red;" class="horizontal" >
-        <mt-cell title="获取验证码" @click="changeSmsVerifyCode" class="authcode"></mt-cell>
+      <mt-field label="验 证 码" v-model="msgVerifyCode" placeholder="请输入验证码" style="color:red;" class="horizontal" >
+        <div @click="changeSmsVerifyCode"><mt-cell title="获取验证码"  class="authcode"></mt-cell></div>
       </mt-field>
       <mt-field label="密   码" v-model="password" :attr="{maxlength: 18 }" type="password" placeholder="请输入最少6位数密码" style="color:red;" class="horizontal"></mt-field>
       <mt-field label="邀 请 码" placeholder="留空则由系统为您分配业务员" class="horizontal"></mt-field>
@@ -40,7 +40,7 @@
       return {
         phone: '',
         password: '',
-        imageVerifyCode: ''
+        msgVerifyCode: ''
       }
     },
     methods: {
@@ -73,7 +73,7 @@
         if (!this.handleRegisterBefore()) {
           return false
         }
-        this.$http.post('/login/register', {phone: this.phone, password: this.password, verifyCode: this.imageVerifyCode, verifyCodeType: 2}).then((response) => {
+        this.$http.post('/login/register', {phone: this.phone, password: this.password, msgVerifyCode: this.msgVerifyCode, msgVerifyCodeType: 2}).then((response) => {
           this.$router.push('login')
         })
       }

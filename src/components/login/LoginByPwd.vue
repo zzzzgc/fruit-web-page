@@ -42,7 +42,7 @@
         <mt-tab-container-item id="2">
           <mt-field label="手机号码" v-model="phone" placeholder="请输入手机号码" style="color:red;" class="horizontal"></mt-field>
           <mt-field label="验 证 码" v-model="msgVerifyCode" placeholder="请输入验证码" style="color:red;" class="horizontal">
-            <mt-cell title="获取验证码" @click="changeSmsVerifyCode" class="authcode"></mt-cell>
+            <span @click.navite="changeSmsVerifyCode"><mt-cell title="获取验证码" class="authcode"></mt-cell></span>
           </mt-field>
           <div class="pwdmanage">
             <mt-checklist
