@@ -77,7 +77,6 @@
             }
           }
         }
-        console.log(this.orderIds)
         return price
       }
     }
