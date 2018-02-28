@@ -1,5 +1,5 @@
 <template>
-  <div class="product-item">
+  <div class="product-item" style="border-radius: 20px;box-shadow: 0 1px 10px #888888">
     <div class="pic" id="product-item-img">
       <img v-lazy.product-item-img="product.img" width="120px" height="120px">
       <!--<img v-lazy.product-item-img="product.img" width="120px" height="120px">-->
@@ -90,15 +90,20 @@
   .product-item {
     position: relative;
     background-color: white;
+    margin:10px;
   }
 
   .pic {
     background-color: #F3F3F3;
     position: absolute;
-    margin-left: 1px;
-    width: 120px;
-    height: 120px;
+    margin-left: 2px;
+    margin-top: 2px;
+    width: 110px;
+    height: 110px;
     img {
+      // border-radius: 20px;
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
       width: 100%;
       height: 100%;
     }
@@ -168,12 +173,13 @@
     }
     .add-to-cart {
       /*border: 1px solid #000;*/
+      border-radius: 10px;
       position: absolute;
       right: 0;
-      top: 0;
+      top: -10px;
       height: 40px;
       padding: 0px 9px;
-      font-size: 14px;
+      font-size: 15px;
       color: #fff;
       background: #169BD5;
     }

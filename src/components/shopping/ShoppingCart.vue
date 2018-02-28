@@ -227,11 +227,10 @@
         }
         this.$http.post('/order/createOrder', {'standardIds': standardIds}).then(
           (res) => {
-            console.log(res)
-            this.$router.push({path: '/orderInfo', query: {'orderId': res.data}})
+            this.$router.push({path: '/orderInfo', query: {'orderIds': [res.data]}})
           },
           (res) => {
-            this.$toast('生成订单失败')
+            this.$toast('生成订单失败,请稍后重试')
           })
       },
       toLogin: function () {

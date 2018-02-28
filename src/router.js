@@ -22,6 +22,7 @@ const ShopInfo = resolve => require(['./components/person/ShopInfo'], resolve)
 const AuthIdentity = resolve => require(['./components/person/AuthIdentity/AuthIdentity'], resolve)
 const PhysicalShop = resolve => require(['./components/person/AuthIdentity/PhysicalShop'], resolve)
 const NetSale = resolve => require(['./components/person/AuthIdentity/NetSale'], resolve)
+const IsPayOk = resolve => require(['./components/shopping/IsPayOk'], resolve)
 
 export default new Router({
   mode: 'history',
@@ -148,6 +149,10 @@ export default new Router({
       path: '/netSale', // 网络销售认证
       name: 'NetSale',
       component: NetSale
+    }, {
+      path: '/isPayOk/:orderId', // 网络销售认证
+      name: 'IsPayOk',
+      component: IsPayOk
     }
   ],
   scrollBehavior (to, from, savedPosition) {

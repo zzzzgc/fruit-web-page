@@ -57,14 +57,17 @@
         <!--</tr>-->
         <!--</table>-->
       </div>
-      <!--<hr>-->
-      <div class="products">
-        <div v-for="(product, index) in product_info.products" :key="product.id">
-          <div class="product" @click="lookProduct(product.product_id,product.product_standard_id)">
-            <img :src='product.img' alt="">
-            <span class="top_left_str">[{{product.country =='中国'?'国产':'进口'}}]{{product.product_name}}</span>
-            <span class="sub_str">{{product.product_standard_name}}</span>
-            <span class="lower_right_str"><span style="color: red;">￥{{product.sell_price}}</span> X {{product.num}}{{product.measure_unit}}</span>
+
+      <div class="products" v-for="(order,index) in orders.productsInfo" :key="order.orderId">
+        <div>
+          <p style="background-color: #169BD8">订单号:{{order.orderId}}</p>
+          <div v-for="(product, index) in order.products" :key="product.id">
+            <div class="product" @click="lookProduct(product.product_id,product.product_standard_id)">
+              <img :src='product.img' alt="">
+              <span class="top_left_str">[{{product.country =='中国'?'国产':'进口'}}]{{product.product_name}}</span>
+              <span class="sub_str">{{product.product_standard_name}}</span>
+              <span class="lower_right_str"><span style="color: red;">￥{{product.sell_price}}</span> X {{product.num}}{{product.measure_unit}}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -101,11 +104,13 @@
 </template>
 
 <script>
-  import Mint from 'mint-ui'
-  import Vue from 'vue'
   import 'mint-ui/lib/style.css'
   import BottomMenu from '../common/BottomMenu'
   import TitleInfo from '../common/TitleInfo'
+  import {urlPrefix} from '../../common/const'
+
+  import Vue from 'vue'
+  import Mint from 'mint-ui'
 
   Vue.use(Mint)
 
@@ -115,18 +120,15 @@
       countNum: function () {
         // 商品总数
         let count = 0
-        for (let product of this.product_info.products) {
-          count += product.num
+        for (let order of this.orders.productsInfo) {
+          for (let product of order.products) {
+            count += product.num
+          }
         }
         return count
       },
       countPrice: function () {
-        // 商品总金额
-        let price = 0.0
-        for (let product of this.product_info.products) {
-          price += (product.num * 1.0) * (product.sell_price * 1.0)
-        }
-        return price
+        return this.orders.orderTotalPrice
       }
     },
     data: function () {
@@ -165,44 +167,87 @@
         //     textAlign: 'center'
         //   }
         // ],
-        orderId: '',
-        product_info: {
-          products: [
+        orderIds: [],
+        orders: {
+          productsInfo: [
             {
-              img: '//timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
-              product_standard_id: 1,
-              country: '中国',
-              product_name: '天山雪莲',
-              measure_unit: '箱',
-              product_id: 1,
-              product_standard_name: '1朵',
-              sell_price: 999.00,
-              num: 27
+              orderId: 123456,
+              products: [
+                {
+                  img: '//timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
+                  product_standard_id: 1,
+                  country: '中国',
+                  product_name: '天山雪莲',
+                  measure_unit: '箱',
+                  product_id: 1,
+                  product_standard_name: '1朵',
+                  sell_price: 999.00,
+                  num: 27
+                },
+                {
+                  img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
+                  product_standard_id: 2,
+                  country: '美国',
+                  product_name: '牛油果',
+                  measure_unit: '箱',
+                  product_standard_name: '12个',
+                  sell_price: 20.00,
+                  num: 5
+                },
+                {
+                  img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
+                  product_standard_id: 3,
+                  country: '菲律宾',
+                  product_name: '大芒果',
+                  measure_unit: '箱',
+                  product_standard_name: '24个',
+                  sell_price: 15.00,
+                  num: 10
+                }
+              ],
+              totalPrice: '12312.00'
             },
             {
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
-              product_standard_id: 2,
-              country: '美国',
-              product_name: '牛油果',
-              measure_unit: '箱',
-              product_standard_name: '12个',
-              sell_price: 20.00,
-              num: 5
-            },
-            {
-              img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
-              product_standard_id: 3,
-              country: '菲律宾',
-              product_name: '大芒果',
-              measure_unit: '箱',
-              product_standard_name: '24个',
-              sell_price: 15.00,
-              num: 10
-            }
-          ],
-          totalPrice: '12312.00'
+              orderId: 123456,
+              products: [
+                {
+                  img: '//timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
+                  product_standard_id: 1,
+                  country: '中国',
+                  product_name: '天山雪莲',
+                  measure_unit: '箱',
+                  product_id: 1,
+                  product_standard_name: '1朵',
+                  sell_price: 999.00,
+                  num: 27
+                },
+                {
+                  img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
+                  product_standard_id: 2,
+                  country: '美国',
+                  product_name: '牛油果',
+                  measure_unit: '箱',
+                  product_standard_name: '12个',
+                  sell_price: 20.00,
+                  num: 5
+                },
+                {
+                  img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515150264681&di=342c6500978767844cf0a0a345d18c57&imgtype=0&src=http%3A%2F%2Fb.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F7e3e6709c93d70cfa27f83e9f2dcd100bba12b48.jpg',
+                  product_standard_id: 3,
+                  country: '菲律宾',
+                  product_name: '大芒果',
+                  measure_unit: '箱',
+                  product_standard_name: '24个',
+                  sell_price: 15.00,
+                  num: 10
+                }
+              ],
+              totalPrice: '12312.00'
+            }],
+          orderTotalPrice: '123132165.00'
         },
         payInfo: {
+          mweb_url: '',
           appId: '',
           timeStamp: '',
           nonceStr: '',
@@ -213,8 +258,11 @@
       }
     },
     mounted: function () {
-      this.orderId = this.$route.query.orderId
+      // 传入订单数组
+      this.orderIds = this.$route.query.orderIds
+      console.log(this.orderIds)
       this.getProducts()
+      // this.getPayInfo()
     },
     components: {
       BottomMenu,
@@ -230,6 +278,7 @@
         this.$router.push('/product/' + productId + '-' + productStandardId)
       },
       getPay: function () {
+        // 微信H5支付
         // console.log('payInfo:')
         // console.log(this.payInfo)
         // 微信拉起支付
@@ -261,31 +310,48 @@
         //     }
         //   )
         // }
+        window.location.href = this.payInfo.mweb_url + '&redirect_url=' + urlPrefix + 'isPayOk/' + this.orderId
       },
       getProducts: function () {
         // 获取下单的商品信息
-        this.$http.post('/order/getOrderProducts', {'orderId': this.orderId})
+        this.$http.post('/order/getOrdersProducts', {'orderIds': this.orderIds})
           .then(
             (response) => {
               console.log('商品信息')
               console.log(response.data)
-              this.product_info = response.data
+              this.orders = response.data
               // 获取预支付信息
               // this.getPayInfo()
             }
           )
       },
       getPayInfo: function () {
-        // 获取预微信预支付
-        this.$http.post('/order/createPayOrder', {'orderId': this.orderId})
+        // 获取预微信预支付H5信息
+        // this.$http.post('/order/createPayOrderByH5', {'orderId': this.orderId})
+        //   .then(
+        //     (response) => {
+        //       console.log(response.data)
+        //       this.payInfo.prepay_id = response.data.prepay_id
+        //       this.payInfo.appId = response.data.appId
+        //       this.payInfo.timeStamp = response.data.timeStamp
+        //       this.payInfo.nonceStr = response.data.nonceStr
+        //       this.payInfo.signType = response.data.signType
+        //       console.log('获取成功了')
+        //     }, (response) => {
+        //       console.log(response.data)
+        //       console.log('获取失败了')
+        //     }
+        //   )
+
+        // 获取预微信预支付JS-API信息
+        this.$http.post('/order/createPayOrderByJsApi', {'orderId': this.orderId})
           .then(
             (response) => {
               console.log(response.data)
-              this.prepay_id = response.data
+              this.payInfo.mweb_url = response.data
               console.log('获取成功了')
             }, (response) => {
               console.log(response.data)
-              this.prepay_id = response.data
               console.log('获取失败了')
             }
           )
@@ -317,19 +383,17 @@
     }
 
     .products {
-      border-bottom: 1px solid #676767;
-      border-top: 1px solid #676767;
       margin: 10px 0;
       .product {
         /*border: 1px solid; // 临时*/
         box-sizing: border-box;
         height: 90px;
         font-size: 14px;
-        margin: 10px 0px 10px 0px;
-        /*background-color: white;*/
-        /*box-shadow: 0px 5px 15px #888888;*/
-        /*border-radius: 15px; 美化*/
-        /*border-bottom: 5px solid #676767;*/
+        margin: 10px 20px 10px;
+        background-color: white;
+        box-shadow: 0px 5px 15px #888888;
+        border-radius: 15px;
+        border-bottom: 5px solid #676767;
         img {
           float: left;
           width: 80px;

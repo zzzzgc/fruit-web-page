@@ -40,6 +40,7 @@
             <td class="second">
               <router-link to="/product/list/0-0-3" style="color: white;font-size:26px;font-family: STSong,Georgia,Serif;">进口好货</router-link>
             </td>
+            <td style="background: url('../images/homeIcon/智利车厘子-z.jpg')"></td>
           </tr>
           <tr>
             <td class="third">
@@ -238,7 +239,6 @@
         } else {
           let localCartProducts = getCartProducts()
           console.log(localCartProducts)
-          // TODO 未登录的购物车统计单数和
           this.totalOrderInfo.order_count = localCartProducts.length
           this.totalOrderInfo.total_money = '请登录后查看'.toString()
         }
