@@ -54,7 +54,8 @@
   import Lazyload from 'mint-ui/packages/lazyload/src/lazyload'
   import InfiniteScroll from 'mint-ui/packages/infinite-scroll/src/infinite-scroll'
   import VanCheckbox from 'vant/packages/checkbox/index'
-  import 'vant/lib/vant-css/index.css'
+  import 'vant/lib/vant-css/checkbox.css'
+  import 'vant/lib/vant-css/icon.css'
 
   export default {
     components: {
@@ -121,4 +122,14 @@
   }
 
 
+</style>
+<style>
+  /* 不能删除 去掉mint-ui的cell组件自带的样式*/
+  .mint-cell-wrapper{
+    background-image: none;
+  }
+  /* 不能删除 去掉mint-ui的cell组件自带的样式*/
+  .mint-cell:last-child{
+    background-image: none;
+  }
 </style>
