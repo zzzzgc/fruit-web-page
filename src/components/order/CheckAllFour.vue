@@ -55,7 +55,7 @@
       'orders': this.orders
     },
     methods: {
-      goPayByThree: function () {
+      goPayByFour: function () {
         this.$router.push({path: '/orderInfo', query: {'orderIds': this.orderIds}})
       }
     },
