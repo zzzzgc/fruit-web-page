@@ -15,7 +15,7 @@
           <div>合计：<span class="total-price">￥{{totalPrice}}</span></div>
           <!--<div class="total-pay">总额：￥{{totalPay}} 立减：￥{{discountMoney}}</div>-->
         </td>
-        <td class="go-pay">去结算</td>
+        <td class="go-pay" @click.navite="goPayByOne">去结算</td>
       </tr>
     </table>
   </div>
@@ -47,19 +47,27 @@
     },
     data () {
       return {
-        checkAll: false
+        checkAll: false,
+        orderIds: []
       }
     },
     props: {
       'orders': this.orders
     },
+    methods: {
+      goPayByOne: function () {
+        this.$router.push({path: '/orderInfo', query: {'orderIds': this.orderIds}})
+      }
+    },
     computed: {
       totalPrice: function () { // 获取到选中的总金额
         let price = 0
+        this.orderIds = []
         for (var key in this.orders) {
           let flag = false
           for (let o of this.orders[key]) {
             if (o.check) {
+              this.orderIds.push(key)
               flag = true
             }
           }
@@ -69,6 +77,7 @@
             }
           }
         }
+        console.log(this.orderIds)
         return price
       }
     }
