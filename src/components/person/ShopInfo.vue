@@ -214,10 +214,10 @@
     color: #ff0000;
     margin: 55px 0 0 0;
   }
-
-  .shop-detail span {
-    width:27%;
-    display: inline-block;
-    color: #ff0000;
+</style>
+<style>
+  /* 不能删除 去掉mint-ui的cell组件自带的样式 */
+  .mint-cell-wrapper{
+    background-image: none;
   }
 </style>
