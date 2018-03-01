@@ -32,20 +32,25 @@
             </td>
           </tr>
           <tr style="flex:1;">
-            <td style="position:relative;margin:0 auto;text-align: center;width:25%;"><img src="../../images/myOrder/verifying1-1.png" width="32px;" height="32px;"/>
+            <td style="position:relative;margin:0 auto;text-align: center;width:25%;">
+              <router-link :to="{path: '/orderList',query: {selected:'two'}}" class="order-item-child"><img src="../../images/myOrder/verifying1-1.png" width="32px;" height="32px;"/>
               <span class="my-badge" v-if="verifying!=0">{{verifying}}</span>
+              </router-link>
             </td>
           </tr>
           <tr style="flex:1;">
             <td style="position:relative;margin:0 auto;text-align: center;width:25%;">
-              <img src="../../images/myOrder/waitReceiver1-1.png" width="32px;" height="32px;"/>
+              <router-link :to="{path: '/orderList',query: {selected:'three'}}" class="order-item-child"><img src="../../images/myOrder/waitReceiver1-1.png" width="32px;" height="32px;"/>
               <span class="my-badge" v-if="waitReceiver!=0">{{waitReceiver}}</span>
+              </router-link>
             </td>
           </tr>
           <tr style="flex:1;">
             <td style="position:relative;margin:0 auto;text-align: center;width:25%;">
+              <router-link :to="{path: '/orderList',query: {selected:'four'}}" class="order-item-child">
               <img src="../../images/myOrder/myOrder1-1.png" width="32px;" height="32px;"/>
               <span class="my-badge" v-if="myOrders!=0">{{myOrders}}</span>
+              </router-link>
             </td>
           </tr>
         </table>
