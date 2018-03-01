@@ -26,7 +26,6 @@
         <div>
           <mt-field label="收货地址" :value="this.buy_info.buy_address" placeholder="请输入收货地址"></mt-field>
         </div>
-
         <mt-popup position="bottom" v-model="on_off.delivery_type_popup" style="width:100%;">
           <!--<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">-->
           <mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>
@@ -58,15 +57,16 @@
         <!--</table>-->
       </div>
 
+      <!--列表展示-->
       <div class="products" v-for="(order,index) in orders.productsInfo" :key="order.orderId">
         <div>
-          <p style="background-color: #169BD8">订单号:{{order.orderId}}</p>
+          <spen style="background-color: #169BD8;">订单号:{{order.orderId}}</spen>
           <div v-for="(product, index) in order.products" :key="product.id">
             <div class="product" @click="lookProduct(product.product_id,product.product_standard_id)">
               <img :src='product.img' alt="">
-              <span class="top_left_str">[{{product.country =='中国'?'国产':'进口'}}]{{product.product_name}}</span>
+              <span class="top_left_str"><span style="background-color: red;color: white;border-radius: 5px">&nbsp;{{product.country =='中国'?'国产':'进口'}}&nbsp;</span>&nbsp;{{product.product_name}}</span>
               <span class="sub_str">{{product.product_standard_name}}</span>
-              <span class="lower_right_str"><span style="color: red;">￥{{product.sell_price}}</span> X {{product.num}}{{product.measure_unit}}</span>
+              <span class="lower_right_str"><span style="color: red;">￥{{product.sell_price}}</span> X {{product.num}}件</span>
             </div>
           </div>
         </div>
@@ -383,7 +383,10 @@
     }
 
     .products {
+      /*border-radius: 50px;*/
       margin: 10px 0;
+      padding-bottom: 20px;
+      box-shadow: 0px 5px 15px #888888;
       .product {
         /*border: 1px solid; // 临时*/
         box-sizing: border-box;
@@ -393,7 +396,7 @@
         background-color: white;
         box-shadow: 0px 5px 15px #888888;
         border-radius: 15px;
-        border-bottom: 5px solid #676767;
+        //border-bottom: 5px solid #676767;
         img {
           float: left;
           width: 80px;
