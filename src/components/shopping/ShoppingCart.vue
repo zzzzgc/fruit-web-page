@@ -212,7 +212,7 @@
         }
         if (this.isLogin()) {
           // 覆盖信息,和添加信息
-          this.$http.post('/cart/addProduct', product).then((response) => {
+          this.$http.post('/cart/updateProduct', product).then((response) => {
           })
         } else {
           setCartProducts(product)
