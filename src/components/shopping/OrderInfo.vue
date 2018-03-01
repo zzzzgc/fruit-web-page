@@ -60,13 +60,15 @@
       <!--列表展示-->
       <div class="products" v-for="(order,index) in orders.productsInfo" :key="order.orderId">
         <div>
-          <spen style="background-color: #169BD8;">订单号:{{order.orderId}}</spen>
+          <span style="padding:10px 0;display: block;width:300px;margin:0 auto;">订单号:{{order.orderId}}</span>
           <div v-for="(product, index) in order.products" :key="product.id">
             <div class="product" @click="lookProduct(product.product_id,product.product_standard_id)">
               <img :src='product.img' alt="">
-              <span class="top_left_str"><span style="background-color: red;color: white;border-radius: 5px">&nbsp;{{product.country =='中国'?'国产':'进口'}}&nbsp;</span>&nbsp;{{product.product_name}}</span>
-              <span class="sub_str">{{product.product_standard_name}}</span>
-              <span class="lower_right_str"><span style="color: red;">￥{{product.sell_price}}</span> X {{product.num}}件</span>
+              <div style="padding-top: 10px">
+                <span class="top_left_str"><span style="background-color: red;color: white;border-radius: 5px">&nbsp;{{product.country =='中国'?'国产':'进口'}}&nbsp;</span>&nbsp;{{product.product_name}}</span>
+                <span class="sub_str">{{product.product_standard_name}}</span>
+                <span class="lower_right_str"><span style="color: red;">￥{{product.sell_price}}</span> X {{product.num}}件</span>
+              </div>
             </div>
           </div>
         </div>
@@ -391,22 +393,22 @@
         /*border: 1px solid; // 临时*/
         box-sizing: border-box;
         height: 90px;
-        font-size: 14px;
         margin: 10px 20px 10px;
         background-color: white;
         box-shadow: 0px 5px 15px #888888;
         border-radius: 15px;
         //border-bottom: 5px solid #676767;
         img {
+          border-top-left-radius: 10px;
+          border-bottom-left-radius: 10px;
           float: left;
           width: 80px;
           height: 80px;
-          margin-top: 5px;
-          margin-left: 10px;
+          margin: 5px 10px 10px;
         }
 
         .top_left_str {
-          margin-top: 30px;
+          display: block;
         }
 
         .sub_str {
@@ -419,8 +421,8 @@
         .lower_right_str {
           display: block;
           text-align: right;
-          line-height: 50px;
-          margin-right: 5px;
+          line-height: 40px;
+          margin-right: 15px;
         }
       }
     }

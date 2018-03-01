@@ -259,8 +259,8 @@
           'remark': ''
         }
         if (this.isLogin()) {
-          // 更新或添加数据库中该用户的购物车商品
-          this.$http.post('/cart/updateProduct', carProduct).then((response) => {
+          // 累加商品,需求的要求
+          this.$http.post('/cart/addProduct', carProduct).then((response) => {
             Toast('添加成功')
           })
         } else {

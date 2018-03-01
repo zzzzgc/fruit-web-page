@@ -7,6 +7,8 @@
       <div>购物车</div>
       <div class="edit" @click="edit()">{{isEdit ? '取消' : '编辑'}}</div>
     </div>
+    <!--<TitleInfo titleContent="购物车"></TitleInfo>-->
+
     <div class="products">
       <!--<product-item v-for="(p, index) in products" :product="p" :key="p.id"></product-item>-->
       <div v-if="products.length > 0" v-for="(product, index) in products" :key="product.id" class="product-item">
@@ -15,6 +17,8 @@
         <router-link :to="'/product/' + product.id + '-' + product.standard_id" class="pic">
           <img v-lazy.shopping-cart="product.img">
         </router-link>
+
+
 
         <!-- 商品信息 -->
         <div class="info" @click="choice(index)">
@@ -78,6 +82,7 @@
 <script>
   import {Stepper} from 'vant'
   import BottomMenu from '../common/BottomMenu'
+  import TitleInfo from '../common/TitleInfo'
   // import {this.$toast} from 'mint-ui'
   import Icon from 'vue-awesome/components/Icon'
   import 'vue-awesome/icons/angle-left'
@@ -99,6 +104,7 @@
     components: {
       [Stepper.name]: Stepper,
       BottomMenu,
+      TitleInfo,
       Icon
     },
     props: [],
@@ -204,8 +210,8 @@
           remark: this.products[index].remark
         }
         if (this.isLogin()) {
-          // 更新或添加数据库中该用户的购物车商品
-          this.$http.post('/cart/updateProduct', product).then((response) => {
+          // 覆盖信息,和添加信息
+          this.$http.post('/cart/addProduct', product).then((response) => {
           })
         } else {
           setCartProducts(product)
@@ -292,18 +298,22 @@
       position: relative;
       background: white;
       padding: 5px 0;
-      border-top: 1px solid #EEE;
+      margin: 10px 10px;
       overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px #888888;
     }
     .pic {
+      margin: 0px 5px;
       position: absolute;
       z-index: 1;
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       img {
+        border-radius: 10px;
         background: #F3F3F3;
         width: 100%;
-        height: 100%;
+        height: 100px;
       }
     }
     .info {
@@ -312,7 +322,7 @@
       display: block;
       box-sizing: border-box;
       padding: 10px 10px 3px 125px;
-      height: 70px;
+      height: 50px;
       line-height: 23px;
       font-size: 15px;
       .title {
