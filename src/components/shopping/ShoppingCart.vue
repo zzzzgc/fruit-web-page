@@ -49,7 +49,8 @@
 
         <!--<span>备注信息</span>-->
         <div class="remark">
-          <input v-model="product.remark" placeholder="填写备注信息" @blur="update(index)"/>
+          <!--备注:<textarea v-model="product.remark" placeholder="填写备注信息" @blur="update(index)"></textarea>-->
+          <span>备注:</span><input type="text" style="display: inline" v-model="product.remark" placeholder="可填写备注信息" @blur="update(index)"/>
         </div>
 
       </div>
@@ -297,14 +298,15 @@
     .product-item {
       position: relative;
       background: white;
-      padding: 5px 0;
-      margin: 10px 10px;
+      /*padding: 5px 0;*/
+      /*margin: 10px 10px;*/
       overflow: hidden;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px #888888;
+      margin: 20px 0;
+      /*border-radius: 15px;*/
+      /*box-shadow: 0 5px 15px #888888;*/
     }
     .pic {
-      margin: 0px 5px;
+      margin: 0 5px;
       position: absolute;
       z-index: 1;
       width: 100px;
@@ -391,12 +393,11 @@
       }
     }
     .remark {
-      font-size: 15px;
+      font-size: 14px;
       color: #767676;
-      border-top: 1px solid #EEE;
       input {
-        width: 100%;
         border: 0;
+        font-size: 18px;
       }
     }
     .no-cart-product {
