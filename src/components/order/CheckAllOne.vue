@@ -56,6 +56,8 @@
     },
     methods: {
       goPayByOne: function () {
+        console.log(this.orderIds.length)
+        console.log(this.orderIds)
         this.$router.push({path: '/orderInfo', query: {'orderIds': this.orderIds}})
       }
     },
@@ -65,9 +67,13 @@
         this.orderIds = []
         for (var key in this.orders) {
           let flag = false
+          let isExit = false
           for (let o of this.orders[key]) {
             if (o.check) {
-              this.orderIds.push(key)
+              if (!isExit) {
+                this.orderIds.push(key)
+                isExit = true
+              }
               flag = true
             }
           }
@@ -77,6 +83,7 @@
             }
           }
         }
+        console.log(this.orderIds)
         return price
       }
     }

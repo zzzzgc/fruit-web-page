@@ -65,9 +65,13 @@
         this.orderIds = []
         for (var key in this.orders) {
           let flag = false
+          let isExit = false
           for (let o of this.orders[key]) {
             if (o.check) {
-              this.orderIds.push(key)
+              if (!isExit) {
+                this.orderIds.push(key)
+                isExit = true
+              }
               flag = true
             }
           }
