@@ -30,10 +30,10 @@
           <!--<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">-->
           <mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>
         </mt-popup>
-        <mt-popup position="bottom" v-model="on_off.delivery_time_popup" style="width:100%;">
-          <!--<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">-->
-          <mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>
-        </mt-popup>
+        <!--<mt-popup position="bottom" v-model="on_off.delivery_time_popup" style="width:100%;">-->
+          <!--&lt;!&ndash;<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">&ndash;&gt;-->
+          <!--<mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>-->
+        <!--</mt-popup>-->
         <!--<table>-->
         <!--<tr>-->
         <!--<td>配送时间:</td>-->
@@ -265,7 +265,7 @@
       this.orderIds = this.$route.query.orderIds
       console.log(this.orderIds)
       this.getProducts()
-      //this.getPayInfo()
+      // this.getPayInfo()
       this.buyInfo()
     },
     components: {
