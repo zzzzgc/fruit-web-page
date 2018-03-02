@@ -264,7 +264,8 @@
       this.orderIds = this.$route.query.orderIds
       console.log(this.orderIds)
       this.getProducts()
-      // this.getPayInfo()
+      //this.getPayInfo()
+      this.buyInfo()
     },
     components: {
       BottomMenu,
@@ -278,6 +279,13 @@
       lookProduct: function (productId, productStandardId) {
         // 查看商品
         this.$router.push('/product/' + productId + '-' + productStandardId)
+      },
+      buyInfo: function () {
+        this.$http.post('/order/getBuyInfo').then(
+          (res) => {
+            this.buy_info = res.data
+          }
+        )
       },
       getPay: function () {
         // 微信H5支付
