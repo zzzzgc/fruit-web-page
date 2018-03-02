@@ -19,7 +19,6 @@
         </router-link>
 
 
-
         <!-- 商品信息 -->
         <div class="info" @click="choice(index)">
           <div class="operate">
@@ -235,10 +234,8 @@
         this.$http.post('/order/createOrder', {'standardIds': standardIds}).then(
           (res) => {
             this.$router.push({path: '/orderInfo', query: {'orderIds': [res.data]}})
-          },
-          (res) => {
-            this.$toast('生成订单失败,请稍后重试')
-          })
+          }
+        )
       },
       toLogin: function () {
         this.$router.push('login')
