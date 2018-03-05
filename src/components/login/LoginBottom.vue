@@ -33,7 +33,8 @@
       'password',
       'msgVerifyCode',
       'imageVerifyCode',
-      'selected'
+      'selected',
+      'rememberPW'
     ],
     methods: {
       toLoginByPwdBefore: function () {  // 密码登录校验
@@ -81,11 +82,11 @@
         }
       },
       login: function (verifyCodeType, verifyCode) {
-        this.$http.post('/login/auth', {phone: this.phone, password: this.password, verifyCode: verifyCode, verifyCodeType: verifyCodeType}, {showLoading: true})
+        this.$http.post('/login/auth', {phone: this.phone, password: this.password, verifyCode: verifyCode, rememberPW: this.rememberPW, verifyCodeType: verifyCodeType}, {showLoading: true})
           .then(
             (response) => {
               // 本地
-              this.setLoginUser(response.data)
+              this.setLoginUser(response.data, this.rememberPW)
               // 把本地的购物车移动到数据库中
               this.$http.post('/cart/saveGoodsData', {'cartProducts': JSON.stringify(this.getCartProducts())}).then((response) => {
                 // 清空购物车

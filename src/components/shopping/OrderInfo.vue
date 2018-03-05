@@ -30,10 +30,10 @@
           <!--<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">-->
           <mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>
         </mt-popup>
-        <mt-popup position="bottom" v-model="on_off.delivery_time_popup" style="width:100%;">
-          <!--<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">-->
-          <mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>
-        </mt-popup>
+        <!--<mt-popup position="bottom" v-model="on_off.delivery_time_popup" style="width:100%;">-->
+          <!--&lt;!&ndash;<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">&ndash;&gt;-->
+          <!--<mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>-->
+        <!--</mt-popup>-->
         <!--<table>-->
         <!--<tr>-->
         <!--<td>配送时间:</td>-->
@@ -65,7 +65,8 @@
             <div class="product" @click="lookProduct(product.product_id,product.product_standard_id)">
               <img :src='product.img' alt="">
               <div style="padding-top: 10px">
-                <span class="top_left_str"><span style="background-color: red;color: white;border-radius: 5px">&nbsp;{{product.country =='中国'?'国产':'进口'}}&nbsp;</span>&nbsp;{{product.product_name}}</span>
+                <span class="top_left_str"><span
+                  style="background-color: red;color: white;border-radius: 5px">&nbsp;{{product.country =='中国'?'国产':'进口'}}&nbsp;</span>&nbsp;{{product.product_name}}</span>
                 <span class="sub_str">{{product.product_standard_name}}</span>
                 <span class="lower_right_str"><span style="color: red;">￥{{product.sell_price}}</span> X {{product.num}}件</span>
               </div>
@@ -139,7 +140,7 @@
           {values: ['市场车', '物流', '自提']}
         ],
         buy_info: {
-          delivery_type: '',
+          delivery_type: 0,
           delivery_time: '',
           buy_user_name: '',
           buy_phone: '',
@@ -265,6 +266,7 @@
       console.log(this.orderIds)
       this.getProducts()
       // this.getPayInfo()
+      this.buyInfo()
     },
     components: {
       BottomMenu,
@@ -278,6 +280,13 @@
       lookProduct: function (productId, productStandardId) {
         // 查看商品
         this.$router.push('/product/' + productId + '-' + productStandardId)
+      },
+      buyInfo: function () {
+        this.$http.post('/order/getBuyInfo').then(
+          (res) => {
+            this.buy_info = res.data
+          }
+        )
       },
       getPay: function () {
         // 微信H5支付

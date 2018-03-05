@@ -32,10 +32,11 @@
           </div>
           <div class="pwdmanage">
             <mt-checklist
-              v-model="value"
+              v-model="rememberPW"
               align="left"
-              :options="['记住密码']" class="rememberPwd">
+              :options="pWOptions" class="rememberPwd">
             </mt-checklist>
+
             <mt-cell-swipe title="忘记密码" class="forgetPwd" to="./forgetPwd"> </mt-cell-swipe>
           </div>
         </mt-tab-container-item>
@@ -46,15 +47,15 @@
           </mt-field>
           <div class="pwdmanage">
             <mt-checklist
-              v-model="value"
+              v-model="rememberPW"
               align="left"
-              :options="['记住密码']" class="rememberPwd">
+              :options="pWOptions" class="rememberPwd">
             </mt-checklist>
           </div>
         </mt-tab-container-item>
       </mt-tab-container>
     </div>
-    <login-bottom @changeVerifyCode="changeImagesVerifyCode" :phone="phone" :password="password" :msgVerifyCode="msgVerifyCode" :imageVerifyCode="imageVerifyCode" :selected="selected"></login-bottom>
+    <login-bottom @changeVerifyCode="changeImagesVerifyCode" :phone="phone" :password="password" :rememberPW="rememberPW.length != 0" :msgVerifyCode="msgVerifyCode" :imageVerifyCode="imageVerifyCode" :selected="selected"></login-bottom>
   </div>
 </template>
 
@@ -81,14 +82,15 @@
         // phone: '',
         // password: '',
         phone: '13242871762',
-        password: '111111',
+        password: '123456',
         phoneValidation: null,
         passwordValidation: null,
         selected: '1',
-        value: [],
         fullPathImg: '',
         imageVerifyCode: '',
-        msgVerifyCode: ''
+        msgVerifyCode: '',
+        rememberPW: [],
+        pWOptions: [{label: '记住密码', value: '1'}]
       }
     },
     watch: {

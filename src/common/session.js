@@ -51,8 +51,12 @@ export function getLoginUserInfo () {
 }
 
 // 设置登录用户信息
-export function setLoginUser (data) {
-  setCookie(cookieToken, data)
+export function setLoginUser (data, rememberPW) {
+  if (rememberPW) {
+    setCookie(cookieToken, data, 604800) // 7天
+  } else {
+    setCookie(cookieToken, data)
+  }
   // localStorage.setItem(local_session_user_info_key, userInfo)
 }
 
