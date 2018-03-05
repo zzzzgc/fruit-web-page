@@ -17,7 +17,7 @@
       <div style="display: flex;flex-direction: row;background-color: white;">
         <mt-cell style="color:#ff0000;width:117px;" title="物流方式："></mt-cell>
         <div style="flex: 1;line-height: 44px;margin-top:4px;text-align: left;color:#000;">
-          <div @click.navite="showShipmentsType">{{businessInfo.shipments_type}}</div>
+          <div @click.navite="showShipmentsType">{{businessInfo.shipments_type ==0?'市场车':(businessInfo.shipments_type ==1?'物流':(businessInfo.shipments_type==2?'自提':businessInfo.shipments_type))}}</div>
         </div>
       </div>
       <mt-popup position="bottom" v-model="isShowShipmentsType" style="width:100%;padding: 10px 0;">
@@ -47,13 +47,13 @@
     data: function () {
       return {
         businessInfo: {
-          business_name: '',
-          business_contacts: '',
-          phone: '',
+          business_name: '测试1',
+          business_contacts: '蔡赐州',
+          phone: '13539403925',
           address_province: '请选择',
           address_city: '请选择',
-          address_detail: '',
-          address_shop: '',
+          address_detail: '详细地址',
+          address_shop: '店铺地址',
           shipments_type: '请选择'
         },
         shipmentsType: [
@@ -81,7 +81,10 @@
           }
         ],
         isShowProvinceAndCity: false,
-        isEdit: true
+        isEdit: true,
+        shipmentsContainer: {
+          shipmentCode: 0
+        }
       }
     },
     methods: {
@@ -121,7 +124,8 @@
       },
       addBusinessInfo: function () { // 添加商店信息
         if (this.addBusinessInfoBefore()) {
-          this.$http.post('/businessInfo/addBusinessInfo', this.businessInfo).then((response) => {
+          this.shipmentsContainer.shipmentCode = this.getShipmentType(this.businessInfo.shipments_type)
+          this.$http.post('/businessInfo/addBusinessInfo', Object.assign({}, this.businessInfo, this.shipmentsContainer)).then((response) => {
             if (response.data === 1) {
               this.$toast('添加成功')
               // this.businessInfo.business_name = ''
@@ -136,6 +140,17 @@
             }
           })
         }
+      },
+      getShipmentType: function (shipmentType) {
+        let shipmentCode = 0
+        if (shipmentType === '市场车') {
+          shipmentCode = 0
+        } else if (shipmentType === '物流') {
+          shipmentCode = 1
+        } else if (shipmentType === '自提') {
+          shipmentCode = 2
+        }
+        return shipmentCode
       },
       showShipmentsType: function () { // 通过isShowShipmentsType为true来控制popup显示
         if (!this.isShowShipmentsType && this.isEdit === false) {
