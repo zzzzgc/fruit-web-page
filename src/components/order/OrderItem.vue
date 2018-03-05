@@ -8,12 +8,14 @@
             v-model="order.check"
             :options="['您的订单正在确认中…']"  style="flex:0.8;" >
           </mt-checklist>-->
-            <div style="flex:0.8;margin:18px 0 0 15px">
-              <van-checkbox :id="order.order_id+index" v-model="order.check">您的订单正在确认中…</van-checkbox>
+            <div style="flex:0.8;margin:18px 0 0 15px;">
+              <div @click.navite="checkOrder(key)">
+                <van-checkbox :id="order.order_id+index" v-model="order.check" >您的订单正在确认中…</van-checkbox>
+              </div>
               <!--<input type="checkbox" :id="order.order_id+index" v-model="order.check">
               <label :for="order.order_id+index" style="flex:9;">您的订单正在确认中…</label>-->
             </div>
-            <mt-cell style="flex:0.2;margin-top:7px;" v-if="order.ispay == 5">已支付</mt-cell>
+              <mt-cell style="flex:0.2;margin-top:7px;" v-if="order.ispay == 5">已支付</mt-cell>
             <mt-cell style="flex:0.2;margin-top:7px;" v-else="order.ispay == 0"><span style="color:red;">待付款</span>
             </mt-cell>
           </div>
@@ -56,6 +58,7 @@
   import VanCheckbox from 'vant/packages/checkbox/index'
   import 'vant/lib/vant-css/checkbox.css'
   import 'vant/lib/vant-css/icon.css'
+  import bus from '../../common/bus'
 
   export default {
     components: {
@@ -100,6 +103,28 @@
     methods: {
       toProductDetail: function (productUrl) {
         this.$router.push('/product/' + productUrl)
+      },
+      checkOrder: function (a) {
+        console.log(a)
+        this.orderIds = []  // 存放选中的订单置null
+        for (var key in this.orders) {
+          let isExit = false // 判断是否存在，并只给一个订单的第一个订单号
+          for (let o of this.orders[key]) {
+            if (o.check) {
+              if (!isExit) {
+                this.orderIds.push(key)
+                isExit = true
+              }
+            }
+          }
+        }
+        console.log(this.ordersCount)
+        console.log(this.orderIds.length)
+        if (this.ordersCount === this.orderIds.length) {
+          bus.$emit('isCheckAll', true)
+        } else {
+          bus.$emit('isCheckAll', false)
+        }
       }
     }
   }

@@ -7,7 +7,9 @@
           <!--v-model="checkAll"-->
           <!--:options="['全选']" style="width:100px;margin-left:-10px;">-->
           <!--</mt-checklist>-->
+          <div @click.navite="checkAllByOne">
           <van-checkbox id="checkAllOne" v-model="checkAll">全选</van-checkbox>
+          </div>
           <!--<input type="checkbox" id="checkAllOne" v-model="checkAll">-->
           <!--<label for="checkAllOne">全选</label>-->
         </td>
@@ -23,51 +25,91 @@
 
 <script>
   import VanCheckbox from 'vant/packages/checkbox/index'
+  import bus from '../../common/bus'
   export default {
     name: 'check-all-one',
     components: {
       VanCheckbox
     },
     watch: {
-      checkAll: function (val, oldVal) { // 此处只能使用监听的方式，更新商品列表，因为搜索后还是在当前页面，所以不会执行mounted
-        if (val) {
-          for (var key in this.orders) {
-            for (let o in this.orders[key]) {
-              this.orders[key][o].check = true
-            }
-          }
-        } else {
-          for (var index in this.orders) {
-            for (let o of this.orders[index]) {
-              o.check = false
-            }
-          }
-        }
+      // checkAll: function (val, oldVal) { // 此处只能使用监听的方式，更新商品列表，因为搜索后还是在当前页面，所以不会执行mounted
+      //   if (val) {
+      //     for (var key in this.orders) {
+      //       let ascNum = 0
+      //       for (let o in this.orders[key]) {
+      //         if (ascNum === 0) {
+      //           this.orders[key][o].check = true
+      //           ascNum = 1
+      //         }
+      //       }
+      //     }
+      //   } else {
+      //     for (var index in this.orders) {
+      //       let ascNum = 0
+      //       for (let o of this.orders[index]) {
+      //         if (ascNum === 0) {
+      //           o.check = false
+      //           ascNum = 1
+      //         }
+      //       }
+      //     }
+      //   }
+      // }
+      isCheckAll: function (val, oldVal) {
+        this.checkAll = this.isCheckAll
       }
     },
     data () {
       return {
         checkAll: false,
-        orderIds: []
+        orderIds: [],
+        ordersCount: 0
       }
     },
     props: {
-      'orders': this.orders
+      'orders': this.orders,
+      'isCheckAll': this.isCheckAll
     },
     methods: {
       goPayByOne: function () {
-        console.log(this.orderIds.length)
-        console.log(this.orderIds)
         this.$router.push({path: '/orderInfo', query: {'orderIds': this.orderIds}})
+      },
+      checkAllByOne: function () {
+        if (this.checkAll) {
+          let checkOrderCount = 0
+          for (var key in this.orders) {
+            let ascNum = 0
+            for (let o in this.orders[key]) {
+              if (ascNum === 0) {
+                checkOrderCount++
+                this.orders[key][o].check = true
+                ascNum = 1
+              }
+            }
+          }
+          bus.$emit('checkOrderCount', checkOrderCount)
+        } else {
+          for (var index in this.orders) {
+            let ascNum = 0
+            for (let o of this.orders[index]) {
+              if (ascNum === 0) {
+                o.check = false
+                ascNum = 1
+              }
+            }
+          }
+        }
       }
     },
     computed: {
       totalPrice: function () { // 获取到选中的总金额
         let price = 0
-        this.orderIds = []
+        this.orderIds = []  // 存放选中的订单置null
+        this.ordersCount = 0
         for (var key in this.orders) {
           let flag = false
-          let isExit = false
+          let isExit = false // 判断是否存在，并只给一个订单的第一个订单号
+          this.ordersCount++
           for (let o of this.orders[key]) {
             if (o.check) {
               if (!isExit) {
@@ -79,11 +121,10 @@
           }
           if (flag) {
             for (let o of this.orders[key]) {
-              price = ((((o.sell_price * 10) * (o.num * 10)) / 100) * 10 + price * 10) / 10
+              price = ((((o.sell_price * 10) * (o.num * 10)) / 100) * 10 + price * 10) / 10 // 统计选中的价格
             }
           }
         }
-        console.log(this.orderIds)
         return price
       }
     }
