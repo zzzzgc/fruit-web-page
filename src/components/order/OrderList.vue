@@ -20,22 +20,22 @@
     <mt-tab-container v-model="selected" :swipeable='true' value="tab-container1" style="margin-top:50px;">
       <mt-tab-container-item id="one">
         <order-item :orders="orders" :ordersCount="ordersCount" :selected="selected"></order-item>
-        <check-all-one :orders="orders" ></check-all-one>
+        <check-all-one :orders="orders" :isCheckAll="isCheckAll"></check-all-one>
         <bottom-menu></bottom-menu>
       </mt-tab-container-item>
       <mt-tab-container-item id="two">
         <order-item :orders="orders" :ordersCount="ordersCount" :selected="selected"></order-item>
-        <check-all-two :orders="orders" ></check-all-two>
+        <check-all-two :orders="orders" :isCheckAll="isCheckAll"></check-all-two>
         <bottom-menu></bottom-menu>
       </mt-tab-container-item>
       <mt-tab-container-item id="three">
         <order-item :orders="orders" :ordersCount="ordersCount"  :selected="selected"></order-item>
-        <check-all-three :orders="orders" ></check-all-three>
+        <check-all-three :orders="orders" :isCheckAll="isCheckAll"></check-all-three>
         <bottom-menu></bottom-menu>
       </mt-tab-container-item>
       <mt-tab-container-item id="four">
         <order-item :orders="orders" :ordersCount="ordersCount" :selected="selected"></order-item>
-        <check-all-four :orders="orders" ></check-all-four>
+        <check-all-four :orders="orders" :isCheckAll="isCheckAll"></check-all-four>
         <bottom-menu></bottom-menu>
       </mt-tab-container-item>
     </mt-tab-container>
@@ -53,6 +53,7 @@
   import CheckAllTwo from './CheckAllTwo'
   import CheckAllThree from './CheckAllThree'
   import CheckAllFour from './CheckAllFour'
+  import bus from '../../common/bus'
 
   Vue.use(Mint)
   export default {
@@ -74,7 +75,8 @@
           value: []
         },
         orderCount: [],
-        ordersCount: 0
+        ordersCount: 0,
+        isCheckAll: false
       }
     },
     methods: {
@@ -113,6 +115,17 @@
         spinnerType: 'fading-circle'
       })
       this.getOrderList(this.selected)
+      var self = this
+      bus.$on('isCheckAll', function (msg) {
+        self.isCheckAll = msg
+      })
+      bus.$on('checkOrderCount', function (msg) {
+        if (self.ordersCount === msg) {
+          self.isCheckAll = true
+        } else {
+          self.isCheckAll = false
+        }
+      })
     }
 
   }
