@@ -156,7 +156,7 @@ export default new Router({
     }
   ],
   scrollBehavior (to, from, savedPosition) {
-    // TODO 切换页面后,再切回有缓存的页面时需要设置回原有的
+    // 切换页面后,再切回有缓存的页面时需要设置回原有的
     if (savedPosition) {
       return savedPosition
     } else {

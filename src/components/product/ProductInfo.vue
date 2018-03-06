@@ -244,7 +244,7 @@
             console.log(response)
             console.log(response.data)
             // 支付确认页面
-            this.$router.push({path: '/orderInfo', query: {'orderId': response.data}})
+            this.$router.push({path: '/orderInfo', query: {'orderIds': [response.data]}})
           },
           // 失败函数
           (response) => {

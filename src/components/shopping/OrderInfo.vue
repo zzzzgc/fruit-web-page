@@ -31,8 +31,8 @@
           <mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>
         </mt-popup>
         <!--<mt-popup position="bottom" v-model="on_off.delivery_time_popup" style="width:100%;">-->
-          <!--&lt;!&ndash;<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">&ndash;&gt;-->
-          <!--<mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>-->
+        <!--&lt;!&ndash;<mt-popup position="bottom" :visible.sync="on_off.delivery_type_popup">&ndash;&gt;-->
+        <!--<mt-picker :slots="deliveryType" @change="pickerChange"></mt-picker>-->
         <!--</mt-popup>-->
         <!--<table>-->
         <!--<tr>-->
@@ -137,10 +137,13 @@
     data: function () {
       return {
         deliveryType: [
-          {values: ['市场车', '物流', '自提']}
+          {
+            values: ['市场车', '物流', '自提']
+          }
         ],
         buy_info: {
-          delivery_type: 0,
+          delivery_type: '',
+          deliver_index: 0,
           delivery_time: '',
           buy_user_name: '',
           buy_phone: '',
@@ -289,6 +292,11 @@
         )
       },
       getPay: function () {
+        this.$http.post('/order/setBuyInfo', Object.assign(this.buy_info, {orderIds: this.orderIds})).then(
+          (res) => {
+            console.log('物流信息写入成功')
+          }
+        )
         // 微信H5支付
         // console.log('payInfo:')
         // console.log(this.payInfo)
