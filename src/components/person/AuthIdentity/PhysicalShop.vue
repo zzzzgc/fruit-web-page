@@ -209,6 +209,7 @@
           formData.append(item.name, item.file)
         })
         // 新建请求
+        // TODO 跨域请求的时候没有传递安全认证信息 , 网络认证页面也同样
         const xhr = new XMLHttpRequest()
         xhr.open('POST', urlPrefix + 'authIdentity/addAuthInfoImg', true)
         xhr.send(formData)
