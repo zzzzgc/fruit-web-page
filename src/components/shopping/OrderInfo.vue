@@ -265,6 +265,8 @@
     },
     mounted: function () {
       // 传入订单数组
+      console.log('params')
+      console.log(this.$route)
       this.orderIds = this.$route.query.orderIds
       console.log(this.orderIds)
       this.getProducts()
@@ -329,7 +331,14 @@
         //     }
         //   )
         // }
-        window.location.href = this.payInfo.mweb_url + '&redirect_url=' + urlPrefix + 'isPayOk/' + this.orderId
+        console.log('urlPrefix' + urlPrefix)
+        console.log(this.orderIds.toString())
+        //this.$router.push({path: '/isPayOk', params: {orderIds: this.orderIds.toString()}})
+        // TODO 临时改为query传参
+        this.$router.push({path: '/isPayOk', query: {orderIds: this.orderIds.toString()}})
+
+        // // 正式的支付
+        // window.location.href = this.payInfo.mweb_url + '&redirect_url=' + urlPrefix + 'isPayOk/' + this.orderId
       },
       getProducts: function () {
         // 获取下单的商品信息

@@ -72,6 +72,7 @@
     },
     methods: {
       goPayByOne: function () {
+        // TODO 临时改为query传参
         this.$router.push({path: '/orderInfo', query: {'orderIds': this.orderIds}})
       },
       checkAllByOne: function () {

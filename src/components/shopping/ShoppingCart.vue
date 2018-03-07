@@ -233,6 +233,7 @@
         }
         this.$http.post('/order/createOrder', {'standardIds': standardIds}).then(
           (res) => {
+            // TODO 临时改为query传参
             this.$router.push({path: '/orderInfo', query: {'orderIds': [res.data]}})
           }
         )

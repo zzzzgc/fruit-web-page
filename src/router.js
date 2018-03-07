@@ -150,7 +150,7 @@ export default new Router({
       name: 'NetSale',
       component: NetSale
     }, {
-      path: '/isPayOk/:orderId', // 网络销售认证
+      path: '/isPayOk', // 网络销售认证
       name: 'IsPayOk',
       component: IsPayOk
     }
