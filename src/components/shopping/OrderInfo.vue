@@ -333,7 +333,7 @@
         // }
         console.log('urlPrefix' + urlPrefix)
         console.log(this.orderIds.toString())
-        //this.$router.push({path: '/isPayOk', params: {orderIds: this.orderIds.toString()}})
+        // this.$router.push({path: '/isPayOk', params: {orderIds: this.orderIds.toString()}})
         // TODO 临时改为query传参
         this.$router.push({path: '/isPayOk', query: {orderIds: this.orderIds.toString()}})
 
@@ -346,7 +346,7 @@
           .then(
             (response) => {
               console.log('商品信息')
-              console.log(response.data)
+              console.log(response)
               this.orders = response.data
               // 获取预支付信息
               // this.getPayInfo()
