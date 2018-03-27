@@ -71,7 +71,18 @@
       'isCheckAll': this.isCheckAll
     },
     methods: {
+      goPayBefore: function () {
+        let flag = false
+        if (this.orderIds === null || this.orderIds.length <= 0) {
+          flag = true
+          this.$toast('请至少选择一条订单!')
+        }
+        return flag
+      },
       goPayByOne: function () {
+        if (this.goPayBefore()) {
+          return
+        }
         this.$router.push({path: '/orderInfo', query: {'orderIds': this.orderIds}})
       },
       checkAllByOne: function () {
