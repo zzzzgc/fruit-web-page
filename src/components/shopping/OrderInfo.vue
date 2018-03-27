@@ -265,12 +265,8 @@
     },
     mounted: function () {
       // 传入订单数组
-      console.log('params')
-      console.log(this.$route)
       this.orderIds = this.$route.query.orderIds
-      console.log(this.orderIds)
       this.getProducts()
-      // this.getPayInfo()
       this.buyInfo()
     },
     components: {
@@ -282,8 +278,7 @@
         this.buy_info.delivery_type = values[0]
         picker.setSlotValue(0, values[0])
       },
-      lookProduct: function (productId, productStandardId) {
-        // 查看商品
+      lookProduct: function (productId, productStandardId) { // 查看商品
         this.$router.push('/product/' + productId + '-' + productStandardId)
       },
       buyInfo: function () {
@@ -293,12 +288,13 @@
           }
         )
       },
-      getPay: function () {
+      getPay: function () {  // 去支付
         this.$http.post('/order/setBuyInfo', Object.assign(this.buy_info, {orderIds: this.orderIds})).then(
           (res) => {
             console.log('物流信息写入成功')
           }
         )
+
         // 微信H5支付
         // console.log('payInfo:')
         // console.log(this.payInfo)
@@ -335,7 +331,7 @@
         console.log(this.orderIds.toString())
         // this.$router.push({path: '/isPayOk', params: {orderIds: this.orderIds.toString()}})
         // TODO 临时改为query传参
-        this.$router.push({path: '/isPayOk', query: {orderIds: this.orderIds.toString()}})
+        // this.$router.push({path: '/isPayOk', query: {orderIds: this.orderIds.toString()}})
 
         // // 正式的支付
         // window.location.href = this.payInfo.mweb_url + '&redirect_url=' + urlPrefix + 'isPayOk/' + this.orderId
