@@ -27,21 +27,21 @@
           <tr style="flex:1;">
             <td style="position: relative;margin:0 auto;text-align: center;width:25%;">
               <router-link :to="{path: '/orderList',query: {selected:'one'}}" class="order-item-child"><img src="../../images/myOrder/waitPay1-1.png" width="32px;" height="32px;"/>
-              <span class="my-badge" v-if="waitPay!=0">{{waitPay}}</span>
+              <span class="my-badge" v-if="waitPay!=0 && typeof (waitPay) != 'undefined'">{{waitPay}}</span>
               </router-link>
             </td>
           </tr>
           <tr style="flex:1;">
             <td style="position:relative;margin:0 auto;text-align: center;width:25%;">
               <router-link :to="{path: '/orderList',query: {selected:'two'}}" class="order-item-child"><img src="../../images/myOrder/verifying1-1.png" width="32px;" height="32px;"/>
-              <span class="my-badge" v-if="verifying!=0">{{verifying}}</span>
+              <span class="my-badge" v-if="verifying!=0 && typeof (waitPay) != 'undefined'">{{verifying}}</span>
               </router-link>
             </td>
           </tr>
           <tr style="flex:1;">
             <td style="position:relative;margin:0 auto;text-align: center;width:25%;">
               <router-link :to="{path: '/orderList',query: {selected:'three'}}" class="order-item-child"><img src="../../images/myOrder/waitReceiver1-1.png" width="32px;" height="32px;"/>
-              <span class="my-badge" v-if="waitReceiver!=0">{{waitReceiver}}</span>
+              <span class="my-badge" v-if="waitReceiver!=0 && typeof (waitPay) != 'undefined'">{{waitReceiver}}</span>
               </router-link>
             </td>
           </tr>
@@ -49,7 +49,7 @@
             <td style="position:relative;margin:0 auto;text-align: center;width:25%;">
               <router-link :to="{path: '/orderList',query: {selected:'four'}}" class="order-item-child">
               <img src="../../images/myOrder/myOrder1-1.png" width="32px;" height="32px;"/>
-              <span class="my-badge" v-if="myOrders!=0">{{myOrders}}</span>
+              <span class="my-badge" v-if="myOrders!=0 && typeof (waitPay) != 'undefined'">{{myOrders}}</span>
               </router-link>
             </td>
           </tr>
@@ -100,9 +100,9 @@
         <img slot="icon" src="../../images/myOrder/shopinfo1-1.png" width="24" height="24">
       </mt-cell>
     </div>
-    <div v-if="isLogin()" class="update-pwd-container-person">
+    <div v-if="isLogin()" class="update-pwd-container-person" @click.navite="toAuthIdentity">
       <!--<router-link to="/updatePwd" class="update-pwd-person">修改密码</router-link>-->
-      <mt-cell title="  实名认证" to="authIdentity" is-link>
+      <mt-cell title="  实名认证">
         <!--<span>信息</span>-->
         <img slot="icon" src="../../images/myOrder/shop-auth1-1.png" width="24" height="24">
       </mt-cell>
@@ -187,6 +187,19 @@
           this.waitPay = response.data['mapStatusAndCount']['waitPay']
           this.waitReceiver = response.data['mapStatusAndCount']['waitReceiver']
           this.verifying = response.data['mapStatusAndCount']['verifying']
+        })
+      },
+      toAuthIdentity: function () {
+        this.$http.post('/authIdentity/getAuthInfo').then((response) => {
+          if (response.data != null && response.data.length > 0) {
+            let authType = '网上销售'
+            if (response.data[0]['auth_type'] === '1') {
+              authType = '实体店'
+            }
+            this.$toast('您已完成' + authType + '实名认证!')
+          } else {
+            this.$router.push('authIdentity')
+          }
         })
       }
     },
