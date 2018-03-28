@@ -332,6 +332,7 @@
         // this.$router.push({path: '/isPayOk', params: {orderIds: this.orderIds.toString()}})
         // TODO 临时改为query传参
         // this.$router.push({path: '/isPayOk', query: {orderIds: this.orderIds.toString()}})
+        this.$router.push({path: '/showQrPay', query: {orderIds: this.orderIds.toString(), total_price: this.countPrice}})
 
         // // 正式的支付
         // window.location.href = this.payInfo.mweb_url + '&redirect_url=' + urlPrefix + 'isPayOk/' + this.orderId
