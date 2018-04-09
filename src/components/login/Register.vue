@@ -12,7 +12,7 @@
         <div @click="changeSmsVerifyCode"><mt-cell title="获取验证码"  class="authcode"></mt-cell></div>
       </mt-field>
       <mt-field label="密   码" v-model="password" :attr="{maxlength: 18 }" type="password" placeholder="请输入最少6位数密码" style="color:red;" class="horizontal"></mt-field>
-      <mt-field label="邀 请 码" placeholder="留空则由系统为您分配业务员" class="horizontal"></mt-field>
+      <mt-field label="邀 请 码" placeholder="留空则由系统为您分配业务员" class="horizontal" v-model="userSalesId"></mt-field>
       <mt-button type="primary" size="large" class="registerButton" @click.navite="handleRegister">注册</mt-button>
       <mt-cell><span class="serviceTip">点击注册，即代表同意</span>
         <div class="serviceProtocol" @click.navite="showServiceProtocol">《**服务协议》</div>
@@ -40,12 +40,13 @@
       return {
         phone: '',
         password: '',
-        msgVerifyCode: ''
+        msgVerifyCode: '',
+        userSalesId: ''
       }
     },
     methods: {
       changeSmsVerifyCode: function () {
-        this.$http.post('/validate/createPhoneSmsVerifyCode').then(
+        this.$http.post('/validate/createPhoneSmsVerifyCode', {toPhone: this.phone}).then(
           (response) => {
             this.$toast('发送成功请查收')
           }
@@ -73,7 +74,7 @@
         if (!this.handleRegisterBefore()) {
           return false
         }
-        this.$http.post('/login/register', {phone: this.phone, password: this.password, msgVerifyCode: this.msgVerifyCode, msgVerifyCodeType: 2}).then((response) => {
+        this.$http.post('/login/register', {phone: this.phone, password: this.password, msgVerifyCode: this.msgVerifyCode, msgVerifyCodeType: 2, userSalesId: this.userSalesId}).then((response) => {
           this.$router.push('login')
         })
       }
