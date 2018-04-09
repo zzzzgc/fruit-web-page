@@ -46,6 +46,10 @@
     },
     methods: {
       changeSmsVerifyCode: function () {
+        if (!validatePhone((this.phone))) {
+          this.$toast('手机输入格式有误!')
+          return
+        }
         this.$http.post('/validate/createPhoneSmsVerifyCode', {toPhone: this.phone}).then(
           (response) => {
             this.$toast('发送成功请查收')
@@ -75,7 +79,7 @@
           return false
         }
         this.$http.post('/login/register', {phone: this.phone, password: this.password, msgVerifyCode: this.msgVerifyCode, msgVerifyCodeType: 2, userSalesId: this.userSalesId}).then((response) => {
-          this.$router.push('login')
+          this.$router.push('/shopInfo')
         })
       }
     }
