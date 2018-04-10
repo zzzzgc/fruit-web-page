@@ -1,17 +1,17 @@
-'use stxrict'
+'use strict'
 // Template version: 1.1.0
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 // const path = require('path')
 var devConfig = require('./dev.env')
-var prodConfig = require('./prod.env')
+var productConfig = require('./prod.env')
 module.exports = {
   build: {
     env: require('./prod.env'),
     // index: path.resolve(__dirname, '../dist/index.html'),
     // assetsRoot: path.resolve(__dirname, '../dist'),
-    index: prodConfig.BUILD_PATH + '/index.html',
-    assetsRoot: prodConfig.BUILD_PATH,
+    index: productConfig.BUILD_PATH + '/index.html',
+    assetsRoot: productConfig.BUILD_PATH,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     productionSourceMap: false,
@@ -25,7 +25,7 @@ module.exports = {
     // View the bundle analyzer report after build finishes:
     // `npm run build --report`
     // Set to `true` or `false` to always turn it on or off
-    bundleAnalyzerReport: process.env.npm_config_report
+    bundleAnalyzerReport: productConfig.npm_config_report
   },
   dev: {
     env: require('./dev.env'),
@@ -33,6 +33,7 @@ module.exports = {
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    productionSourceMap: true,
     proxyTable: {
       '/api': {
         target: devConfig.BACKEND_SERVER,
