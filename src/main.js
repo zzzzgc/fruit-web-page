@@ -23,11 +23,16 @@ Vue.use(VueLazyload, {
 Vue.prototype.$http = axiosIntence // 将http设置到vue组件中
 Vue.config.productionTip = false
 
-/* 上传下载文件 */
-// 上传地址,返回文件名
-Vue.prototype._uploadFilePath = 'http://192.168.3.123:8080/manage/common/upload'
-// 文件下载地址,用文件名获取文件,例如访问-> this._downloadFilePath + 文件名  <-,JFINAL设置的上传下载地址
-Vue.prototype._downloadFilePath = 'http://192.168.3.123:8080/static/file/'
+/*
+上传地址
+上传后返回fileName 文件名
+*/
+Vue.prototype._uploadFilePath = 'http://localhost:8080/manage/common/upload'
+/*
+文件下载地址
+例如直接访问-> this._downloadFilePath + 文件名
+ */
+Vue.prototype._downloadFilePath = 'http://localhost:8080/upload/file/'
 
 /* 引入组件 */
 /* eslint-disable no-new */
