@@ -9,7 +9,7 @@
             </div>
           </router-link>
         </div>
-        <router-link to="netSale" style="text-decoration: none;width:50%;">
+        <router-link :to="{path: '/netSale', query: {userId: this.$route.query.userId}}" style="text-decoration: none;width:50%;">
           <div class="auth-shop-info" style="line-height: 90px;"><span  >网络认证
           </span></div>
         </router-link>

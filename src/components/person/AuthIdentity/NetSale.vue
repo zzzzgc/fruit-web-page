@@ -240,10 +240,21 @@
             this.isEdit = true
           }
         })
+      },
+      getUserId: function () {
+        console.log(this.$route.query.userId)
+        if (typeof (this.$route.query.userId) === 'undefined' || this.$route.query.userId === null || this.$route.query.userId === '') {
+          this.$http.post('/authIdentity/getUId').then((response) => {
+            this.businessAuth.u_id = response.data[0]
+          })
+        } else {
+          this.businessAuth.u_id = this.$route.query.userId
+        }
       }
     },
     mounted: function () {
       this.initDrawImg() // 初始化图片页面
+      this.getUserId()
       this.getAuthInfoByUid()
     }
   }

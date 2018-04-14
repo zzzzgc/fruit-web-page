@@ -67,10 +67,10 @@
       return {
         imgList: [],
         businessAuth: {
-          legal_person_name: '朱傻吊',
-          identity: '441571199012202120',
-          bank_account: '564651616164646',
-          business_license: '2120321102',
+          legal_person_name: '',
+          identity: '',
+          bank_account: '',
+          business_license: '',
           img_identity_front: '',
           img_identity_reverse: '',
           img_license: '',
