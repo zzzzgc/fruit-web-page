@@ -46,14 +46,17 @@
     name: 'shop-info',
     data: function () {
       return {
+        businessUser: {
+          userId: 0
+        },
         businessInfo: {
-          business_name: '测试1',
-          business_contacts: '蔡赐州',
-          phone: '13539403925',
+          business_name: '',
+          business_contacts: '',
+          phone: '',
           address_province: '请选择',
           address_city: '请选择',
-          address_detail: '详细地址',
-          address_shop: '店铺地址',
+          address_detail: '',
+          address_shop: '',
           shipments_type: '请选择'
         },
         shipmentsType: [
@@ -125,19 +128,20 @@
       addBusinessInfo: function () { // 添加商店信息
         if (this.addBusinessInfoBefore()) {
           this.shipmentsContainer.shipmentCode = this.getShipmentType(this.businessInfo.shipments_type)
-          this.$http.post('/businessInfo/addBusinessInfo', Object.assign({}, this.businessInfo, this.shipmentsContainer)).then((response) => {
-            if (response.data === 1) {
-              this.$toast('添加成功')
-              // this.businessInfo.business_name = ''
-              // this.businessInfo.business_contacts = ''
-              // this.businessInfo.phone = ''
-              // this.businessInfo.address_province = '请选择'
-              // this.businessInfo.address_city = '请选择'
-              // this.businessInfo.address_detail = ''
-              // this.businessInfo.address_shop = ''
-              // this.businessInfo.shipments_type = '请选择'
-              this.getBusinessInfo()
-            }
+          this.$http.post('/businessInfo/addBusinessInfo', Object.assign({}, this.businessInfo, this.shipmentsContainer, this.businessUser)).then((response) => {
+            console.log('push before')
+            console.log(this.$route.query.userId)
+            this.$router.push({path: '/authIdentity', query: {userId: this.$route.query.userId}})
+            this.isEdit = false
+            this.$toast('添加成功')
+            // this.businessInfo.business_name = ''
+            // this.businessInfo.business_contacts = ''
+            // this.businessInfo.phone = ''
+            // this.businessInfo.address_province = '请选择'
+            // this.businessInfo.address_city = '请选择'
+            // this.businessInfo.address_detail = ''
+            // this.businessInfo.address_shop = ''
+            // this.businessInfo.shipments_type = '请选择'
           })
         }
       },
@@ -187,7 +191,10 @@
         }
       },
       getBusinessInfo: function () { // 获取商户信息
+        console.log('getBusinessInfo')
         this.$http.post('/businessInfo/getBusinessInfo').then((response) => {
+          console.log('response')
+          console.log(response)
           if (response.data !== null && response.data !== '' && response.data.length > 0 && typeof (response.data[0]) !== 'undefined') {
             this.businessInfo.business_name = response.data[0]['business_name']
             this.businessInfo.business_contacts = response.data[0]['business_contacts']
@@ -209,6 +216,8 @@
       }
     },
     mounted: function () {
+      console.log(this.$route.query.userId)
+      this.businessUser.userId = this.$route.query.userId
       this.getBusinessInfo()
     }
   }

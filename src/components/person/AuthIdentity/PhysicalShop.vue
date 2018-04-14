@@ -210,7 +210,6 @@
           formData.append(item.name, item.file)
         })
         // 新建请求
-        // TODO 跨域请求的时候没有传递安全认证信息 , 网络认证页面也同样
         const xhr = new XMLHttpRequest()
         xhr.open('POST', urlPrefix + 'authIdentity/addAuthInfoImg', true)
         xhr.send(formData)
@@ -259,15 +258,19 @@
         })
       },
       getUserId: function () {
-        this.$http.post('/authIdentity/getUId').then((response) => {
-          this.businessAuth.u_id = response.data[0]
-        })
+        if (typeof (this.$route.query.userId) === 'undefined' || this.$route.query.userId === null || this.$route.query.userId === '') {
+          this.$http.post('/authIdentity/getUId').then((response) => {
+            this.businessAuth.u_id = response.data[0]
+          })
+        } else {
+          this.businessAuth.u_id = this.$route.query.userId
+        }
       }
     },
     mounted: function () {
       this.initDrawImg() // 初始化图片页面
-      this.getAuthInfoByUid()
       this.getUserId()
+      this.getAuthInfoByUid()
     }
   }
 </script>

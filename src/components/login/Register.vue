@@ -79,7 +79,7 @@
           return false
         }
         this.$http.post('/login/register', {phone: this.phone, password: this.password, msgVerifyCode: this.msgVerifyCode, msgVerifyCodeType: 2, userSalesId: this.userSalesId}).then((response) => {
-          this.$router.push('/shopInfo')
+          this.$router.push({path: '/shopInfo', query: {userId: response.data[0]}})
         })
       }
     }

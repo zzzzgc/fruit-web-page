@@ -197,7 +197,7 @@
         })
         // 新建请求
         const xhr = new XMLHttpRequest()
-        xhr.open('POST', urlPrefix + 'uthIdentity/addAuthInfoImg', true)
+        xhr.open('POST', urlPrefix + 'authIdentity/addAuthInfoImg', true)
         xhr.send(formData)
         var _this = this
         xhr.onload = () => {
@@ -234,9 +234,9 @@
             this.businessAuth.legal_person_name = response.data[0]['legal_person_name']
             this.businessAuth.bank_account = response.data[0]['bank_account']
             this.businessAuth.identity = response.data[0]['identity']
-            this.businessAuth.img_identity_front = imgUrlPrefix2 + response.data[0]['img_identity_front'].split('images')[0]
-            this.businessAuth.img_identity_reverse = imgUrlPrefix2 + response.data[0]['img_identity_reverse'].split('images')[0]
-            this.businessAuth.img_online_shop = imgUrlPrefix2 + response.data[0]['img_online_shop'].split('images')[0]
+            this.businessAuth.img_identity_front = response.data[0]['img_identity_front'].split('images')[0]
+            this.businessAuth.img_identity_reverse = response.data[0]['img_identity_reverse'].split('images')[0]
+            this.businessAuth.img_online_shop = response.data[0]['img_online_shop'].split('images')[0]
             this.isEdit = true
           }
         })
