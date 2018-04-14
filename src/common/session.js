@@ -7,7 +7,7 @@
 
 import {getCookie, setCookie, delCookie, existCookie} from './cookie'
 
-const cookieToken = 'cookie_login_token'
+const cookieToken = 'cookie_user_login_token'
 const localSessionCartProductKey = 'local_session_cart_product_key'
 
 // 初始化测试数据，如：登录信息、购物车数据
