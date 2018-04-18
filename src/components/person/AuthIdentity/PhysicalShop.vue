@@ -232,8 +232,9 @@
                 document.getElementById('img_identity_front').setAttribute('src', _this.imgDefault1)
                 document.getElementById('img_license').setAttribute('src', _this.imgDefault3)
                 document.getElementById('img_identity_reverse').setAttribute('src', _this.imgDefault2)
+                // _this.getAuthInfoByUid()
+                _this.$router.push({path: '/login'})
                 _this.$toast('添加成功')
-                _this.getAuthInfoByUid()
               } else {
                 _this.$toast('添加失败')
               }

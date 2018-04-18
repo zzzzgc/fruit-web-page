@@ -217,8 +217,9 @@
                 document.getElementById('img_identity_front').setAttribute('src', _this.imgDefault1)
                 document.getElementById('img_online_shop').setAttribute('src', _this.imgDefault3)
                 document.getElementById('img_identity_reverse').setAttribute('src', _this.imgDefault2)
+                _this.$router.push({path: '/login'})
                 _this.$toast('添加成功')
-                this.getAuthInfoByUid()
+                // this.getAuthInfoByUid()
               } else {
                 _this.$toast('添加失败')
               }
