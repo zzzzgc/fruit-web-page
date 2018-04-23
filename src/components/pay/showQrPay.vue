@@ -3,8 +3,22 @@
     <TitleInfo titleContent="支付宝扫码"></TitleInfo>
     <!--TODO 页面设设计未完成-->
     <div class="testPage">
+
       <div class="up_text">付款金额:<span style="color: red">￥{{total_price}}</span></div>
+
+      <!--支付宝-->
       <img :src="pay_img.ailPay_qr_img" alt="支付宝二维码">
+
+      <!--微信-->
+      <img :src="pay_img.ailPay_qr_img" alt="支付宝二维码">
+
+      <!--银行账户-->
+      <span style="">开户行：中国工商银行（广州天平架支行）</span>
+      <span>账户：6222 0236 0210 0977 552</span>
+      <span>户名：段林</span>
+      <mt-field></mt-field>
+
+
       <span style="color: #999999">注意:支付完成后记得 <span style="color: red">保存截图</span> </span>
       <span style="color: #999999">以作为 <span style="color: green">支付成功的凭证</span></span>
       <!--<div class="button_img"></div>-->
