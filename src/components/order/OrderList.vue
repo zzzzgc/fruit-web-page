@@ -85,6 +85,9 @@
           this.orders = response.data
           this.countOrderTotal() // 统计orders总数
           this.$indicator.close()
+        }).catch((response) => {
+          this.$indicator.close()
+          this.$toast('获取数据失败！')
         })
       },
       countOrderTotal: function () {
