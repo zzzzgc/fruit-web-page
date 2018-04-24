@@ -52,7 +52,8 @@
     },
     methods: {
       reset: function () {
-        this.$router.push({path: '/orderInfo', query: {'orderIds': this.orderIds}})
+        // this.$router.push({path: '/orderInfo', query: {'orderIds': this.orderIds}})
+        this.$router.push({path: '/orderList', query: {'selected': 'one'}})
       },
       main: function () {
         this.$router.push('/')
