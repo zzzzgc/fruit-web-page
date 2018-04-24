@@ -5,9 +5,13 @@
     <div class="content">
       <ul v-infinite-scroll="loadMore"
           :infinite-scroll-disabled="loading"
-          infinite-scroll-distance="5">
+          infinite-scroll-distance="25">
       <product-item v-for="(p, index) in products" :product="p" :key="p.id"></product-item>
       </ul>
+      <p v-if="loading" class="page-infinite-loading" style="margin-left:48%;">
+        <mt-spinner type="fading-circle" color="#333">
+        </mt-spinner>
+      </p>
     </div>
     <BottomMenu></BottomMenu>
   </div>
@@ -151,6 +155,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   .content {
+    width:100%;
     padding: 44px 0;
     box-sizing: border-box;
   }

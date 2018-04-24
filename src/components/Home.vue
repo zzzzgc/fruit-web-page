@@ -79,6 +79,10 @@
             </swiper-slide>
           </swiper>
         </ul>
+        <p v-if="loading" class="page-infinite-loading" style="margin-left:48%;">
+          <mt-spinner type="fading-circle" color="#333">
+          </mt-spinner>
+        </p>
       </div>
     </div>
     <bottom-menu></bottom-menu>
