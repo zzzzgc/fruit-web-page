@@ -38,13 +38,17 @@
               <router-link to="/product/list/0-0-1">低价热销</router-link>
             </td>
             <td class="second">
-              <router-link to="/product/list/0-0-3" style="color: white;font-size:26px;font-family: STSong,Georgia,Serif;">进口好货</router-link>
+              <router-link to="/product/list/0-0-3"
+                           style="color: white;font-size:26px;font-family: STSong,Georgia,Serif;">进口好货
+              </router-link>
             </td>
             <td style="background: url('../images/homeIcon/智利车厘子-z.jpg')"></td>
           </tr>
           <tr>
             <td class="third">
-              <router-link to="/product/list/0-0-5" style=" color: white;font-size:26px;font-family: STSong,Georgia,Serif;">国产精品</router-link>
+              <router-link to="/product/list/0-0-5"
+                           style=" color: white;font-size:26px;font-family: STSong,Georgia,Serif;">国产精品
+              </router-link>
             </td>
           </tr>
         </table>
@@ -55,20 +59,31 @@
           <div :class="isSelectTab(0)" @click="selectTab(0)">最常购</div>
           <div :class="isSelectTab(1)" @click="selectTab(1)">今日上新（{{latestPublish}}）</div>
         </div>
-        <swiper :options="productSwiper.swiperOption" :not-next-tick="productSwiper.notNextTick" ref="productSwiper">
-          <swiper-slide>
-            <product-item v-for="(p, index) in productsBuy" :product="p" :key="p.id"></product-item>
-          </swiper-slide>
-          <swiper-slide>
-            <product-item v-for="(p, index) in productsNew" :product="p" :key="p.id"></product-item>
-          </swiper-slide>
-        </swiper>
+        <!--<swiper :options="productSwiper.swiperOption" :not-next-tick="productSwiper.notNextTick" ref="productSwiper">-->
+        <!--<swiper-slide>-->
+        <!--<product-item v-for="(p, index) in productsBuy" :product="p" :key="p.id"></product-item>-->
+        <!--</swiper-slide>-->
+        <!--<swiper-slide>-->
+        <!--<product-item v-for="(p, index) in productsNew" :product="p" :key="p.id"></product-item>-->
+        <!--</swiper-slide>-->
+        <!--</swiper>-->
+        <ul v-infinite-scroll="loadMore"
+            infinite-scroll-disabled="loading"
+            infinite-scroll-distance="5">
+          <swiper :options="productSwiper.swiperOption" :not-next-tick="productSwiper.notNextTick" ref="productSwiper">
+            <swiper-slide>
+              <product-item v-for="(p, index) in productsBuy" :product="p" :key="p.id"></product-item>
+            </swiper-slide>
+            <swiper-slide>
+              <product-item v-for="(p, index) in productsNew" :product="p" :key="p.id"></product-item>
+            </swiper-slide>
+          </swiper>
+        </ul>
       </div>
     </div>
     <bottom-menu></bottom-menu>
   </div>
 </template>
-
 
 
 <script>
@@ -121,6 +136,8 @@
           order_count: '?',
           total_money: '?'
         },
+        loading: false,
+        loadSelectIndex: 0,
         productSwiper: {
           notNextTick: true,
           swiperOption: {
@@ -170,8 +187,14 @@
           }
         },
         banners: [
-          {click_url: 'https://youzan.com', img_url: 'https://img.yzcdn.cn/upload_files/2017/03/15/FvexrWlG_WxtCE9Omo5l27n_mAG_.jpeg'},
-          {click_url: 'https://youzan.com', img_url: 'https://img.yzcdn.cn/upload_files/2017/03/14/FmTPs0SeyQaAOSK1rRe1sL8RcwSY.jpeg'}
+          {
+            click_url: 'https://youzan.com',
+            img_url: 'https://img.yzcdn.cn/upload_files/2017/03/15/FvexrWlG_WxtCE9Omo5l27n_mAG_.jpeg'
+          },
+          {
+            click_url: 'https://youzan.com',
+            img_url: 'https://img.yzcdn.cn/upload_files/2017/03/14/FmTPs0SeyQaAOSK1rRe1sL8RcwSY.jpeg'
+          }
         ],
         productsBuy: [
           {
@@ -231,6 +254,47 @@
     },
     methods: {
       isLogin: isLogin,
+      loadMore: function () {
+        this.loading = true
+        setTimeout(() => {
+          console.log('loadSelectIndex:' + this.loadSelectIndex)
+          if (this.loadSelectIndex === 0) {
+            console.log('productsBuy.length' + this.productsBuy.length)
+            this.$http.post('/product/listBuy', {pageSize: this.productsBuy.length + 5}).then((response) => {
+              this.productsBuy = response.data
+            })
+            let last = this.productsBuy[this.productsBuy.length - 1]
+            for (let i = 1; i <= 5; i++) {
+              // this.$http.post('/product/listBuy', {pageNum: last + 10}).then((response) => {
+              //   this.productsBuy = response.data
+              // })
+              this.productsBuy.push(last + i)
+            }
+          } else {
+            console.log('productsNew.length' + this.productsNew.length)
+            this.$http.post('/product/listNew', {pageSize: this.productsNew.length + 5}).then((response) => {
+              this.productsNew = response.data
+              if (this.productsNew.length > 0) {
+                let latestUpdateTime = moment(this.productsNew[0].update_time)
+                let nowTime = moment()
+                if (latestUpdateTime.isAfter(nowTime.format('YYYY-MM-DD'))) { // 今天发布显示，发布的小时:分钟
+                  this.latestPublish = latestUpdateTime.format('HH:mm')
+                } else { // 今天之前发布的
+                  let hours = nowTime.diff(latestUpdateTime, 'hours')
+                  if (hours < 12) { // 相隔的时间大于12个小时，显示12小时前，小于12小时，显示XX小时前
+                    this.latestPublish = hours + '小时前'
+                  }
+                }
+              }
+            })
+            let last = this.productsNew[this.productsNew.length - 1]
+            for (let i = 1; i <= 5; i++) {
+              this.productsNew.push(last + i)
+            }
+          }
+          this.loading = false
+        }, 2500)
+      },
       getTotalOrderInfo: function () {
         if (this.isLogin()) {
           this.$http.post('/order/getOrderCount').then((response) => {
@@ -281,13 +345,14 @@
         return index === this.productSwiper.selectIndex ? 'select' : ''
       },
       selectTab: function (index) {
+        this.loadSelectIndex = index
         this.swiper.slideTo(index)
       }
     }
   }
 </script>
 <style>
-  html{
+  html {
     line-height: normal;
   }
 </style>
