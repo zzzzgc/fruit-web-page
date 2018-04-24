@@ -1,7 +1,6 @@
 <template>
   <div class="content">
     <TitleInfo titleContent="支付宝扫码"></TitleInfo>
-    <!--TODO 页面设设计未完成-->
     <div class="testPage">
 
       <div class="up_text">付款金额:<span style="color: red">￥{{total_price}}</span></div>
@@ -10,13 +9,14 @@
       <img :src="pay_img.ailPay_qr_img" alt="支付宝二维码">
 
       <!--微信-->
-      <img :src="pay_img.ailPay_qr_img" alt="支付宝二维码">
+      <img :src="pay_img.wechat_qr_img" alt="微信二维码">
 
       <!--银行账户-->
-      <span style="">开户行：中国工商银行（广州天平架支行）</span>
-      <span>账户：6222 0236 0210 0977 552</span>
-      <span>户名：段林</span>
-      <mt-field></mt-field>
+      <span style="font-size: 24px;margin-top: 10px">银行账户支付</span>
+      <mt-field label="银行" value="中国工商银行"></mt-field>
+      <mt-field label="开户行" value="广州天平架支行"></mt-field>
+      <mt-field label="账户" value="6222 0236 0210 0977 552"></mt-field>
+      <mt-field label="户名" value="段林"></mt-field>
 
 
       <span style="color: #999999">注意:支付完成后记得 <span style="color: red">保存截图</span> </span>
@@ -45,8 +45,8 @@
         orderIds: [],
         total_price: 0,
         pay_img: {
-          ailPay_img: require('../../images/pay/ailPay.jpg'),
-          ailPay_qr_img: require('../../images/pay/ailPayQR.png')
+          ailPay_qr_img: require('../../images/pay/ailPayQR.png'),
+          wechat_qr_img: require('../../images/pay/WechatQR.png')
         }
       }
     },
@@ -83,8 +83,9 @@
         font-size: 24px;
         margin: 10px;
       }
-      .button_img {
-
+      img {
+        width: 300px;
+        margin-top: 10px;
       }
       button {
         margin: 10px;
