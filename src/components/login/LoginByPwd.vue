@@ -81,8 +81,8 @@
       return {
         // phone: '',
         // password: '',
-        phone: '13242871762',
-        password: '123456',
+        phone: '',
+        password: '',
         phoneValidation: null,
         passwordValidation: null,
         selected: '1',

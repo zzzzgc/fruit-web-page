@@ -19,8 +19,10 @@
       <!--<div>商品ID为:{{$route.params.id}}  -  {{$route.params.standardId}}</div>-->
       <div class="line-block price">
         <span class="area" v-if="product.isForeign">进口</span>{{product.name}}
-        <div><span class="sell-price">￥{{selectStandard.sell_price}}</span><span class="original-price">￥{{selectStandard.original_price}}</span></div>
-        <div class="desc"><span>{{selectStandard.sub_title}}</span><span class="buy-num">本周{{product.week_sell_num}}家购买</span></div>
+        <div v-if="isLogin()"><span class="sell-price">￥{{selectStandard.sell_price}}</span><span class="original-price">￥{{selectStandard.original_price}}</span>
+          <div class="desc"><span>{{selectStandard.sub_title}}</span><span class="buy-num">本周{{product.week_sell_num}}家购买</span></div>
+        </div>
+        <div v-else @click="toLogin" style="color: red">登录查看价格</div>
       </div>
       <div class="line-block buy-info">
         <ul>

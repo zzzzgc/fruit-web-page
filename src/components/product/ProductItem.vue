@@ -1,12 +1,14 @@
 <template>
   <div class="product-item" style="border-radius: 20px;box-shadow: 0 1px 10px #888888">
-    <div class="pic" id="product-item-img">
-      <img v-lazy.product-item-img="product.img" width="120px" height="120px">
-      <!--<img v-lazy.product-item-img="product.img" width="120px" height="120px">-->
-    </div>
-    <router-link :to="productUrl" class="info">
-      <div class="title"><p style="display:inline;color: red">[{{product.country != '中国' ? '进口' : '国产'}}]</p>{{product.name}}</div>
-      <div class="desc">{{product.standard_name}}|{{product.sub_title}}</div>
+    <router-link :to="productUrl">
+      <div class="pic" id="product-item-img">
+        <img v-lazy.product-item-img="product.img" width="120px" height="120px">
+        <!--<img v-lazy.product-item-img="product.img" width="120px" height="120px">-->
+      </div>
+      <div class="info">
+        <div class="title"><p style="display:inline;color: red">[{{product.country != '中国' ? '进口' : '国产'}}]</p>{{product.name}}</div>
+        <div class="desc">{{product.standard_name}}|{{product.sub_title}}</div>
+      </div>
     </router-link>
     <div class="product-bottom">
       <div v-if="isLogin()">
@@ -18,7 +20,6 @@
           </div>
         </router-link>
       </div>
-
       <div v-else @click="toLogin" class="hide-price">登录查看价格</div>
       <mt-button @click="addToCart()" class="add-to-cart">加入购物车</mt-button>
       <!--<div class="add-to-cart" @click="addToCart()">加入购物车</div>-->
@@ -90,7 +91,7 @@
   .product-item {
     position: relative;
     background-color: white;
-    margin:10px;
+    margin: 10px;
   }
 
   .pic {
