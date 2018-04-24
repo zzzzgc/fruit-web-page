@@ -70,7 +70,7 @@ export default new Router({
       meta: {
         title: 'home',
         savedPosition: 0,
-        keepAlive: true // 针对不同路由设置缓存
+        keepAlive: false // 针对不同路由设置缓存
       }
     }, {
       path: '/product/list/:params?', // 商品列表页
