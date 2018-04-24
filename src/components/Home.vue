@@ -20,9 +20,15 @@
         </swiper>
       </div>
       <!-- 支付提醒 -->
-      <div v-if="totalOrderInfo.order_count > 0" class="pay-notify line-block">
-        您有待支付订单{{totalOrderInfo.order_count}}个，共计:￥{{totalOrderInfo.total_money}}元
-        <router-link to="/orderList?selected=one" class="pay">确认付款</router-link>
+      <div v-if="totalOrderInfo.order_count" class="pay-notify line-block">
+        <div v-if="isLogin()">
+          您有待支付订单{{totalOrderInfo.order_count}}个，共计:￥{{totalOrderInfo.total_money}}元
+          <router-link to="/orderList?selected=one" class="pay">确认付款</router-link>
+        </div>
+        <div v-else>
+          您有待支付订单{{totalOrderInfo.order_count}}个,请登陆后下单
+          <router-link to="/login" class="pay">登录</router-link>
+        </div>
       </div>
       <!--活动-->
       <!--<div class="activity line-block">-->
@@ -133,8 +139,8 @@
     data: function () {
       return {
         totalOrderInfo: {
-          order_count: '?',
-          total_money: '?'
+          order_count: 0,
+          total_money: 0
         },
         loading: false,
         loadSelectIndex: 0,
