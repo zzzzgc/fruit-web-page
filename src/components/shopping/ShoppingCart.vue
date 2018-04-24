@@ -148,26 +148,30 @@
           productStandardIds.push(p.standard_id)
         }
         // 浏览器本地仅保留商品规格ID、购买数量、备注信息，其他信息从数据库取（一个防止商品变更时保持同步，另一个是考虑客户端存储）
-        this.$http.post('/product/listStandardIds', {ids: productStandardIds}).then((response) => {
-          let cartProduct = []
-          for (let p of response.data) {
-            for (let product of products) {
-              if (p.standard_id === product.standard_id) {
-                cartProduct.push(Object.assign({}, product, p))
+        this.$http.post('/product/listStandardIds', {ids: productStandardIds}).then(
+          (response) => {
+            let cartProduct = []
+            for (let p of response.data) {
+              for (let product of products) {
+                if (p.standard_id === product.standard_id) {
+                  cartProduct.push(Object.assign({}, product, p, {check: true}))
+                }
               }
             }
+            this.products = cartProduct
+            if (this.isEdit && this.products.length === 0) { // 如果没有购物车商品，则取消编辑状态
+              this.edit()
+            }
           }
-          this.products = cartProduct
-          if (this.isEdit && this.products.length === 0) { // 如果没有购物车商品，则取消编辑状态
-            this.edit()
-          }
-        })
+        )
       },
       _getServerProduct: function () {
-        console.log('获取购物车商品')
         // 获取服务器中的本人的购物车
         this.$http.post('/cart/getProduct', {pageNum: this.pageNum}).then((response) => {
-          console.log(response.data)
+          console.log(response)
+          for (let product of response.data) {
+            product.check = true
+          }
           this.products = response.data
           // this.pageNum++ // 下次取数据，从下一页开始
         })
@@ -176,7 +180,7 @@
         // 设置为选中和为选中
         this.isEdit = !this.isEdit
       },
-      choice: function (index) {
+      choice: function (index) { // 选中商品后
         if (this.isEdit) {
           return
         }
@@ -184,8 +188,14 @@
           this.products[index].check = false
         } else {
           this.$set(this.products[index], 'check', true)
-//          this.products[index].check = true
         }
+        // let allCheck = true
+        // for (let p of this.products) {
+        //   if (!p.check) {
+        //     allCheck = false
+        //   }
+        // }
+        // this.checkAll = allCheck
       },
       remove: function (index) {
         let productStandardId = this.products[index].standard_id
@@ -200,8 +210,6 @@
         } else {
           removeCartProduct(productStandardId)
         }
-        console.log('开始进入')
-        console.log('进入结束')
       },
       update: function (index) {
         let product = {
