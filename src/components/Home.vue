@@ -257,9 +257,7 @@
       loadMore: function () {
         this.loading = true
         setTimeout(() => {
-          console.log('loadSelectIndex:' + this.loadSelectIndex)
           if (this.loadSelectIndex === 0) {
-            console.log('productsBuy.length' + this.productsBuy.length)
             this.$http.post('/product/listBuy', {pageSize: this.productsBuy.length + 5}).then((response) => {
               this.productsBuy = response.data
             })
@@ -271,7 +269,6 @@
               this.productsBuy.push(last + i)
             }
           } else {
-            console.log('productsNew.length' + this.productsNew.length)
             this.$http.post('/product/listNew', {pageSize: this.productsNew.length + 5}).then((response) => {
               this.productsNew = response.data
               if (this.productsNew.length > 0) {
