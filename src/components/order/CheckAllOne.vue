@@ -7,9 +7,9 @@
           <!--v-model="checkAll"-->
           <!--:options="['全选']" style="width:100px;margin-left:-10px;">-->
           <!--</mt-checklist>-->
-          <div @click.navite="checkAllByOne">
-          <van-checkbox id="checkAllOne" v-model="checkAll">全选</van-checkbox>
-          </div>
+          <!--<div @click.navite="checkAllByOne">-->
+          <van-checkbox id="checkAllOne" v-model="checkAll" @change="checkAllByOne">全选</van-checkbox>
+          <!--</div>-->
           <!--<input type="checkbox" id="checkAllOne" v-model="checkAll">-->
           <!--<label for="checkAllOne">全选</label>-->
         </td>
