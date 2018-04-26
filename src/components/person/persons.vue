@@ -128,6 +128,10 @@
           <td>收 款 银 行 :</td>
           <td> {{zihoBank}}</td>
         </tr>
+        <tr>
+          <td>开 户 行 ：</td>
+          <td>{{zihoOpenBank}}</td>
+        </tr>
       </table>
     </div>
     <div style="position:fixed;width:100%;bottom: 45px;left: 0;" v-else>
@@ -161,7 +165,8 @@
         toLogin,
         zihoName: '',
         zihoCardNum: '',
-        zihoBank: ''
+        zihoBank: '',
+        zihoOpenBank: ''
       }
     },
     components: {
@@ -183,6 +188,7 @@
           this.zihoName = response.data['zihoName']
           this.zihoBank = response.data['zihoBank']
           this.zihoCardNum = response.data['zihoCardNum']
+          this.zihoOpenBank = response.data['zihoOpenBank']
           this.myOrders = response.data['mapStatusAndCount']['myOrders']
           this.waitPay = response.data['mapStatusAndCount']['waitPay']
           this.waitReceiver = response.data['mapStatusAndCount']['waitReceiver']
