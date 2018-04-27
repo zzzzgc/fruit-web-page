@@ -13,7 +13,7 @@
         </mt-spinner>
       </p>
       <p v-if="isTotalCount" style="text-align: center;font-size:14px;color:#999;margin-bottom:5px;">
-        -------------------------------- 我 是 有 底 线 的 --------------------------------
+        ------------------------ 我 是 有 底 线 的 ------------------------
       </p>
     </div>
     <BottomMenu></BottomMenu>
