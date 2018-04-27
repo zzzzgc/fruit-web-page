@@ -270,14 +270,15 @@
           if (this.loadSelectIndex === 0) {
             this.$http.post('/product/listBuy', {pageSize: this.productsBuy.length + 5}).then((response) => {
               this.productsBuy = response.data
+              // let last = this.productsBuy[this.productsBuy.length - 1]
+              // let last = this.productsBuy[response.data.length - 1]
+              // for (let i = 1; i <= 5; i++) {
+              //   // this.$http.post('/product/listBuy', {pageNum: last + 10}).then((response) => {
+              //   //   this.productsBuy = response.data
+              //   // })
+              //   this.productsBuy.push(last + i)
+              // }
             })
-            let last = this.productsBuy[this.productsBuy.length - 1]
-            for (let i = 1; i <= 5; i++) {
-              // this.$http.post('/product/listBuy', {pageNum: last + 10}).then((response) => {
-              //   this.productsBuy = response.data
-              // })
-              this.productsBuy.push(last + i)
-            }
           } else {
             this.$http.post('/product/listNew', {pageSize: this.productsNew.length + 5}).then((response) => {
               this.productsNew = response.data
@@ -294,10 +295,10 @@
                 }
               }
             })
-            let last = this.productsNew[this.productsNew.length - 1]
-            for (let i = 1; i <= 5; i++) {
-              this.productsNew.push(last + i)
-            }
+            // let last = this.productsNew[this.productsNew.length - 1]
+            // for (let i = 1; i <= 5; i++) {
+            //   this.productsNew.push(last + i)
+            // }
           }
           this.loading = false
         }, 2500)

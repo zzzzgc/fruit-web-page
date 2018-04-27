@@ -112,10 +112,10 @@
           this.$http.post(url, params).then((response) => {
             this.products = response.data
           })
-          let last = this.products[this.products.length - 1]
-          for (let i = 1; i <= 10; i++) {
-            this.products.push(last + i)
-          }
+          // let last = this.products[this.products.length - 1]
+          // for (let i = 1; i <= 10; i++) {
+          //   this.products.push(last + i)
+          // }
           this.loading = false
         }, 2500)
       },
