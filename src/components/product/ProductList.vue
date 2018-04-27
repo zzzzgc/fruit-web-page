@@ -12,6 +12,9 @@
         <mt-spinner type="fading-circle" color="#333">
         </mt-spinner>
       </p>
+      <p v-if="isTotalCount" style="text-align: center;font-size:14px;color:#999;margin-bottom:5px;">
+        -------------------------------- 我 是 有 底 线 的 --------------------------------
+      </p>
     </div>
     <BottomMenu></BottomMenu>
   </div>
@@ -40,6 +43,7 @@
       return {
         pageNum: 1,
         loading: false,
+        isTotalCount: false,
         products: [
 //          {
 //            id: 1,
@@ -91,7 +95,9 @@
     },
     methods: {
       loadMore: function () {
-        this.loading = true
+        if (!this.isTotalCount) {
+          this.loading = true
+        }
         setTimeout(() => {
           let url = '/product/list' // 按照默认条件查找商品
           let params = {pageNum: this.pageNum}
@@ -110,9 +116,12 @@
           }
           params.pageSize = this.products.length + 5
           this.$http.post(url, params).then((response) => {
-            this.products = response.data
-            this.loading = false
+            this.products = response.data.products
+            if (response.data.isTotalCount) {
+              this.isTotalCount = response.data.isTotalCount
+            }
           })
+          this.loading = false
           // let last = this.products[this.products.length - 1]
           // for (let i = 1; i <= 10; i++) {
           //   this.products.push(last + i)
@@ -120,6 +129,7 @@
         }, 2500)
       },
       getProducts: function () {
+        this.isTotalCount = false
         let url = '/product/list' // 按照默认条件查找商品
         let params = {pageNum: this.pageNum}
         if (this.type && this.type !== '0') { // 按照类型查找商品
@@ -136,7 +146,7 @@
           params.keyword = this.searchKeyword
         }
         this.$http.post(url, params).then((response) => {
-          this.products = response.data
+          this.products = response.data.products
         })
       }
     },

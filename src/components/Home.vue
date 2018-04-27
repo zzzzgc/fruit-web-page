@@ -89,6 +89,9 @@
           <mt-spinner type="fading-circle" color="#333">
           </mt-spinner>
         </p>
+        <p v-if="isTotalCount" style="text-align: center;font-size:14px;color:#999;margin-bottom:5px;">
+          -------------------------------- 我 是 有 底 线 的 --------------------------------
+        </p>
       </div>
     </div>
     <bottom-menu></bottom-menu>
@@ -147,6 +150,7 @@
           total_money: 0
         },
         loading: false,
+        isTotalCount: false,
         loadSelectIndex: 0,
         productSwiper: {
           notNextTick: true,
@@ -265,11 +269,18 @@
     methods: {
       isLogin: isLogin,
       loadMore: function () {
-        this.loading = true
+        if (!this.isTotalCount) {
+          this.loading = true
+        }
         setTimeout(() => {
           if (this.loadSelectIndex === 0) {
             this.$http.post('/product/listBuy', {pageSize: this.productsBuy.length + 5}).then((response) => {
-              this.productsBuy = response.data
+              this.productsBuy = response.data.products
+              if (response.data.isTotalCount) {
+                this.isTotalCount = response.data.isTotalCount
+              } else {
+                this.isTotalCount = false
+              }
               // let last = this.productsBuy[this.productsBuy.length - 1]
               // let last = this.productsBuy[response.data.length - 1]
               // for (let i = 1; i <= 5; i++) {
@@ -281,7 +292,12 @@
             })
           } else {
             this.$http.post('/product/listNew', {pageSize: this.productsNew.length + 5}).then((response) => {
-              this.productsNew = response.data
+              this.productsNew = response.data.products
+              if (response.data.isTotalCount) {
+                this.isTotalCount = response.data.isTotalCount
+              } else {
+                this.isTotalCount = false
+              }
               if (this.productsNew.length > 0) {
                 let latestUpdateTime = moment(this.productsNew[0].update_time)
                 let nowTime = moment()
@@ -301,7 +317,7 @@
             // }
           }
           this.loading = false
-        }, 2500)
+        }, 100)
       },
       getTotalOrderInfo: function () {
         if (this.isLogin()) {
@@ -321,15 +337,15 @@
         })
       },
       getBuyProduct: function () {
+        this.isTotalCount = false
         this.$http.post('/product/listBuy').then((response) => {
-          this.productsBuy = response.data
-          console.log('productsBuy')
-          console.log(this.productsBuy)
+          this.productsBuy = response.data.products
         })
       },
       getNewProduct: function () {
+        this.isTotalCount = false
         this.$http.post('/product/listNew').then((response) => {
-          this.productsNew = response.data
+          this.productsNew = response.data.products
           if (this.productsNew.length > 0) {
             let latestUpdateTime = moment(this.productsNew[0].update_time)
             let nowTime = moment()
@@ -342,8 +358,6 @@
               }
             }
           }
-          console.log('productsNew')
-          console.log(this.productsNew)
         })
       },
       changeProductTab: function (index) {
@@ -353,6 +367,7 @@
         return index === this.productSwiper.selectIndex ? 'select' : ''
       },
       selectTab: function (index) {
+        this.isTotalCount = false
         this.loadSelectIndex = index
         this.swiper.slideTo(index)
       }
