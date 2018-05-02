@@ -207,22 +207,18 @@
             _this.businessAuth.img_identity_reverse = imgUrlPrefix2 + datas[1]
             _this.businessAuth.img_online_shop = imgUrlPrefix2 + datas[2]
             _this.$http.post('/authIdentity/addAuthInfo', _this.businessAuth).then((response) => {
-              if (response.data === 1) {
-                _this.businessAuth.legal_person_name = ''
-                _this.businessAuth.bank_account = ''
-                _this.businessAuth.identity = ''
-                _this.businessAuth.img_online_shop = ''
-                _this.businessAuth.img_identity_reverse = ''
-                _this.businessAuth.img_identity_front = ''
-                document.getElementById('img_identity_front').setAttribute('src', _this.imgDefault1)
-                document.getElementById('img_online_shop').setAttribute('src', _this.imgDefault3)
-                document.getElementById('img_identity_reverse').setAttribute('src', _this.imgDefault2)
-                _this.$router.push({path: '/login'})
-                _this.$toast('添加成功')
-                // this.getAuthInfoByUid()
-              } else {
-                _this.$toast('添加失败')
-              }
+              _this.businessAuth.legal_person_name = ''
+              _this.businessAuth.bank_account = ''
+              _this.businessAuth.identity = ''
+              _this.businessAuth.img_online_shop = ''
+              _this.businessAuth.img_identity_reverse = ''
+              _this.businessAuth.img_identity_front = ''
+              document.getElementById('img_identity_front').setAttribute('src', _this.imgDefault1)
+              document.getElementById('img_online_shop').setAttribute('src', _this.imgDefault3)
+              document.getElementById('img_identity_reverse').setAttribute('src', _this.imgDefault2)
+              _this.$router.push({path: '/login'})
+              _this.$toast('添加成功')
+              // this.getAuthInfoByUid()
             })
           } else {
             _this.$toast('添加失败')
