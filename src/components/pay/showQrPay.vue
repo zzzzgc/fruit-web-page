@@ -13,10 +13,10 @@
 
       <!--银行账户-->
       <span style="font-size: 24px;margin-top: 10px">银行账户支付</span>
-      <mt-field label="银行" value="中国工商银行"></mt-field>
-      <mt-field label="开户行" value="广州天平架支行"></mt-field>
-      <mt-field label="账户" value="6222 0236 0210 0977 552"></mt-field>
-      <mt-field label="户名" value="段林"></mt-field>
+      <mt-field label="银行" value="中国工商银行" :readonly = "true"></mt-field>
+      <mt-field label="开户行" value="广州天平架支行" :readonly = "true"></mt-field>
+      <mt-field label="账户" value="6222 0236 0210 0977 552" :readonly = "true"></mt-field>
+      <mt-field label="户名" value="段林" :readonly = "true"></mt-field>
 
 
       <span style="color: #999999">注意:支付完成后记得 <span style="color: red">保存截图</span> </span>
