@@ -130,7 +130,7 @@
       },
       // 获取短信验证码
       changeSmsVerifyCode: function () {
-        this.$http.post('/validate/createPhoneSmsVerifyCode').then(
+        this.$http.post('/validate/createPhoneSmsVerifyCode', {toPhone: this.phone}).then(
           (response) => {
             this.$toast('发送成功请查收')
           }
