@@ -15,6 +15,7 @@
             <a :href="banner.click_url" target="_blank">
               <img v-lazy.home="banner.img_url" :alt="banner.click_url">
             </a>
+            <span style="width:100%;display: block;position: absolute;left:0;top:180px;text-align: center;color:white;font-weight: bold;font-family: STSong, Georgia, Serif;letter-spacing: 3px">{{banner.des}}</span>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
