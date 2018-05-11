@@ -13,9 +13,10 @@
         <swiper :options="bannerSwiper.swiperOption" :not-next-tick="bannerSwiper.notNextTick">
           <swiper-slide v-for="(banner, index) in banners" :key="index">
             <a :href="banner.click_url" target="_blank">
-              <img v-lazy.home="banner.img_url" :alt="banner.click_url">
+              <img id="bannerImg" v-lazy.home="banner.img_url" :alt="banner.click_url">
             </a>
-            <span style="width:100%;display: block;position: absolute;left:0;top:180px;text-align: center;color:white;font-weight: bold;font-family: STSong, Georgia, Serif;letter-spacing: 3px">{{banner.des}}</span>
+            <!-- font-family: STSong, Georgia, Serif; -->
+            <span style="margin-left:5px;width:100%;display: block;position: absolute;left:0;top:200px;text-align: left;color:white;font-weight: bold;letter-spacing: 3px">{{banner.des}}</span>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
@@ -143,6 +144,7 @@
       this.getBuyProduct()
       this.getNewProduct()
       this.getTotalOrderInfo()
+      this.initBanner()
     },
     data: function () {
       return {
@@ -269,6 +271,13 @@
     },
     methods: {
       isLogin: isLogin,
+      initBanner: function () {
+        console.log('initBanner')
+        console.log(this.getElementById('bannerImg').style.height)
+        var imgHeight = this.getElementById('bannerImg').height()
+        var marginTop = (230 - imgHeight) / 2
+        this.getElementById('bannerImg').css({'margin-top': marginTop + 'px'})
+      },
       loadMore: function () {
         if (!this.isTotalCount) {
           this.loading = true
