@@ -1,6 +1,7 @@
 <template>
   <div class="login-bottom">
     <mt-button type="primary" size="large" class="loginClick" @click.native='handleLogin'>登录</mt-button>
+    <mt-button type="primary" size="large" v-show="isAuth" class="loginClick" @click.native='handleLogin'>去认证</mt-button>
     <mt-button type="default" size="large" style="border:1px solid #797979;color:black;" @click.native="handleRegister">
       注册
     </mt-button>

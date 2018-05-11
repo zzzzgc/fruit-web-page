@@ -1,7 +1,7 @@
 import axios from 'axios'
 // import {Loading, Message} from 'element-ui'
 import {ajaxPrefix} from './const.js'
-import { toast } from './utils'
+import {toast} from './utils'
 
 var globalLoadingInstance = {
   loadingNum: 0,
@@ -59,7 +59,7 @@ httpIntence.interceptors.response.use(function (response) { // 如果请求配�
   response.config.showLoading && globalLoadingInstance.hide()
   return response
 }, function (error) { // 检查请求是否异常，如果异常弹出提示
-  // console.info(arguments)
+                      // console.info(arguments)
   if (error.response && error.response.status === 420) { // 后台设置了420自定义错误，此处显示具体错误原因
     // console.info(error)
     let errorText = error.response.statusText
@@ -78,9 +78,13 @@ httpIntence.interceptors.response.use(function (response) { // 如果请求配�
     // alert(decodeURI(errorText))
     toast(decodeURI(errorText))
     window.location = '/login'
+  } else if (error.response && error.response.status === 430) { // 店铺信息绑定
+    console.log('错误响应: ' + error.response.statusText)
+    window.location = '/shopInfo?userId=' + error.response.statusText
+  } else if (error.response && error.response.status === 431) { // 信息认证绑定
+    console.log('错误响应: ' + error.response.statusText)
+    window.location = '/authIdentity?userId=' + error.response.statusText
   } else {
-    // alert('请求数据异常，请稍后重试(' + error.message + ')')
-    // Toast('请求数据异常，请稍后重试(' + error.message + ')')
     toast('请求数据异常，请稍后重试(' + error.message + ')')
   }
   error.config.showLoading && globalLoadingInstance.hide()
