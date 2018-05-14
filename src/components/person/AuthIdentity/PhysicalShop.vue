@@ -6,7 +6,7 @@
       <mt-field label="法人姓名：" :attr="{ maxlength: 5 }" :readonly="isEdit" name="legal_person_name" placeholder="请输入法人姓名" v-model="businessAuth.legal_person_name"></mt-field>
       <mt-field label="身份证号：" :attr="{ maxlength: 18 }" :readonly="isEdit" name="identity" placeholder="请输入身份证号" v-model="businessAuth.identity"></mt-field>
       <mt-field label="银行卡帐号：" :attr="{ maxlength: 19 }" :readonly="isEdit" name="bank_account" placeholder="请输入银行卡帐号" v-model="businessAuth.bank_account"></mt-field>
-      <mt-field label="营业执照号：" :attr="{ maxlength: 15 }" :readonly="isEdit" name="business_license" placeholder="请输入营业执照号" v-model="businessAuth.business_license"></mt-field>
+      <mt-field label="营业执照号：" :attr="{ maxlength: 18 }" :readonly="isEdit" name="business_license" placeholder="请输入营业执照号" v-model="businessAuth.business_license"></mt-field>
       </form>
     </div>
     <div class="physical-shop-img" v-show="!isEdit">
