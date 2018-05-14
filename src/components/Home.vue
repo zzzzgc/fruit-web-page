@@ -144,7 +144,7 @@
       this.getBuyProduct()
       this.getNewProduct()
       this.getTotalOrderInfo()
-      this.initBanner()
+      // this.initBanner()
     },
     data: function () {
       return {
@@ -272,8 +272,6 @@
     methods: {
       isLogin: isLogin,
       initBanner: function () {
-        console.log('initBanner')
-        console.log(this.getElementById('bannerImg').style.height)
         var imgHeight = this.getElementById('bannerImg').height()
         var marginTop = (230 - imgHeight) / 2
         this.getElementById('bannerImg').css({'margin-top': marginTop + 'px'})
