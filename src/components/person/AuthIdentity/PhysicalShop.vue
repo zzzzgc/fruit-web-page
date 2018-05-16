@@ -201,6 +201,10 @@
         return flag
       },
       saveAuthInfo: function () {
+        this.$indicator.open({
+          text: '提交中...',
+          spinnerType: 'fading-circle'
+        })
         let formData = new FormData()
         if (!this.saveAuthInfoBefore()) {
           return false
@@ -233,12 +237,15 @@
               document.getElementById('img_identity_reverse').setAttribute('src', _this.imgDefault2)
               // _this.getAuthInfoByUid()
               _this.$router.push({path: '/login'})
+              this.$indicator.close()
               _this.$toast('添加成功')
             })
           } else {
+            this.$indicator.close()
             _this.$toast('添加失败')
           }
         }
+        this.$indicator.close()
       },
       getAuthInfoByUid: function () {
         this.$http.post('/authIdentity/getAuthInfoByUid', this.businessAuth).then((response) => {

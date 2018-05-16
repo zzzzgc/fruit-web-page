@@ -173,9 +173,6 @@
         } else if (this.businessAuth.bank_account === '') {
           flag = false
           showErro = '银行卡号'
-        } else if (this.businessAuth.business_license === '') {
-          flag = false
-          showErro = '营业执照号'
         }
         if (!flag) {
           if (showType === 0) {
@@ -187,6 +184,10 @@
         return flag
       },
       saveAuthInfo: function () {
+        this.$indicator.open({
+          text: '提交中...',
+          spinnerType: 'fading-circle'
+        })
         let formData = new FormData()
         if (!this.saveAuthInfoBefore()) {
           return false
@@ -217,10 +218,12 @@
               document.getElementById('img_online_shop').setAttribute('src', _this.imgDefault3)
               document.getElementById('img_identity_reverse').setAttribute('src', _this.imgDefault2)
               _this.$router.push({path: '/login'})
+              _this.$indicator.close()
               _this.$toast('添加成功')
               // this.getAuthInfoByUid()
             })
           } else {
+            _this.$indicator.close()
             _this.$toast('添加失败')
           }
         }
