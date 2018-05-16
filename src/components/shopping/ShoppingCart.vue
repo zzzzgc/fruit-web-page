@@ -198,14 +198,15 @@
         // this.checkAll = allCheck
       },
       remove: function (index) {
+        console.log(this.products[index])
         let productStandardId = this.products[index].standard_id
         if (this.isLogin()) {
           // 删除数据库中该用户的购物车商品
           this.$http.post('/cart/removeProduct', {ids: [productStandardId]}).then((response) => {
-            this.$toast('删除成功,删除的productStandardId:' + productStandardId)
+            this.$toast('删除成功')
             this.getProducts()
           }, (response) => {
-            this.$toast('删除失败,删除的productStandardId:' + productStandardId)
+            this.$toast('删除失败')
           })
         } else {
           removeCartProduct(productStandardId)
