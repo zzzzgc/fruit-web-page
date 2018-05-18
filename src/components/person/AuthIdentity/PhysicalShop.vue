@@ -9,25 +9,37 @@
       <mt-field label="营业执照号：" :attr="{ maxlength: 18 }" :readonly="isEdit" name="business_license" placeholder="请输入营业执照号" v-model="businessAuth.business_license"></mt-field>
       </form>
     </div>
+
+
+    <div class="row" v-show="imgList.length > 0">
+      <div v-for="(img, idx) in imgList" class="col-xs-6" style="margin-top: 10px;">
+        <a href="javascript:" class="thumbnail">
+          <img :src="img" alt="上传图片" style="width: 50%;">
+        </a>
+        <a href="javascript:" class="btn btn-xs btn-danger" @click="remove(idx)">删除</a>
+      </div>
+    </div>
+
+
     <div class="physical-shop-img" v-show="!isEdit">
       <div style="display: flex;flex-direction: column;">
         <div id="img_identity_front_container" class="img_container">
           <div>
             <img :src="imgDefault1" id="img_identity_front" class="uploader-img"/>
           </div>
-          <input type="file" id="file1" />
+          <input type="file" id="file1" @change="doUpload"  accept="image/*"/>
         </div>
         <div id="img_identity_reverse_container" class="img_container">
           <div>
             <img :src="imgDefault2" id="img_identity_reverse" class="uploader-img"/>
           </div>
-          <input type="file" id="file2" />
+          <input type="file" id="file2" @change="doUpload" accept="image/*"/>
         </div>
         <div id="img_license_container" class="img_container">
           <div>
             <img :src="imgDefault3" id="img_license"  class="uploader-img"/>
           </div>
-          <input type="file" id="file3" />
+          <input type="file" id="file3" @change="doUpload"  accept="image/*"/>
         </div>
       </div>
       <mt-button size="large" type="primary" @click.navite="saveAuthInfo">确认</mt-button>
@@ -54,6 +66,7 @@
   import MtButton from 'mint-ui/packages/button/src/button'
   import Mint from 'mint-ui'
   import {imgUrlPrefix, urlPrefix, imgUrlPrefix2} from '../../../common/const'
+  import lrz from 'lrz'
 
   Vue.use(Mint)
   export default {
@@ -61,11 +74,18 @@
     components: {
       MtButton,
       MtField,
-      TitltInfo
+      TitltInfo,
+      lrz
     },
     data: function () {
       return {
         imgList: [],
+        imgs: [],
+        config: {
+          width: 540,
+          height: 350,
+          quality: 0.7
+        },
         businessAuth: {
           legal_person_name: '',
           identity: '',
@@ -77,9 +97,9 @@
           auth_type: '1',
           u_id: 0
         },
-        imgDefault1: require('../../../images/default/img_identity_front.png'),
-        imgDefault2: require('../../../images/default/img_identity_reverse.png'),
-        imgDefault3: require('../../../images/default/img_license.png'),
+        imgDefault1: require('../../../images/default/img_identity_front2.png'),
+        imgDefault2: require('../../../images/default/img_identity_reverse2.png'),
+        imgDefault3: require('../../../images/default/img_license2.png'),
         isEdit: false,
         imgUrlPrefix
       }
@@ -91,6 +111,64 @@
       })
     },
     methods: {
+      doUpload: function (e) {
+        var self = this
+        if (e.target.files.length === 0) return
+        let fileId = e.target.id
+        var file = e.target.files[0]
+        console.log('fileSize:' + file.size)
+        if (400 * 1024 >= file.size) {
+          self.config.quality = 1
+        } else {
+          self.config.quality = 0.7
+        }
+        lrz(file, self.config).then(function (rst) {
+          let img = {
+            key: 0,
+            name: rst.origin.name,
+            size: rst.base64.length,
+            file: rst.base64
+          }
+          if (fileId === 'file1') {
+            img.key = 1
+            self.imgList[0] = img
+            let fileReader = new FileReader()
+            fileReader.onloadend = function () {
+              if (fileReader.readyState === fileReader.DONE) {
+                document.getElementById('img_identity_front').setAttribute('src', fileReader.result)
+              }
+            }
+            fileReader.readAsDataURL(file)
+          } else if (fileId === 'file2') {
+            img.key = 2
+            self.imgList[1] = img
+            let fileReader = new FileReader()
+            fileReader.onloadend = function () {
+              if (fileReader.readyState === fileReader.DONE) {
+                document.getElementById('img_identity_reverse').setAttribute('src', fileReader.result)
+              }
+            }
+            fileReader.readAsDataURL(file)
+          } else if (fileId === 'file3') {
+            img.key = 3
+            self.imgList[2] = img
+            let fileReader = new FileReader()
+            fileReader.onloadend = function () {
+              if (fileReader.readyState === fileReader.DONE) {
+                document.getElementById('img_license').setAttribute('src', fileReader.result)
+              }
+            }
+            fileReader.readAsDataURL(file)
+          }
+        }).catch(function (err) {
+          console.log(err)
+        }).always(function () {
+          // e.target.value = null
+        })
+      },
+      remove: function (idx) {
+        this.imgList.splice(idx, 1)
+      },
       isExitImgList: function (key, img) { // 判断是否存在,若存在并删除
         // var _this = this
         var flag = false
@@ -201,21 +279,28 @@
         return flag
       },
       saveAuthInfo: function () {
-        this.$indicator.open({
-          text: '提交中...',
-          spinnerType: 'fading-circle'
-        })
         let formData = new FormData()
         if (!this.saveAuthInfoBefore()) {
           return false
         }
+
+        this.$indicator.open({
+          text: '提交中...',
+          spinnerType: 'fading-circle'
+        })
+        console.log('imgList')
+        console.log(this.imgList)
         this.imgList.forEach((item, index) => {
           item.name = 'imgFiles[' + index + ']'
+          console.log('item.name:' + item.name)
+          console.log(item)
           formData.append(item.name, item.file)
         })
+        console.log('submit')
+        console.log(formData)
         // 新建请求
         const xhr = new XMLHttpRequest()
-        xhr.open('POST', urlPrefix + 'authIdentity/addAuthInfoImg', true)
+        xhr.open('POST', urlPrefix + 'authIdentity/addAuthInfoImgTwo', true)
         xhr.send(formData)
         var _this = this
         xhr.onload = () => {
@@ -272,7 +357,7 @@
       }
     },
     mounted: function () {
-      this.initDrawImg() // 初始化图片页面
+      // this.initDrawImg() // 初始化图片页面
       this.getUserId()
       this.getAuthInfoByUid()
     }

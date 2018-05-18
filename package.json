@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^0.17.1",
     "less-loader": "^4.0.5",
+    "lrz": "^4.9.40",
     "mint-ui": "^2.2.12",
     "moment": "^2.19.2",
     "vant": "^0.9.9",
