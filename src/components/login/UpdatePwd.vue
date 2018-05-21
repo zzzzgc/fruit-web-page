@@ -38,8 +38,8 @@
       return {
         imgVerifyCode: '',
         fullPathImg: '',
-        phone: '13242871762',
-        password: '111111',
+        phone: '',
+        password: '',
         validPwd: '',
         msgVerifyCode: ''
       }
@@ -50,7 +50,7 @@
     methods: {
       // 获取短信验证码
       changeSmsVerifyCode: function () {
-        this.$http.post('/validate/createPhoneSmsVerifyCode').then(
+        this.$http.post('/validate/createPhoneSmsVerifyCode', {toPhone: this.phone}).then(
           (response) => {
             this.$toast('发送成功请查收')
           }
