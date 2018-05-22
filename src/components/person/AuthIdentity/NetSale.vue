@@ -69,9 +69,9 @@
           quality: 0.7
         },
         businessAuth: {
-          legal_person_name: '蔡赐州',
-          identity: '441571198001011230',
-          bank_account: '2631320210',
+          legal_person_name: '',
+          identity: '',
+          bank_account: '',
           img_identity_front: '',
           img_identity_reverse: '',
           img_online_shop: '',
@@ -248,14 +248,14 @@
         return flag
       },
       saveAuthInfo: function () {
-        this.$indicator.open({
-          text: '提交中...',
-          spinnerType: 'fading-circle'
-        })
         let formData = new FormData()
         if (!this.saveAuthInfoBefore()) {
           return false
         }
+        this.$indicator.open({
+          text: '提交中...',
+          spinnerType: 'fading-circle'
+        })
         this.imgList.forEach((item, index) => {
           item.name = 'imgFiles[' + index + ']'
           formData.append(item.name, item.file)
