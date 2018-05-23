@@ -43,11 +43,11 @@
         <table cellspacing="0">
           <tr>
             <td rowspan="2" class="first">
-              <router-link to="/product/list/0-0-1">低价热销</router-link>
+              <router-link to="/product/list/0-0-1" style="border:1px solid #333;">低价热销</router-link>
             </td>
             <td class="second">
               <router-link to="/product/list/0-0-3"
-                           style="color: white;font-size:26px;font-family: STSong,Georgia,Serif;">进口好货
+                           style="color: #333333;font-size:26px;font-family: STSong,Georgia,Serif;border:1px solid #333;">进口好货
               </router-link>
             </td>
             <td style="background: url('../images/homeIcon/智利车厘子-z.jpg')"></td>
@@ -55,7 +55,7 @@
           <tr>
             <td class="third">
               <router-link to="/product/list/0-0-5"
-                           style=" color: white;font-size:26px;font-family: STSong,Georgia,Serif;">国产精品
+                           style=" color: #333333;font-size:26px;font-family: STSong,Georgia,Serif;border:1px solid #333;">国产精品
               </router-link>
             </td>
           </tr>
@@ -440,16 +440,17 @@
       > table {
         width: 100%;
         text-align: center;
-        height: 150px;
+        height: 80px;
         .first {
           border-right: 2px solid white;
-          background: url("../images/homeIcon/不知火丑橘-z.jpg");
+          /*background: url("../images/homeIcon/不知火丑橘-z.jpg");*/
           background-repeat: no-repeat;
           background-size: cover;
           background-position: center;
           a {
-            padding: 60px 0;
-            color: white;
+            padding: 40px 0;
+            /*color: white;*/
+            color: #333333;
             font-size: 26px;
             font-family: STSong, Georgia, Serif;
           }
@@ -457,13 +458,13 @@
         .second {
           border-bottom: 2px solid white;
           border-right: 2px solid white;
-          background: url("../images/homeIcon/智利车厘子-z.jpg");
+          /*background: url("../images/homeIcon/智利车厘子-z.jpg");*/
           background-repeat: no-repeat;
           background-size: cover;
           background-position: center;
         }
         .third {
-          background: url("../images/homeIcon/齐峰翠香猕猴桃-z.jpg");
+          /*background: url("../images/homeIcon/齐峰翠香猕猴桃-z.jpg");*/
           background-repeat: no-repeat;
           background-size: cover;
           background-position: center;
@@ -474,7 +475,7 @@
           /*padding: 10px 0;*/
           a {
             display: block;
-            padding: 26px 0;
+            padding: 11px 0;
           }
         }
       }

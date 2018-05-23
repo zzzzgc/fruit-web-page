@@ -248,14 +248,14 @@
         return flag
       },
       saveAuthInfo: function () {
-        this.$indicator.open({
-          text: '提交中...',
-          spinnerType: 'fading-circle'
-        })
         let formData = new FormData()
         if (!this.saveAuthInfoBefore()) {
           return false
         }
+        this.$indicator.open({
+          text: '提交中...',
+          spinnerType: 'fading-circle'
+        })
         this.imgList.forEach((item, index) => {
           item.name = 'imgFiles[' + index + ']'
           formData.append(item.name, item.file)
