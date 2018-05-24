@@ -39,28 +39,35 @@
       <!--</table>-->
       <!--</div>-->
       <!--商品分类-->
-      <div class="product-type line-block">
-        <table cellspacing="0">
-          <tr>
-            <td rowspan="2" class="first">
-              <router-link to="/product/list/0-0-1" style="border:1px solid #333;">低价热销</router-link>
-            </td>
-            <td class="second">
-              <router-link to="/product/list/0-0-3"
-                           style="color: #333333;font-size:26px;font-family: STSong,Georgia,Serif;border:1px solid #333;">进口好货
-              </router-link>
-            </td>
-            <td style="background: url('../images/homeIcon/智利车厘子-z.jpg')"></td>
-          </tr>
-          <tr>
-            <td class="third">
-              <router-link to="/product/list/0-0-5"
-                           style=" color: #333333;font-size:26px;font-family: STSong,Georgia,Serif;border:1px solid #333;">国产精品
-              </router-link>
-            </td>
-          </tr>
-        </table>
+      <div style="width:98%;height: 100px;margin:0 auto;display: flex;flex-direction: row;justify-content: space-around;">
+        <div style="width: 48%;height: 100%;font-size:24px;text-align: center;box-shadow:0 0 5px #666;border-radius: 10px;"><router-link to="/product/list/0-0-1" style="line-height: 100px;color:#333;">低价热销</router-link></div>
+        <div style="width: 48%;height: 100%;display: flex;flex-direction: column;">
+          <div style="height: 47%;width: 100%;line-height: 45%;margin:auto auto;text-align: center;font-size:24px;box-shadow:0 0 5px #666;border-radius: 5px;">
+            <router-link to="/product/list/0-0-3" style="line-height: 50px;color:#333;">进口好货</router-link>
+          </div>
+          <div style="height: 47%;width: 100%;line-height: 45%;margin:auto auto;text-align: center;font-size:24px;box-shadow:0 0 5px #666;border-radius: 5px;">
+            <router-link to="/product/list/0-0-5" style="line-height: 50px;color:#333;">国产精品</router-link>
+          </div>
+        </div>
       </div>
+      <!--<div class="product-type line-block">-->
+        <!--<table cellspacing="0">-->
+          <!--<tr>-->
+            <!--<td rowspan="2" class="first">-->
+              <!--<router-link to="/product/list/0-0-1" >低价热销</router-link>-->
+            <!--</td>-->
+            <!--<td class="second">-->
+              <!--<router-link to="/product/list/0-0-3">进口好货</router-link>-->
+            <!--</td>-->
+            <!--<td style="background: url('../images/homeIcon/智利车厘子-z.jpg')"></td>-->
+          <!--</tr>-->
+          <!--<tr>-->
+            <!--<td class="third">-->
+              <!--<router-link to="/product/list/0-0-5">国产精品</router-link>-->
+            <!--</td>-->
+          <!--</tr>-->
+        <!--</table>-->
+      <!--</div>-->
       <!--商品-->
       <div class="products line-block">
         <div class="tab-title">
@@ -438,36 +445,57 @@
     }
     .activity, .product-type {
       > table {
-        width: 100%;
+        width: 98%;
         text-align: center;
         height: 80px;
+        margin:auto auto;
         .first {
-          border-right: 2px solid white;
+          /*border-right: 2px solid white;*/
           /*background: url("../images/homeIcon/不知火丑橘-z.jpg");*/
-          background-repeat: no-repeat;
-          background-size: cover;
-          background-position: center;
+          /*background-repeat: no-repeat;*/
+          /*background-size: cover;*/
+          /*background-position: center;*/
+          -webkit-box-shadow:0 0 2px #666;
+          -moz-box-shadow:0 0 2px #666;
+          box-shadow:0 0 2px #666;
           a {
-            padding: 40px 0;
+            padding: 35px 10px;
             /*color: white;*/
             color: #333333;
-            font-size: 26px;
-            font-family: STSong, Georgia, Serif;
+            font-size: 24px;
           }
         }
         .second {
-          border-bottom: 2px solid white;
-          border-right: 2px solid white;
+          -webkit-box-shadow:0 0 2px #666;
+          -moz-box-shadow:0 0 2px #666;
+          box-shadow:0 0 2px #666;
+          a {
+            padding: 17px 10px;
+            /*color: white;*/
+            color: #333333;
+            font-size: 24px;
+          }
+          /*border-bottom: 2px solid white;*/
+          /*border-right: 2px solid white;*/
           /*background: url("../images/homeIcon/智利车厘子-z.jpg");*/
-          background-repeat: no-repeat;
-          background-size: cover;
-          background-position: center;
+          /*background-repeat: no-repeat;*/
+          /*background-size: cover;*/
+          /*background-position: center;*/
         }
         .third {
           /*background: url("../images/homeIcon/齐峰翠香猕猴桃-z.jpg");*/
-          background-repeat: no-repeat;
-          background-size: cover;
-          background-position: center;
+          /*background-repeat: no-repeat;*/
+          /*background-size: cover;*/
+          /*background-position: center;*/
+          -webkit-box-shadow:0 0 2px #666;
+          -moz-box-shadow:0 0 2px #666;
+          box-shadow:0 0 2px #666;
+          a {
+            padding: 17px 10px;
+            /*color: white;*/
+            color: #333333;
+            font-size: 24px;
+          }
         }
         td {
           width: 50%;
