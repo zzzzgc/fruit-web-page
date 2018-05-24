@@ -10,6 +10,7 @@
       </form>
     </div>
 
+<!--
 
     <div class="row" v-show="imgList.length > 0">
       <div v-for="(img, idx) in imgList" class="col-xs-6" style="margin-top: 10px;">
@@ -19,6 +20,7 @@
         <a href="javascript:" class="btn btn-xs btn-danger" @click="remove(idx)">删除</a>
       </div>
     </div>
+-->
 
 
     <div class="physical-shop-img" v-show="!isEdit">
