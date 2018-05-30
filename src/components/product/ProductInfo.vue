@@ -56,15 +56,15 @@
       <div class="line-block product-info">
         <table>
           <tr>
-            <td>产地</td>
+            <td class="widthDefaultTwo">产地</td>
             <td>{{product.country}} {{product.province}}</td>
           </tr>
           <tr>
-            <td>品牌</td>
+            <td class="widthDefaultTwo">品牌</td>
             <td>{{product.brand}}</td>
           </tr>
           <tr>
-            <td>特征</td>
+            <td class="widthDefaultTwo">特征</td>
             <td>{{product.fruit_des}}</td>
           </tr>
         </table>
@@ -73,27 +73,27 @@
       <div class="line-block other-info">
         <table>
           <tr>
-            <td>平台建议</td>
+            <td  class="widthDefaultOne">平台建议</td>
             <td>{{market.buy_suggest}}</td>
           </tr>
           <tr>
-            <td>市场反馈</td>
+            <td class="widthDefaultOne">市场反馈</td>
             <td>{{marketFeedback}}</td>
           </tr>
           <tr>
-            <td>供&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp货</td>
+            <td class="widthDefaultOne">供&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp货</td>
             <td>{{supplyGoods}}</td>
           </tr>
           <tr>
-            <td>果质特点</td>
+            <td  class="widthDefaultOne">果质特点</td>
             <td>{{market.fruit_des}}</td>
           </tr>
           <tr>
-            <td>服务支持</td>
+            <td class="widthDefaultOne">服务支持</td>
             <td>{{market.support_des}}</td>
           </tr>
           <tr>
-            <td>其&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp他</td>
+            <td  class="widthDefaultOne">其&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp他</td>
             <td>{{market.remark}}</td>
           </tr>
         </table>
@@ -298,6 +298,12 @@
 </script>
 
 <style scoped lang="scss">
+  .widthDefaultOne{
+    width:85px;
+  }
+  .widthDefaultTwo{
+    width:50px;
+  }
   .product-info {
     position: relative;
     /*.title-action {*/
