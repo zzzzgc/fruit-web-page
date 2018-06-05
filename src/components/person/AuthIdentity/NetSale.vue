@@ -93,7 +93,7 @@
         if (400 * 1024 >= file.size) {
           self.config.quality = 1
         } else {
-          self.config.quality = 0.7
+          self.config.quality = 0.8
         }
         lrz(file, this.config).then(function (rst) {
           let img = {
