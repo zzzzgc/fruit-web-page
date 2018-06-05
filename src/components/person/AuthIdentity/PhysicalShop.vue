@@ -84,8 +84,6 @@
         imgList: [],
         imgs: [],
         config: {
-          width: 540,
-          height: 350,
           quality: 0.7
         },
         businessAuth: {
@@ -119,12 +117,13 @@
         let fileId = e.target.id
         var file = e.target.files[0]
         console.log('fileSize:' + file.size)
-        if (400 * 1024 >= file.size) {
+        if (1024 * 1024 >= file.size) {
+          console.log('quality')
           self.config.quality = 1
         } else {
-          self.config.quality = 0.7
+          self.config.quality = 0.8
         }
-        lrz(file, self.config).then(function (rst) {
+        lrz(file, this.config).then(function (rst) {
           let img = {
             key: 0,
             name: rst.origin.name,

@@ -64,8 +64,6 @@
       return {
         imgList: [],
         config: {
-          width: 540,
-          height: 350,
           quality: 0.7
         },
         businessAuth: {
@@ -97,7 +95,7 @@
         } else {
           self.config.quality = 0.7
         }
-        lrz(file, self.config).then(function (rst) {
+        lrz(file, this.config).then(function (rst) {
           let img = {
             key: 0,
             name: rst.origin.name,
