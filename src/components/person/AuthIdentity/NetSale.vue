@@ -12,19 +12,19 @@
             <div>
               <img :src="imgDefault1" id="img_identity_front" class="uploader-img"/>
             </div>
-            <input type="file" id="file1" @change="doUpload"  accept="image/*"/>
+            <input type="file" id="file1" accept="image/*"/>
           </div>
           <div id="img_identity_reverse_container" class="img_container">
             <div>
               <img :src="imgDefault2" id="img_identity_reverse" class="uploader-img"/>
             </div>
-            <input type="file" id="file2" @change="doUpload"  accept="image/*"/>
+            <input type="file" id="file2" accept="image/*"/>
           </div>
           <div id="img_online_shop_container" class="img_container">
             <div>
               <img :src="imgDefault3" id="img_online_shop"  class="uploader-img"/>
             </div>
-            <input type="file" id="file3" @change="doUpload"  accept="image/*"/>
+            <input type="file" id="file3" accept="image/*"/>
           </div>
         </div>
         <mt-button size="large" type="primary" @click.navite="saveAuthInfo">确认</mt-button>
@@ -229,7 +229,7 @@
         if (this.businessAuth.legal_person_name === '') {
           flag = false
           showErro = '法人姓名'
-        } else if (this.businessAuth.identity === '') {
+        } else if (!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(this.businessAuth.identity)) {
           flag = false
           showErro = '身份证号'
         } else if (this.businessAuth.bank_account === '') {
@@ -260,7 +260,7 @@
         })
         // 新建请求
         const xhr = new XMLHttpRequest()
-        xhr.open('POST', urlPrefix + 'authIdentity/addAuthInfoImgTwo', true)
+        xhr.open('POST', urlPrefix + 'authIdentity/addAuthInfoImgThree', true)
         xhr.send(formData)
         var _this = this
         xhr.onload = () => {
@@ -315,7 +315,7 @@
       }
     },
     mounted: function () {
-      // this.initDrawImg() // 初始化图片页面
+      this.initDrawImg() // 初始化图片页面
       this.getUserId()
       this.getAuthInfoByUid()
     }
