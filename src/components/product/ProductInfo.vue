@@ -53,6 +53,8 @@
         <!--<div><span class="field-name">数量：</span><van-stepper v-model="buyNum" /></div>-->
       </div>
       <div class="line-block send-goods"><span></span>指猴全国发货&售后</div>
+
+      <div class="item-title">信息</div>
       <div class="line-block product-info">
         <table>
           <tr>
@@ -69,11 +71,12 @@
           </tr>
         </table>
       </div>
-      <div class="time">行情<span>{{marketUpdate}}</span></div>
+
+      <div class="item-title">行情<sub style="font-size: 12px">{{marketUpdate}}</sub></div>
       <div class="line-block other-info">
         <table>
           <tr>
-            <td  class="widthDefaultOne">平台建议</td>
+            <td class="widthDefaultOne">平台建议</td>
             <td>{{market.buy_suggest}}</td>
           </tr>
           <tr>
@@ -85,7 +88,7 @@
             <td>{{supplyGoods}}</td>
           </tr>
           <tr>
-            <td  class="widthDefaultOne">果质特点</td>
+            <td class="widthDefaultOne">果质特点</td>
             <td>{{market.fruit_des}}</td>
           </tr>
           <tr>
@@ -93,11 +96,43 @@
             <td>{{market.support_des}}</td>
           </tr>
           <tr>
-            <td  class="widthDefaultOne">其&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp他</td>
+            <td class="widthDefaultOne">其&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp他</td>
             <td>{{market.remark}}</td>
           </tr>
         </table>
+
+        <div class="item-title">商品图片</div>
         <img v-for="(item, index) in marketImgs" class="other-img" :src="item" :key="index"/>
+
+        <div class="item-title">购物须知</div>
+        <div class="line-block">
+          <table>
+            <tr>
+              <td class="widthDefaultOne">外表损失</td>
+              <td style="border-top: 1px solid #dddddd">由于商品是整件配送，如有外皮损伤以个别磕碰，属正常现象。</td>
+            </tr>
+            <tr>
+              <td>不良率</td>
+              <td style="border-top: 1px solid #dddddd">每类商品均有不同的不良率标准，购买请仔细查看，如您的商品超出不良率标准，请在收到货当日24小时内联系我们。</td>
+            </tr>
+            <tr>
+              <td>售后说明</td>
+              <td style="border-top: 1px solid #dddddd">由于生鲜果蔬商品的特殊性，如发生以下情况不予受理售后：</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>1.因个人感知判断的差异性，如口感差异，过生或过熟判断等；</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>2.签收后超过24小时反馈。</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td style="color: #aaaaaa">最终解释权归本公司所有</td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
     <div class="bottom-fixed-footer">
@@ -298,12 +333,14 @@
 </script>
 
 <style scoped lang="scss">
-  .widthDefaultOne{
-    width:85px;
+  .widthDefaultOne {
+    width: 85px;
   }
-  .widthDefaultTwo{
-    width:50px;
+
+  .widthDefaultTwo {
+    width: 50px;
   }
+
   .product-info {
     position: relative;
     /*.title-action {*/
@@ -312,6 +349,13 @@
     /*padding: 5px 10px;*/
     /*}*/
     /*}*/
+  }
+
+  .item-title {
+    margin-top: 20px;
+    color: white;
+    font-size: 20px;
+    background-color: red
   }
 
   .title {
@@ -336,10 +380,10 @@
   }
 
   .line-block {
-    padding: 10px;
     background: white;
     line-height: 30px;
-    margin-bottom: 10px;
+    /*padding: 10px;*/
+    /*margin-bottom: 10px;*/
   }
 
   .price {
@@ -440,9 +484,11 @@
   }
 
   .other-info {
+    width: 100%;
     .other-img {
-      width: 47%;
-      margin: 0 1%;
+      /*width: 47%;*/
+      /*margin: 0 1%;*/
+      width: 100%;
     }
   }
 
