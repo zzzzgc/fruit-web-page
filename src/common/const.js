@@ -8,12 +8,12 @@ export const localStorageKeys = {
 export const homeUrl = '/' // 登录后跳转页面
 
 /* 本地: 上传路径 */
-export const ajaxPrefix = '/api' // ajax请求url前缀，测试环境下使用/api开头，前端做代理（url前缀匹配），生产环境为/ent
-export const urlPrefix = 'http://localhost:8090/'
-export const imgUrlPrefix = 'http://localhost:8090/static/images/'
-export const imgUrlPrefix2 = 'http://localhost:8090/upload/file/'
-export const uploadFilePath = 'http://localhost:8080/manage/common/upload'
-export const downloadFilePath = 'http://localhost:8080/upload/file/'
+// export const ajaxPrefix = '/api' // ajax请求url前缀，测试环境下使用/api开头，前端做代理（url前缀匹配），生产环境为/ent
+// export const urlPrefix = 'http://localhost:8090/'
+// export const imgUrlPrefix = 'http://localhost:8090/static/images/'
+// export const imgUrlPrefix2 = 'http://localhost:8090/upload/file/'
+// export const uploadFilePath = 'http://localhost:8080/manage/common/upload'
+// export const downloadFilePath = 'http://localhost:8080/upload/file/'
 
 /* 测试: 上传路径 */
 // export const ajaxPrefix = '/' // ajax请求url前缀，测试环境下使用/api开头，前端做代理（url前缀匹配），生产环境为/ent
@@ -30,3 +30,11 @@ export const downloadFilePath = 'http://localhost:8080/upload/file/'
 // export const imgUrlPrefix2 = 'http://b.52xiguo.com/upload/file/'
 // export const uploadFilePath = 'http://admin.52xiguo.com/manage/common/upload'
 // export const downloadFilePath = 'http://admin.52xiguo.com/upload/file/'
+
+/* 高级测试: 上传路径 */
+export const ajaxPrefix = '/'// ajax请求url前缀，测试环境下使用/api开头，前端做代理（url前缀匹配），生产环境为/ent
+export const urlPrefix = 'http://test.52xiguo.com/'
+export const imgUrlPrefix = 'http://test.52xiguo.com/static/images/'
+export const imgUrlPrefix2 = 'http://test.52xiguo.com/upload/file/'
+export const uploadFilePath = 'http://test.52xiguo.com/manage/common/upload'
+export const downloadFilePath = 'http://test.52xiguo.com/upload/file/'

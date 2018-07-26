@@ -17,7 +17,7 @@
           <div>合计：<span class="total-price">￥{{totalPrice}}</span></div>
           <!--<div class="total-pay">总额：￥{{totalPay}} 立减：￥{{discountMoney}}</div>-->
         </td>
-        <td class="go-pay" @click.navite="goPayByThree">去结算</td>
+        <!--<td class="go-pay" @click.navite="goPayByThree">去结算</td>-->
       </tr>
     </table>
   </div>
