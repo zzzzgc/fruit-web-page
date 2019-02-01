@@ -3,21 +3,35 @@
     <!--顶部搜索-->
     <top-search></top-search>
     <div class="content">
+      <ul v-infinite-scroll="loadMore"
+          :infinite-scroll-disabled="loading"
+          infinite-scroll-distance="25">
       <product-item v-for="(p, index) in products" :product="p" :key="p.id"></product-item>
+      </ul>
+      <p v-if="loading" class="page-infinite-loading" style="margin-left:48%;">
+        <mt-spinner type="fading-circle" color="#333">
+        </mt-spinner>
+      </p>
+      <p v-if="isTotalCount" style="text-align: center;font-size:14px;color:#999;margin-bottom:5px;">
+        ------------------------ 我 是 有 底 线 的 ------------------------
+      </p>
     </div>
+    <BottomMenu></BottomMenu>
   </div>
 </template>
 
 <script>
   import ProductItem from './ProductItem'
 //  import * as moment from 'moment'
-  import TopSearch from './common/TopSearch'
+  import BottomMenu from '../common/BottomMenu'
+  import TopSearch from '../common/TopSearch'
 
   export default {
     name: 'ProductList',
     components: {
       ProductItem,
-      TopSearch
+      TopSearch,
+      BottomMenu
     },
     props: ['type', 'groupType', 'recommendType', 'searchKeyword'], // 目前只能是字符串类型，不能是int
     created: function () {
@@ -28,6 +42,8 @@
     data () {
       return {
         pageNum: 1,
+        loading: false,
+        isTotalCount: false,
         products: [
 //          {
 //            id: 1,
@@ -78,7 +94,42 @@
       }
     },
     methods: {
+      loadMore: function () {
+        if (!this.isTotalCount) {
+          this.loading = true
+        }
+        setTimeout(() => {
+          let url = '/product/list' // 按照默认条件查找商品
+          let params = {pageNum: this.pageNum}
+          if (this.type && this.type !== '0') { // 按照类型查找商品
+            url = '/product/listType'
+            params.typeId = this.type
+          } else if (this.groupType && this.groupType !== '0') { // 按照类型分组查找商品
+            url = '/product/listGroupType'
+            params.groupTypeId = this.groupType
+          } else if (this.recommendType && this.recommendType !== '0') { // 按照推荐类型查找商品
+            url = '/product/listRecommendType'
+            params.recommendTypeId = this.recommendType
+          } else if (this.searchKeyword && this.searchKeyword !== '') { // 按照关键字查找商品
+            url = '/product/listKeyword'
+            params.keyword = this.searchKeyword
+          }
+          params.pageSize = this.products.length + 5
+          this.$http.post(url, params).then((response) => {
+            this.products = response.data.products
+            if (response.data.isTotalCount) {
+              this.isTotalCount = response.data.isTotalCount
+            }
+          })
+          this.loading = false
+          // let last = this.products[this.products.length - 1]
+          // for (let i = 1; i <= 10; i++) {
+          //   this.products.push(last + i)
+          // }
+        }, 2500)
+      },
       getProducts: function () {
+        this.isTotalCount = false
         let url = '/product/list' // 按照默认条件查找商品
         let params = {pageNum: this.pageNum}
         if (this.type && this.type !== '0') { // 按照类型查找商品
@@ -95,7 +146,7 @@
           params.keyword = this.searchKeyword
         }
         this.$http.post(url, params).then((response) => {
-          this.products = response.data
+          this.products = response.data.products
         })
       }
     },
@@ -114,6 +165,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   .content {
+    width:100%;
     padding: 44px 0;
     box-sizing: border-box;
   }

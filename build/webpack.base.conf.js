@@ -44,7 +44,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        include: [resolve('src'), resolve('test'), resolve('/node_modules/vant/packages/mixins'), resolve('/node_modules/mint-ui/src/utils'), resolve('/node_modules/mint-ui/packages/infinite-scroll/src')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

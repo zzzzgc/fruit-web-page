@@ -1,0 +1,81 @@
+.persons{
+  margin:0px;
+  height: 100%;
+  background-color: white;
+}
+.persons-header{
+  /*margin-left:10px;*/
+  display: flex;
+  flex-direction:column;
+  /*padding-top:10px;*/
+}
+.persons-user-title{
+  display: flex;
+  flex-direction: row;
+}
+.user-logout{
+  flex:30%;
+  color:#169BD8;
+  font-size:16px;
+  text-decoration: underline;
+}
+.user-phone{
+  width:105px;
+  margin:0 auto;
+  color: white;
+}
+.persons-blank{
+  flex:40%;
+}
+.persons-info{
+  display: flex;
+  flex-direction:row;
+  margin-top:25px;
+}
+.shop-info{
+  width:150px;
+  height:90px;
+  line-height: 90px;
+  border:1px solid #333;
+  text-align: center;
+  margin:0 auto;
+}
+.my-orders{
+  clear:both;
+  margin-left:-10px;
+  border-bottom:1px solid #999;
+  border-top:1px solid #999;
+}
+.my-orders-container{
+  display: flex;
+  flex-direction: row;
+}
+.my-order-item{
+  flex:1;
+}
+.order-item-child{
+  text-decoration:none;
+}
+.update-pwd-container-person{
+  clear:both;
+  border-bottom:1px solid #999;
+  /*padding-bottom:10px;*/
+  /*margin-top:15px;*/
+}
+.update-pwd-person{
+  text-decoration:none;
+  margin-left:20px;
+}
+.receiver {
+  font-size:15px;
+  color:#333;
+  clear:both;
+  margin-left:10px;
+  margin-top:10px;
+}
+.receiver table tr{
+  line-height:30px;
+}
+.receiver table tr:first-child{
+  font-size:17px;
+}

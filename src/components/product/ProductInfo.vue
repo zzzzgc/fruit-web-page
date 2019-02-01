@@ -19,17 +19,28 @@
       <!--<div>商品ID为:{{$route.params.id}}  -  {{$route.params.standardId}}</div>-->
       <div class="line-block price">
         <span class="area" v-if="product.isForeign">进口</span>{{product.name}}
-        <div><span class="sell-price">￥{{selectStandard.sell_price}}</span><span class="original-price">￥{{selectStandard.original_price}}</span></div>
-        <div class="desc"><span>{{selectStandard.sub_title}}</span><span class="buy-num">本周{{product.week_sell_num}}家购买</span></div>
+        <div v-if="isLogin()"><span class="sell-price">￥{{selectStandard.sell_price}}</span><span class="original-price">￥{{selectStandard.original_price}}</span>
+          <div class="desc"><span>{{selectStandard.sub_title}}</span><span class="buy-num">本周{{product.week_sell_num}}家购买</span></div>
+        </div>
+        <div v-else @click="toLogin" style="color: red">登录查看价格</div>
       </div>
-      <div class="line-block buy-info"><ul><li>质检保障</li><li>冷链配送</li><li>售后保障</li></ul></div>
+      <div class="line-block buy-info">
+        <ul>
+          <li>质检保障</li>
+          <li>冷链配送</li>
+          <li>售后保障</li>
+        </ul>
+      </div>
       <div class="line-block standard">
         <table>
-          <tr><td>规格：</td><td>
+          <tr>
+            <td>规格：</td>
+            <td>
             <span v-for="(item, index) in standards" v-bind:class="[item.id === selectStandard.id ? 'selected' : '']" @click="choiceStandard(index)" :key="index">
               {{item.name}}
             </span>
-          </td></tr>
+            </td>
+          </tr>
           <tr>
             <td>数量：</td>
             <td>
@@ -42,45 +53,113 @@
         <!--<div><span class="field-name">数量：</span><van-stepper v-model="buyNum" /></div>-->
       </div>
       <div class="line-block send-goods"><span></span>指猴全国发货&售后</div>
+
+      <div class="item-title">信息</div>
       <div class="line-block product-info">
         <table>
-          <tr><td>产地</td><td>{{product.country}}  {{product.province}}</td></tr>
-          <tr><td>品牌</td><td>{{product.brand}}</td></tr>
-          <tr><td>特征</td><td>{{product.fruit_des}}</td></tr>
+          <tr>
+            <td class="widthDefaultTwo">产地</td>
+            <td>{{product.country}} {{product.province}}</td>
+          </tr>
+          <tr>
+            <td class="widthDefaultTwo">品牌</td>
+            <td>{{product.brand}}</td>
+          </tr>
+          <tr>
+            <td class="widthDefaultTwo">特征</td>
+            <td>{{product.fruit_des}}</td>
+          </tr>
         </table>
       </div>
-      <div class="time">行情<span>{{marketUpdate}}</span></div>
+
+      <div class="item-title">行情<sub style="font-size: 12px">{{marketUpdate}}</sub></div>
       <div class="line-block other-info">
         <table>
-          <tr><td>平台建议</td><td>{{market.buy_suggest}}</td></tr>
-          <tr><td>市场反馈</td><td>{{marketFeedback}}</td></tr>
-          <tr><td>供&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp货</td><td>{{supplyGoods}}</td></tr>
-          <tr><td>果质特点</td><td>{{market.fruit_des}}</td></tr>
-          <tr><td>服务支持</td><td>{{market.support_des}}</td></tr>
-          <tr><td>其&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp他</td><td>{{market.remark}}</td></tr>
+          <tr>
+            <td class="widthDefaultOne">平台建议</td>
+            <td>{{market.buy_suggest}}</td>
+          </tr>
+          <tr>
+            <td class="widthDefaultOne">市场反馈</td>
+            <td>{{marketFeedback}}</td>
+          </tr>
+          <tr>
+            <td class="widthDefaultOne">供&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp货</td>
+            <td>{{supplyGoods}}</td>
+          </tr>
+          <tr>
+            <td class="widthDefaultOne">果质特点</td>
+            <td>{{market.fruit_des}}</td>
+          </tr>
+          <tr>
+            <td class="widthDefaultOne">服务支持</td>
+            <td>{{market.support_des}}</td>
+          </tr>
+          <tr>
+            <td class="widthDefaultOne">其&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp他</td>
+            <td>{{market.remark}}</td>
+          </tr>
         </table>
-        <img v-for="(item, index) in marketImgs" class="other-img" :src="item" :key="index" />
+
+        <div class="item-title">商品图片</div>
+        <img v-for="(item, index) in marketImgs" class="other-img" :src="item" :key="index"/>
+
+        <div class="item-title">购物须知</div>
+        <div class="line-block">
+          <table>
+            <tr>
+              <td class="widthDefaultOne">外表损失</td>
+              <td style="border-top: 1px solid #dddddd">由于商品是整件配送，如有外皮损伤以个别磕碰，属正常现象。</td>
+            </tr>
+            <tr>
+              <td>不良率</td>
+              <td style="border-top: 1px solid #dddddd">每类商品均有不同的不良率标准，购买请仔细查看，如您的商品超出不良率标准，请在收到货当日24小时内联系我们。</td>
+            </tr>
+            <tr>
+              <td>售后说明</td>
+              <td style="border-top: 1px solid #dddddd">由于生鲜果蔬商品的特殊性，如发生以下情况不予受理售后：</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>1.因个人感知判断的差异性，如口感差异，过生或过熟判断等；</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>2.签收后超过24小时反馈。</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td style="color: #aaaaaa">最终解释权归本公司所有</td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
     <div class="bottom-fixed-footer">
-      <div class="my-cart"><icon scale="1.5" name="shopping-cart"></icon><div>购物车</div></div>
-      <div class="pay-now">立即购买</div>
-      <div class="add-cart">加入购物车</div>
+      <div class="my-cart" @click='toShoppingCart'>
+        <icon scale="1.5" name="shopping-cart"></icon>
+        <div>购物车</div>
+      </div>
+      <div class="pay-now" @click='payNow'>立即购买</div>
+      <div class="add-cart" @click='addCart'>加入购物车</div>
     </div>
   </div>
 </template>
 
 <script>
-  import { Stepper } from 'vant'
-  import { swiper, swiperSlide } from 'vue-awesome-swiper'
+  import {Stepper} from 'vant'
+  import {Toast} from 'mint-ui'
+  import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import 'swiper/dist/css/swiper.css'
   import 'vue-awesome/icons/angle-left'
   import 'vue-awesome/icons/home'
   import 'vue-awesome/icons/shopping-cart'
+  import session from '../../mixins/sessionMixin'
   import Icon from 'vue-awesome/components/Icon'
 
   export default {
     name: 'product-info',
+    mixins: [session],
     components: {
       [Stepper.name]: Stepper,
       Icon,
@@ -170,12 +249,64 @@
           let selectedIndex = 0
           for (let i in this.standards) {
             if (this.standards[i].id === selectedStandardId ||
-                (selectedStandardId === -1 && this.standards[i].is_default === 1)) {
+              (selectedStandardId === -1 && this.standards[i].is_default === 1)) {
               selectedIndex = i
             }
           }
           this.selectStandard = this.standards[selectedIndex]
         })
+      },
+      payNow: function () {
+        // 立即购买
+        // console.log('product:')
+        // console.log(this.product)
+        // console.log('standards:')
+        // console.log(this.standards)
+        // console.log('selectStandard:')
+        // console.log(this.selectStandard)
+        // console.log('market:')
+        // console.log(this.market)
+        // console.log('marketImgs:')
+        // console.log(this.marketImgs)
+        // console.log('productImgs:')
+        // console.log(this.productImgs)
+
+        // 后倒入的数据会覆盖前导入的数据this.selectStandard的id被this.product的id覆盖了,所以换一个名字导入selectStandard的id
+        let order = Object.assign({}, this.selectStandard, this.product, {standard_id: this.selectStandard.id, standard_name: this.selectStandard.name, buyNum: this.buyNum})
+        // console.log('order:')
+        // console.log(order)
+        this.$http.post('/order/directCreateOrder', order).then(
+          // 成功函数
+          (response) => {
+            console.log(response)
+            console.log(response.data)
+            // 支付确认页面
+            this.$router.push({path: '/orderInfo', query: {'orderIds': [response.data]}})
+          },
+          // 失败函数
+          (response) => {
+
+          }
+        )
+      },
+      addCart: function () {
+        let carProduct = {
+          'standard_id': this.selectStandard.id,
+          'buy_num': this.buyNum,
+          'remark': ''
+        }
+        if (this.isLogin()) {
+          // 累加商品,需求的要求
+          this.$http.post('/cart/addProduct', carProduct).then((response) => {
+            Toast('添加成功')
+          })
+        } else {
+          this.setCartProducts(carProduct)
+          Toast('添加成功')
+        }
+      },
+      toShoppingCart: function () {
+        this.$router.push({path: '/cart'})
       }
     },
     computed: {
@@ -202,21 +333,37 @@
 </script>
 
 <style scoped lang="scss">
+  .widthDefaultOne {
+    width: 85px;
+  }
+
+  .widthDefaultTwo {
+    width: 50px;
+  }
+
   .product-info {
     position: relative;
     /*.title-action {*/
-      /*position: absolute;*/
-      /*.back {*/
-        /*padding: 5px 10px;*/
-      /*}*/
+    /*position: absolute;*/
+    /*.back {*/
+    /*padding: 5px 10px;*/
+    /*}*/
     /*}*/
   }
+
+  .item-title {
+    margin-top: 20px;
+    color: white;
+    font-size: 20px;
+    background-color: red
+  }
+
   .title {
     text-align: center;
     box-sizing: border-box;
     padding: 10px 20px 0;
     font-size: 20px;
-    .back,.home {
+    .back, .home {
       position: absolute;
       top: 10px;
     }
@@ -227,15 +374,18 @@
       right: 20px;
     }
   }
+
   .content {
     padding: 44px 0 35px;
   }
+
   .line-block {
-    padding: 10px;
     background: white;
     line-height: 30px;
-    margin-bottom: 10px;
+    /*padding: 10px;*/
+    /*margin-bottom: 10px;*/
   }
+
   .price {
     font-size: 18px;
     .area {
@@ -263,6 +413,7 @@
       }
     }
   }
+
   .buy-info {
     ul {
       display: -webkit-box;
@@ -278,6 +429,7 @@
       font-size: 12px;
     }
   }
+
   .standard {
     font-size: 14px;
     span {
@@ -292,12 +444,15 @@
       border: 1px solid red;
     }
   }
-  .time,.line-block>table tr td:first-child {
+
+  .time, .line-block > table tr td:first-child {
     color: #acacac;
   }
+
   .product-info {
     margin-bottom: 0;
   }
+
   .send-goods {
     font-size: 15px;
     span {
@@ -310,6 +465,7 @@
       margin-right: 10px;
     }
   }
+
   .time {
     background: white;
     border-top: 1px solid #e6e6e6;
@@ -319,25 +475,30 @@
       margin-left: 20px;
     }
   }
-  .product-info,.other-info {
+
+  .product-info, .other-info {
     font-size: 14px;
     table tr td:first-child {
       padding-right: 10px;
     }
   }
+
   .other-info {
+    width: 100%;
     .other-img {
-      width: 47%;
-      margin: 0 1%;
+      /*width: 47%;*/
+      /*margin: 0 1%;*/
+      width: 100%;
     }
   }
+
   .bottom-fixed-footer {
-    >div {
+    > div {
       display: inline-block;
       height: 100%;
       line-height: 44px;
     }
-    .add-cart,.pay-now {
+    .add-cart, .pay-now {
       float: right;
       padding: 0 20px;
       color: white;
@@ -347,7 +508,7 @@
       line-height: 17px;
       margin: 0 0 0 20px;
     }
-    .add-cart{
+    .add-cart {
       background: #F79506;
     }
     .pay-now {
@@ -360,6 +521,7 @@
     display: inline-block;
     margin-left: 10px;
   }
+
   .product-info .swiper-container {
     height: 230px;
   }

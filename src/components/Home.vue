@@ -1,39 +1,53 @@
 <template>
-  <div class="home">
+  <div class="home" id="home">
     <!--顶部搜索-->
     <top-search></top-search>
     <div class="content">
+      <!--<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5c9b21aa561cbbc7&redirect_uri=http://localhost:8090/wechat/getWechatOpenId&response_type=code&scope=snsapi_userinfo&state=okokok#wechat_redirect">点我发起调用code</a><br>-->
+      <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5c9b21aa561cbbc7&redirect_uri=http%3a%2f%2ftest.52xiguo.com%2fwechat%2fgetWechatOpenId&response_type=code&scope=snsapi_userinfo&state=okokok#wechat_redirect">点我发起调用code</a><br>
+      <!--<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx520c15f417810387&redirect_uri=https%3A%2F%2Fchong.qq.com%2Fphp%2Findex.php%3Fd%3D%26c%3DwxAdapter%26m%3DmobileDeal%26showwxpaytitle%3D1%26vb2ctag%3D4_2030_5_1194_60&response_type=code&scope=snsapi_base&state=123#wechat_redirect">ceshiceshi</a><br>-->
       <!--轮播图-->
       <div class="banner line-block">
         <swiper :options="bannerSwiper.swiperOption" :not-next-tick="bannerSwiper.notNextTick">
           <swiper-slide v-for="(banner, index) in banners" :key="index">
             <a :href="banner.click_url" target="_blank">
-              <img :src="banner.img_url" alt="">
+              <img id="bannerImg" v-lazy.home="banner.img_url" :alt="banner.click_url">
             </a>
+            <span style="margin-left:5px;width:100%;display: block;position: absolute;left:0;top:200px;text-align: left;color:white;font-weight: bold;letter-spacing: 3px">{{banner.des}}</span>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
       </div>
       <!-- 支付提醒 -->
-      <div v-if="nonPayNum > 0" class="pay-notify line-block">
-        您有待支付订单{{order.num}}个，共计:￥{{order.price}}元
-        <router-link to="/goods" class="pay">确认付款</router-link>
+      <div v-if="totalOrderInfo.order_count" class="pay-notify line-block">
+        <div v-if="isLogin()">
+          您有待支付订单{{totalOrderInfo.order_count}}个，共计:￥{{totalOrderInfo.total_money}}元
+          <router-link to="/orderList?selected=one" class="pay">确认付款</router-link>
+        </div>
+        <div v-else>
+          您有待支付订单{{totalOrderInfo.order_count}}个,请登陆后下单
+          <router-link to="/login" class="pay">登录</router-link>
+        </div>
       </div>
       <!--活动-->
       <!--<div class="activity line-block">-->
-        <!--<table cellspacing="0" cellpadding="20px">-->
-          <!--<tr><td class="first">送66元</td><td>签到免现</td></tr>-->
-        <!--</table>-->
+      <!--<table cellspacing="0" cellpadding="20px">-->
+      <!--<tr><td class="first">送66元</td><td>签到免现</td></tr>-->
+      <!--</table>-->
       <!--</div>-->
       <!--商品分类-->
-      <div class="product-type line-block">
-        <table cellspacing="0">
-          <tr>
-            <td rowspan="2" class="first"><router-link to="/product/list/0-0-1">低价热销</router-link></td>
-            <td class="second"><router-link to="/product/list/0-0-3">进口好货</router-link></td>
-          </tr>
-          <tr><td><router-link to="/product/list/0-0-5">国产精品</router-link></td></tr>
-        </table>
+      <div style="width:98%;height: 100px;margin:0 auto;display: flex;flex-direction: row;justify-content: space-around;">
+        <div style="width: 48%;height: 100%;font-size:24px;text-align: center;box-shadow:0 0 5px #666;border-radius: 10px;">
+          <router-link to="/product/list/0-0-1" style="line-height: 100px;color:#333;">低价热销</router-link>
+        </div>
+        <div style="width: 48%;height: 100%;display: flex;flex-direction: column;">
+          <div style="height: 47%;width: 100%;line-height: 45%;margin:auto auto;text-align: center;font-size:24px;box-shadow:0 0 5px #666;border-radius: 5px;">
+            <router-link to="/product/list/0-0-3" style="line-height: 50px;color:#333;">进口好货</router-link>
+          </div>
+          <div style="height: 47%;width: 100%;line-height: 45%;margin:auto auto;text-align: center;font-size:24px;box-shadow:0 0 5px #666;border-radius: 5px;">
+            <router-link to="/product/list/0-0-5" style="line-height: 50px;color:#333;">国产精品</router-link>
+          </div>
+        </div>
       </div>
       <!--商品-->
       <div class="products line-block">
@@ -41,27 +55,45 @@
           <div :class="isSelectTab(0)" @click="selectTab(0)">最常购</div>
           <div :class="isSelectTab(1)" @click="selectTab(1)">今日上新（{{latestPublish}}）</div>
         </div>
-        <swiper :options="productSwiper.swiperOption" :not-next-tick="productSwiper.notNextTick" ref="productSwiper">
-          <swiper-slide>
-            <product-item v-for="(p, index) in productsBuy" :product="p" :key="p.id"></product-item>
-          </swiper-slide>
-          <swiper-slide>
-            <product-item v-for="(p, index) in productsNew" :product="p" :key="p.id"></product-item>
-          </swiper-slide>
-        </swiper>
+        <ul v-infinite-scroll="loadMore"
+            infinite-scroll-disabled="loading"
+            infinite-scroll-distance="5">
+          <swiper :options="productSwiper.swiperOption" :not-next-tick="productSwiper.notNextTick" ref="productSwiper">
+            <swiper-slide>
+              <product-item v-for="(p, index) in productsBuy" :product="p" :key="p.id"></product-item>
+            </swiper-slide>
+            <swiper-slide>
+              <product-item v-for="(p, index) in productsNew" :product="p" :key="p.id"></product-item>
+            </swiper-slide>
+          </swiper>
+        </ul>
+        <p v-if="loading" class="page-infinite-loading" style="margin-left:48%;">
+          <mt-spinner type="fading-circle" color="#333">
+          </mt-spinner>
+        </p>
+        <p v-if="isTotalCount" style="text-align: center;font-size:14px;color:#999;margin-bottom:5px;">
+          ------------------------ 我 是 有 底 线 的 ------------------------
+        </p>
       </div>
     </div>
     <bottom-menu></bottom-menu>
   </div>
 </template>
 
+
 <script>
-  import { swiper, swiperSlide } from 'vue-awesome-swiper'
+  import {swiper, swiperSlide} from 'vue-awesome-swiper'
   import 'swiper/dist/css/swiper.css'
-  import ProductItem from './ProductItem'
+  import ProductItem from './product/ProductItem'
   import * as moment from 'moment'
   import TopSearch from './common/TopSearch'
   import BottomMenu from './common/BottomMenu'
+  import {isLogin, getCartProducts} from '../common/session'
+
+  import Vue from 'vue'
+  import Mint from 'mint-ui'
+
+  Vue.use(Mint)
 
   export default {
     name: 'Home',
@@ -74,14 +106,35 @@
     },
     created: function () {
     },
+    beforeRouteEnter: function (to, from, next) {
+      next(vm => {
+        // 登录后主页是缓存的,所以需要刷新页面重新加载
+        if (from.fullPath === '/login') {
+          window.location.reload()
+        }
+      })
+    },
     mounted: function () {
+      // this.$router.beforeUpdate((to, from, next) => {
+      //   console.log(to)
+      //   console.log(from)
+      //   console.log(next)
+      // })
       this.getBanner()
       this.getBuyProduct()
       this.getNewProduct()
+      this.getTotalOrderInfo()
+      // this.initBanner()
     },
-    data () {
+    data: function () {
       return {
-        nonPayNum: 1,
+        totalOrderInfo: {
+          order_count: 0,
+          total_money: 0
+        },
+        loading: false,
+        isTotalCount: false,
+        loadSelectIndex: 0,
         productSwiper: {
           notNextTick: true,
           swiperOption: {
@@ -131,8 +184,14 @@
           }
         },
         banners: [
-          {click_url: 'https://youzan.com', img_url: 'https://img.yzcdn.cn/upload_files/2017/03/15/FvexrWlG_WxtCE9Omo5l27n_mAG_.jpeg'},
-          {click_url: 'https://youzan.com', img_url: 'https://img.yzcdn.cn/upload_files/2017/03/14/FmTPs0SeyQaAOSK1rRe1sL8RcwSY.jpeg'}
+          {
+            click_url: 'https://youzan.com',
+            img_url: 'https://img.yzcdn.cn/upload_files/2017/03/15/FvexrWlG_WxtCE9Omo5l27n_mAG_.jpeg'
+          },
+          {
+            click_url: 'https://youzan.com',
+            img_url: 'https://img.yzcdn.cn/upload_files/2017/03/14/FmTPs0SeyQaAOSK1rRe1sL8RcwSY.jpeg'
+          }
         ],
         productsBuy: [
           {
@@ -182,11 +241,7 @@
           }
         ],
         productsNew: [],
-        latestPublish: '12小时前',
-        order: {
-          num: 1,
-          price: 8790.00
-        }
+        latestPublish: '12小时前'
       }
     },
     computed: {
@@ -195,19 +250,90 @@
       }
     },
     methods: {
+      isLogin: isLogin,
+      initBanner: function () {
+        var imgHeight = this.getElementById('bannerImg').height()
+        var marginTop = (230 - imgHeight) / 2
+        this.getElementById('bannerImg').css({'margin-top': marginTop + 'px'})
+      },
+      loadMore: function () {
+        if (!this.isTotalCount) {
+          this.loading = true
+        }
+        setTimeout(() => {
+          if (this.loadSelectIndex === 0) {
+            this.$http.post('/product/listBuy', {pageSize: this.productsBuy.length + 5}).then((response) => {
+              this.productsBuy = response.data.products
+              if (response.data.isTotalCount) {
+                this.isTotalCount = response.data.isTotalCount
+              } else {
+                this.isTotalCount = false
+              }
+              // let last = this.productsBuy[this.productsBuy.length - 1]
+              // let last = this.productsBuy[response.data.length - 1]
+              // for (let i = 1; i <= 5; i++) {
+              //   // this.$http.post('/product/listBuy', {pageNum: last + 10}).then((response) => {
+              //   //   this.productsBuy = response.data
+              //   // })
+              //   this.productsBuy.push(last + i)
+              // }
+            })
+          } else {
+            this.$http.post('/product/listNew', {pageSize: this.productsNew.length + 5}).then((response) => {
+              this.productsNew = response.data.products
+              if (response.data.isTotalCount) {
+                this.isTotalCount = response.data.isTotalCount
+              } else {
+                this.isTotalCount = false
+              }
+              if (this.productsNew.length > 0) {
+                let latestUpdateTime = moment(this.productsNew[0].update_time)
+                let nowTime = moment()
+                if (latestUpdateTime.isAfter(nowTime.format('YYYY-MM-DD'))) { // 今天发布显示，发布的小时:分钟
+                  this.latestPublish = latestUpdateTime.format('HH:mm')
+                } else { // 今天之前发布的
+                  let hours = nowTime.diff(latestUpdateTime, 'hours')
+                  if (hours < 12) { // 相隔的时间大于12个小时，显示12小时前，小于12小时，显示XX小时前
+                    this.latestPublish = hours + '小时前'
+                  }
+                }
+              }
+            })
+            // let last = this.productsNew[this.productsNew.length - 1]
+            // for (let i = 1; i <= 5; i++) {
+            //   this.productsNew.push(last + i)
+            // }
+          }
+          this.loading = false
+        }, 2500)
+      },
+      getTotalOrderInfo: function () {
+        if (this.isLogin()) {
+          this.$http.post('/order/getOrderCount').then((response) => {
+            this.totalOrderInfo = response.data
+          })
+        } else {
+          let localCartProducts = getCartProducts()
+          console.log(localCartProducts)
+          this.totalOrderInfo.order_count = localCartProducts.length
+          this.totalOrderInfo.total_money = '请登录后查看'.toString()
+        }
+      },
       getBanner: function () {
         this.$http.post('/banner/groupItem', {groupKey: 'GROUP_HOME'}).then((response) => {
           this.banners = response.data
         })
       },
       getBuyProduct: function () {
+        this.isTotalCount = false
         this.$http.post('/product/listBuy').then((response) => {
-          this.productsBuy = response.data
+          this.productsBuy = response.data.products
         })
       },
       getNewProduct: function () {
+        this.isTotalCount = false
         this.$http.post('/product/listNew').then((response) => {
-          this.productsNew = response.data
+          this.productsNew = response.data.products
           if (this.productsNew.length > 0) {
             let latestUpdateTime = moment(this.productsNew[0].update_time)
             let nowTime = moment()
@@ -229,12 +355,18 @@
         return index === this.productSwiper.selectIndex ? 'select' : ''
       },
       selectTab: function (index) {
+        this.isTotalCount = false
+        this.loadSelectIndex = index
         this.swiper.slideTo(index)
       }
     }
   }
 </script>
-
+<style>
+  html {
+    line-height: normal;
+  }
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   .home {
@@ -242,6 +374,16 @@
     /*height: 100%;*/
     /*overflow: auto;*/
   }
+
+  .test {
+    width: 100%;
+    height: 1000px;
+    background: url('../images/homeIcon/智利车厘子-z.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top: 40px;
+  }
+
   .content {
     /*overflow: auto;*/
     padding: 44px 0;
@@ -274,27 +416,67 @@
         padding: 4px 8px;
       }
     }
-    .activity,.product-type {
-      >table {
-        width: 100%;
+    .activity, .product-type {
+      > table {
+        width: 98%;
         text-align: center;
-        height: 150px;
+        height: 80px;
+        margin: auto auto;
         .first {
-          border-right: 2px solid white;
+          /*border-right: 2px solid white;*/
+          /*background: url("../images/homeIcon/不知火丑橘-z.jpg");*/
+          /*background-repeat: no-repeat;*/
+          /*background-size: cover;*/
+          /*background-position: center;*/
+          -webkit-box-shadow: 0 0 2px #666;
+          -moz-box-shadow: 0 0 2px #666;
+          box-shadow: 0 0 2px #666;
           a {
-            padding: 64px 0;
+            padding: 35px 10px;
+            /*color: white;*/
+            color: #333333;
+            font-size: 24px;
           }
         }
         .second {
-          border-bottom: 2px solid white;
+          -webkit-box-shadow: 0 0 2px #666;
+          -moz-box-shadow: 0 0 2px #666;
+          box-shadow: 0 0 2px #666;
+          a {
+            padding: 17px 10px;
+            /*color: white;*/
+            color: #333333;
+            font-size: 24px;
+          }
+          /*border-bottom: 2px solid white;*/
+          /*border-right: 2px solid white;*/
+          /*background: url("../images/homeIcon/智利车厘子-z.jpg");*/
+          /*background-repeat: no-repeat;*/
+          /*background-size: cover;*/
+          /*background-position: center;*/
+        }
+        .third {
+          /*background: url("../images/homeIcon/齐峰翠香猕猴桃-z.jpg");*/
+          /*background-repeat: no-repeat;*/
+          /*background-size: cover;*/
+          /*background-position: center;*/
+          -webkit-box-shadow: 0 0 2px #666;
+          -moz-box-shadow: 0 0 2px #666;
+          box-shadow: 0 0 2px #666;
+          a {
+            padding: 17px 10px;
+            /*color: white;*/
+            color: #333333;
+            font-size: 24px;
+          }
         }
         td {
           width: 50%;
-          background: #e5e5e5;
+          /* background: #e5e5e5; */
           /*padding: 10px 0;*/
           a {
             display: block;
-            padding: 26px 0;
+            padding: 11px 0;
           }
         }
       }
@@ -303,7 +485,7 @@
       .tab-title {
         white-space: nowrap;
         overflow: hidden;
-        >div {
+        > div {
           display: inline-block;
           width: 50%;
           box-sizing: border-box;
@@ -312,7 +494,7 @@
           white-space: nowrap;
           text-overflow: ellipsis;
         }
-        >div.select {
+        > div.select {
           border-bottom: 1px solid;
           color: red;
         }
@@ -325,6 +507,7 @@
   .home .swiper-pagination-bullet {
     margin: 0 5px;
   }
+
   .home .banner .swiper-container {
     height: 230px;
   }

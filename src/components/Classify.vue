@@ -2,10 +2,11 @@
   <div>
     <top-search></top-search>
     <div class="classify">
-      <div v-for="item in typeGroups" class="item line-block" :key="item.id">
+      <div v-for="item in typeGroups" style="box-shadow: 0px 1px 10px #888888;" class="item line-block" :key="item.id">
         <div class="title">{{item.name}}</div>
         <div class="item-child">
-          <router-link v-for="itemChild in types" v-if="itemChild.group_id == item.id" :to="productListUrl(itemChild.id)" :key="itemChild.id">{{itemChild.name}}</router-link>
+          <!--box-shadow: -1px 10px 5px #888888-->
+          <router-link v-for="itemChild in types" class="classify-item" v-if="itemChild.group_id == item.id" :to="productListUrl(itemChild.id)" :key="itemChild.id">{{itemChild.name}}</router-link>
         </div>
         <router-link :to="productListGroupUrl(item.id)" class="more">全部</router-link>
       </div>
@@ -29,7 +30,7 @@
     mounted: function () {
       this.getData()
     },
-    data () {
+    data: function () {
       return {
         typeGroups: [],
         types: []
@@ -52,20 +53,19 @@
         return '/product/list/0-' + groupId
       }
     },
-    computed: {
-    }
+    computed: {}
   }
 </script>
 <style scoped lang="scss">
   .classify {
     /*overflow: auto;*/
-    padding: 44px 0;
+    padding: 48px 0;
     box-sizing: border-box;
     /*height: 100%;*/
     .item {
       padding: 10px;
       background: white;
-      .title,.more {
+      .title, .more {
         text-align: center;
         padding: 5px 0;
         font-size: 17px;
@@ -76,6 +76,20 @@
       }
       .item-child {
         padding: 10px 10px;
+
+        display: -webkit-flex; /* Safari */
+        display: flex;
+        /*flex-direction: row;*/
+        /*flex-wrap: wrap;*/
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: center;
+        .classify-item {
+          border: 1px solid #F3F3F3;
+          box-shadow: 0px 1px 10px #888888;
+          border-radius: 50px;
+          margin: 2px 5px;
+        }
         a {
           display: inline-block;
           padding: 10px;
@@ -89,6 +103,8 @@
       }
     }
     .line-block {
+      border-top-right-radius: 20px;
+      border-top-left-radius: 20px;
       margin-bottom: 15px;
       box-sizing: border-box;
       overflow-y: hidden;

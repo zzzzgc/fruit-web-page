@@ -1,4 +1,4 @@
-'use stxrict'
+'use strict'
 // Template version: 1.1.0
 // see http://vuejs-templates.github.io/webpack for documentation.
 
@@ -35,10 +35,12 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
+        // 把/api的路径的请求代理到指定的路径(后台)
         target: devConfig.BACKEND_SERVER,
         // target: process.env.BACKEND_SERVER, // 不能使用这种方式，获取不到变量
         changeOrigin: true,
         pathRewrite: {
+          // 不是/api的路径不代理
           '^/api': ''
         }
       }

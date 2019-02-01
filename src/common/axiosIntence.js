@@ -1,7 +1,7 @@
 import axios from 'axios'
 // import {Loading, Message} from 'element-ui'
 import {ajaxPrefix} from './const.js'
-import { toast } from './utils'
+import {toast} from './utils'
 
 var globalLoadingInstance = {
   loadingNum: 0,
@@ -25,7 +25,7 @@ let httpIntence = axios.create({
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'
   },
-  responseType: 'json',
+  // responseType: 'json',
   transformRequest: [
     function (data) { // 将post的数据转换成key-val的格式，支持基本数据类型的数组参数转换为多个key-val，不支持对象转换需自己转换后调用请求
       let ret = ''
@@ -59,8 +59,17 @@ httpIntence.interceptors.response.use(function (response) { // 如果请求配�
   response.config.showLoading && globalLoadingInstance.hide()
   return response
 }, function (error) { // 检查请求是否异常，如果异常弹出提示
-  // console.info(arguments)
+                      // console.info(arguments)
   if (error.response && error.response.status === 420) { // 后台设置了420自定义错误，此处显示具体错误原因
+    // console.info(error)
+    let errorText = error.response.statusText
+    if (errorText === null || errorText === '' || errorText === 'unknown') { // 后台即使使用response.setStatus设置错误文本，这里也拿不到，所以后台也会设置到header中
+      errorText = error.response.headers['error-text']
+    }
+    toast(decodeURI(errorText))
+  } else if (error.response && error.response.status === 401) { // 身份认证失败
+    console.log('错误响应: ' + error.response.statusText)
+    console.log(error)
     // console.info(error)
     let errorText = error.response.statusText
     if (errorText === null || errorText === '' || errorText === 'unknown') { // 后台即使使用response.setStatus设置错误文本，这里也拿不到，所以后台也会设置到header中
@@ -68,11 +77,14 @@ httpIntence.interceptors.response.use(function (response) { // 如果请求配�
     }
     // alert(decodeURI(errorText))
     toast(decodeURI(errorText))
-  } else if (error.response && error.response.status === 410) { // 身份认证失败
     window.location = '/login'
+  } else if (error.response && error.response.status === 430) { // 店铺信息绑定
+    console.log('错误响应: ' + error.response.statusText)
+    window.location = '/shopInfo?userId=' + error.response.statusText
+  } else if (error.response && error.response.status === 431) { // 信息认证绑定
+    console.log('错误响应: ' + error.response.statusText)
+    window.location = '/authIdentity?userId=' + error.response.statusText
   } else {
-    // alert('请求数据异常，请稍后重试(' + error.message + ')')
-    // Toast('请求数据异常，请稍后重试(' + error.message + ')')
     toast('请求数据异常，请稍后重试(' + error.message + ')')
   }
   error.config.showLoading && globalLoadingInstance.hide()
